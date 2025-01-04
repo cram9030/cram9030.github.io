@@ -1,0 +1,39 @@
+# _config.yml
+title: Nick Cramer
+email: cram9030@gmail.com
+description: Technical Project Manager specializing in aerospace and robotics
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://cram9030.github.io" # replace with your domain
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Collections
+collections:
+  projects:
+    output: true
+    permalink: /projects/:path/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "projects"
+    values:
+      layout: "project"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+# Exclude from processing
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock

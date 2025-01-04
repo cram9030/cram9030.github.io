@@ -1,0 +1,327 @@
+---
+---
+
+// Variables
+$honolulu-blue: #007FBF;
+$black: #000000;
+$white: #FFFFFF;
+$gray: #F5F5F5;
+
+// Global styles
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: $black;
+}
+
+// Header
+.site-header {
+    background-color: $white;
+    border-bottom: 1px solid $gray;
+    padding: 1rem;
+
+    nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .site-title {
+        color: $honolulu-blue;
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .nav-links {
+        a {
+            color: $black;
+            text-decoration: none;
+            margin-left: 2rem;
+            
+            &:hover {
+                color: $honolulu-blue;
+            }
+        }
+    }
+}
+
+// Main content
+.site-content {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+// Footer
+.site-footer {
+    background-color: $gray;
+    padding: 2rem;
+    margin-top: 4rem;
+    
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        
+        img {
+            width: 24px;
+            height: 24px;
+        }
+    }
+}
+
+// Project cards
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.project-card {
+    position: relative;
+    background: $white;
+    border: 1px solid $gray;
+    border-radius: 4px;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .project-info {
+        padding: 1rem;
+
+        h3 {
+            margin: 0 0 0.5rem 0;
+            color: $honolulu-blue;
+        }
+
+        p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+    }
+}
+
+// Blog list
+.blog-list {
+    article {
+        margin-bottom: 3rem;
+
+        h2 {
+            margin: 0 0 1rem 0;
+            
+            a {
+                color: $honolulu-blue;
+                text-decoration: none;
+                
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .excerpt {
+            color: lighten($black, 20%);
+        }
+    }
+}
+
+// About section
+.about {
+    padding: 4rem 0;
+    
+    .profile {
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+        
+        @media (max-width: 768px) {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+    
+    .profile-image {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    
+    .profile-content {
+        h1 {
+            margin: 0;
+            color: $honolulu-blue;
+        }
+        
+        h2 {
+            margin: 0.5rem 0 1rem;
+            font-weight: normal;
+            color: lighten($black, 20%);
+        }
+        
+        p {
+            margin: 0;
+            max-width: 600px;
+        }
+    }
+}
+
+// Featured projects section
+.featured-projects {
+    h2 {
+        margin-bottom: 2rem;
+    }
+    
+    .project-card {
+        .project-image {
+            position: relative;
+            
+            img {
+                transition: opacity 0.3s ease;
+            }
+            
+            .project-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba($honolulu-blue, 0.9);
+                color: $white;
+                padding: 1rem;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+            
+            &:hover {
+                .project-overlay {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+// Projects section
+.projects-section {
+    h1 {
+        color: $honolulu-blue;
+        margin-bottom: 2rem;
+    }
+    
+    h2 {
+        margin: 3rem 0 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid $gray;
+    }
+}
+
+// Projects table
+.projects-table {
+    .project-row {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }
+    }
+    
+    .project-visual {
+        flex: 0 0 300px;
+        
+        img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        h3 {
+            margin: 0.5rem 0;
+            color: $honolulu-blue;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    }
+    
+    .project-description {
+        flex: 1;
+        
+        p {
+            margin: 0;
+        }
+    }
+}
+
+// Blog section
+.blog-section {
+    h1 {
+        color: $honolulu-blue;
+        margin-bottom: 2rem;
+    }
+}
+
+// Blog list with entries
+.blog-list {
+    .blog-entry {
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid $gray;
+        
+        &:last-child {
+            border-bottom: none;
+        }
+        
+        h2 {
+            margin: 0;
+            
+            a {
+                color: $honolulu-blue;
+                text-decoration: none;
+                
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+        
+        .post-meta {
+            color: lighten($black, 40%);
+            font-size: 0.9rem;
+            margin: 0.5rem 0 1rem;
+        }
+        
+        .post-excerpt {
+            margin-bottom: 1rem;
+        }
+        
+        .read-more {
+            color: $honolulu-blue;
+            text-decoration: none;
+            font-size: 0.9rem;
+            
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+<!-- pages/index.html -->
+---
+layout: default
+title: Home
+---
+
+<section class="about">
+    <div class="profile">
+        <img src="{{ '/assets/images/profile.jpg' | relative_url }}" alt="Nick Cramer" class="profile-image">
+        <div class="profile-content">
+            <h1>Nick Cramer</h1>
+            <h2>Technical Project Manager</h2>
+            <p>Specializing in aerospace and robotics with experience leading complex technical projects at NASA, Supernal, and other industry leaders. Focused on developing autonomous systems, advanced air mobility solutions, and distributed space systems.</p>
+        </div>
+    </div>
+</section>
+
+<section class="featured-projects">
+    <h2>Featured Projects</h2>
+    <div class="project-grid">
+        {% assign featured_projects = site.projects | where: "featured", true | limit: 6 %}
+        {% for project in featured_projects %}
+        <div class="project-card">
+            <a href="{{ project.url | relative_url }}">
+                <div class="project-image">
+                    <img src="{{ project.thumbnail | relative_url }}" alt="{{ project.title }}">
+                    <div class="project-overlay">
+                        <p>{{ project.description }}</p>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>{{ project.title }}</h3>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>

@@ -1,0 +1,45 @@
+<!-- pages/projects.html -->
+---
+layout: default
+title: Projects
+---
+
+<section class="projects-section">
+    <h1>Projects</h1>
+    
+    <h2>Active Projects</h2>
+    <div class="projects-table">
+        {% assign active_projects = site.projects | where: "status", "active" %}
+        {% for project in active_projects %}
+        <div class="project-row">
+            <div class="project-visual">
+                <a href="{{ project.url | relative_url }}">
+                    <img src="{{ project.thumbnail | relative_url }}" alt="{{ project.title }}">
+                    <h3>{{ project.title }}</h3>
+                </a>
+            </div>
+            <div class="project-description">
+                {{ project.excerpt }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <h2>Past Projects</h2>
+    <div class="projects-table">
+        {% assign past_projects = site.projects | where: "status", "past" %}
+        {% for project in past_projects %}
+        <div class="project-row">
+            <div class="project-visual">
+                <a href="{{ project.url | relative_url }}">
+                    <img src="{{ project.thumbnail | relative_url }}" alt="{{ project.title }}">
+                    <h3>{{ project.title }}</h3>
+                </a>
+            </div>
+            <div class="project-description">
+                {{ project.excerpt }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
