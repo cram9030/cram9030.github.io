@@ -15,6 +15,9 @@ collections:
     output: true
     permalink: /projects/:path/
 
+# Include directories
+include: ['_pages']
+
 # Defaults
 defaults:
   - scope:
