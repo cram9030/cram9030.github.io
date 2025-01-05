@@ -7,6 +7,9 @@ url: "https://cram9030.github.io" # replace with your domain
 
 # Build settings
 markdown: kramdown
+sass:
+  sass_dir: assets/css
+  style: compressed
 highlighter: rouge
 
 # Collections

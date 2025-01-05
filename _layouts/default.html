@@ -1,38 +1,30 @@
-/* _layouts/default.html */
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if page.title %}{{ page.title }} - {% endif %}Nick Cramer</title>
-    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
-    {% if page.math %}
-    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-    {% endif %}
+    <link rel="stylesheet" href="/assets/css/main.css">
 </head>
 <body>
-    <header class="site-header">
+    <header>
         <nav>
-            <a href="{{ '/' | relative_url }}" class="site-title">Nick Cramer</a>
-            <div class="nav-links">
-                <a href="{{ '/projects' | relative_url }}">Projects</a>
-                <a href="{{ '/blog' | relative_url }}">Blog</a>
+            <a href="/">Nick Cramer</a>
+            <div>
+                <a href="/projects">Projects</a>
+                <a href="/blog">Blog</a>
             </div>
         </nav>
     </header>
 
-    <main class="site-content">
+    <main>
         {{ content }}
     </main>
 
-    <footer class="site-footer">
-        <div class="social-links">
-            <a href="https://www.linkedin.com/in/nick-cramer-87a9232b/" target="_blank">
-                <img src="{{ '/assets/images/linkedin.svg' | relative_url }}" alt="LinkedIn">
-            </a>
-            <a href="https://scholar.google.com/citations?user=zzz5PzQAAAAJ" target="_blank">
-                <img src="{{ '/assets/images/scholar.svg' | relative_url }}" alt="Google Scholar">
-            </a>
+    <footer>
+        <div>
+            <a href="https://www.linkedin.com/in/nick-cramer-phd-87a9232b/">LinkedIn</a>
+            <a href="https://scholar.google.com/citations?user=zzz5PzQAAAAJ">Google Scholar</a>
         </div>
     </footer>
 </body>

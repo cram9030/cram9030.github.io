@@ -1,45 +1,16 @@
-<!-- pages/projects.html -->
 ---
 layout: default
 title: Projects
+permalink: /projects/
 ---
 
-<section class="projects-section">
+<section class="projects">
     <h1>Projects</h1>
-    
-    <h2>Active Projects</h2>
-    <div class="projects-table">
-        {% assign active_projects = site.projects | where: "status", "active" %}
-        {% for project in active_projects %}
-        <div class="project-row">
-            <div class="project-visual">
-                <a href="{{ project.url | relative_url }}">
-                    <img src="{{ project.thumbnail | relative_url }}" alt="{{ project.title }}">
-                    <h3>{{ project.title }}</h3>
-                </a>
-            </div>
-            <div class="project-description">
-                {{ project.excerpt }}
-            </div>
-        </div>
-        {% endfor %}
+    {% for project in site.projects %}
+    <div class="project">
+        <h2>{{ project.title }}</h2>
+        <p>{{ project.description }}</p>
+        <a href="{{ project.url }}">Read more</a>
     </div>
-    
-    <h2>Past Projects</h2>
-    <div class="projects-table">
-        {% assign past_projects = site.projects | where: "status", "past" %}
-        {% for project in past_projects %}
-        <div class="project-row">
-            <div class="project-visual">
-                <a href="{{ project.url | relative_url }}">
-                    <img src="{{ project.thumbnail | relative_url }}" alt="{{ project.title }}">
-                    <h3>{{ project.title }}</h3>
-                </a>
-            </div>
-            <div class="project-description">
-                {{ project.excerpt }}
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+    {% endfor %}
 </section>

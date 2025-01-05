@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Sample Project"
 status: "active"
 featured: true
