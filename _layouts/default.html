@@ -7,24 +7,30 @@
     <link rel="stylesheet" href="/assets/css/main.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="/">Nick Cramer</a>
-            <div>
-                <a href="/projects">Projects</a>
-                <a href="/blog">Blog</a>
-            </div>
-        </nav>
+    <header class="site-header">
+        <div class="container">
+            <nav>
+                <a href="/" class="site-title">Home</a>
+                <div class="nav-links">
+                    <a href="/projects">Projects</a>
+                    <a href="/blog">Blog</a>
+                </div>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        {{ content }}
+    <main class="site-content">
+        <div class="container">
+            {{ content }}
+        </div>
     </main>
 
-    <footer>
-        <div>
-            <a href="https://www.linkedin.com/in/nick-cramer-phd-87a9232b/">LinkedIn</a>
-            <a href="https://scholar.google.com/citations?user=zzz5PzQAAAAJ">Google Scholar</a>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/nick-cramer-phd-87a9232b/">LinkedIn</a>
+                <a href="https://scholar.google.com/citations?user=zzz5PzQAAAAJ">Google Scholar</a>
+            </div>
         </div>
     </footer>
 </body>
