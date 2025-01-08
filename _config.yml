@@ -43,8 +43,3 @@ exclude:
   - README.md
   - Gemfile
   - Gemfile.lock
-
-# Javascript
-  webrick:
-  headers:
-    Content-Security-Policy: "default-src 'self' 'unsafe-inline' 'unsafe-eval' https:; img-src 'self' data: https:;"
