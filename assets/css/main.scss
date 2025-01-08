@@ -10,6 +10,35 @@ $white: #FFFFFF;
 $gray: #F5F5F5;
 $dark-gray: #333333;
 
+.post-preview {
+    margin-bottom: 2rem;
+    
+    h3 {
+        font-size: 1.25rem;  // Smaller font size for blog post titles
+        margin: 0 0 0.5rem 0;
+        
+        a {
+            color: $honolulu-blue;
+            text-decoration: none;
+            
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    time {
+        display: block;
+        color: lighten($black, 40%);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .post-excerpt {
+        margin-top: 0.5rem;
+    }
+}
+
 // Global styles
 body {
     margin: 0;
