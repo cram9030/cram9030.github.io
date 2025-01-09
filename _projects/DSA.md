@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Distributed Spacecraft Autonomy (DSA)"
-status: "active"
+status: "ended"
 featured: true
 description: "Multi-spacecraft advance command and control methodologies for distributed space systems."
 thumbnail: "/assets/images/DSA.jpg"

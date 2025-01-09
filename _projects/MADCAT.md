@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Mission Adaptive Digital Composite Aerostructure Technologies (MADCAT)"
-status: "active"
+status: "ended"
 featured: true
 description: "Programable cellular lattice structure for ultralight aeroelastic structures"
 thumbnail: "/assets/images/madcat_tunnel.jpg"
