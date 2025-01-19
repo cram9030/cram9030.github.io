@@ -252,3 +252,51 @@ h1 {
         }
     }
 }
+
+// Table styles
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+    
+    th, td {
+        padding: 1rem;
+        border: 1px solid $gray;
+        text-align: center;
+        vertical-align: middle;  // Added for better alignment with icons
+        p {
+            margin: 0 0 0.75rem 0;  // Add space between paragraphs
+            
+            &:last-child {
+                margin-bottom: 0;  // Remove margin from last paragraph
+            }
+        }
+    }
+  
+    th {
+        background: lighten($honolulu-blue, 50%);
+        font-weight: 600;
+    }
+}
+
+// Cell color classes
+.cell-red {
+    background-color: #ffebee;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.cell-yellow {
+    background-color: #fff3e0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.cell-green {
+    background-color: #e8f5e9;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+}
