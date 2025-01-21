@@ -19,7 +19,8 @@ permalink: /projects/
                 <span>{{ project.years }}</span>
             </div>
             <div class="project-description">
-                <p>{{ project.description }}</p>
+                <p>{{ project.content | strip_html | truncatewords: 50 }}</p>
+                <a href="{{ project.url }}" class="read-more">Read more</a>
             </div>
         </div>
         {% endfor %}
