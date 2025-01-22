@@ -9,7 +9,14 @@ Like everyone else, over the past few years, I've been playing around with some 
 A quick disclaimer: I don't pretend that these observations are universal, and I try to note when I think poor prompting or my lack of knowledge is the likely root cause of a poor result.
 
 <div style="text-align: center;">
-    <img src="https://imgs.xkcd.com/comics/is_it_worth_the_time.png" alt="XKCD Time Management Chart">
+    <a href="https://xkcd.com/1205/" title="Is It Worth the Time?">
+        <img src="https://imgs.xkcd.com/comics/is_it_worth_the_time.png" alt="XKCD Time Management Chart">
+    </a>
+    <p style="font-size: 0.9em; margin-top: 8px;">
+        <a href="https://xkcd.com/1205/">Is It Worth the Time?</a> by 
+        <a href="https://xkcd.com">XKCD</a>, licensed under 
+        <a href="https://creativecommons.org/licenses/by-nc/2.5/">CC BY-NC 2.5</a>
+    </p>
 </div>
 
 Most of the issues I’ve observed fall into a few different categories, listed in no particular order.

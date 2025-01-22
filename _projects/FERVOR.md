@@ -6,6 +6,9 @@ featured: true
 description: "Modular structural continuum robot "
 thumbnail: "/assets/images/FERVORwIRBalls-01.png"
 ---
+
+<h1 class="project-title">{{ page.title }}</h1>
+
 <div style="text-align: center; margin: 2rem 0;">
     <img src="/assets/images/FERVORwIRBalls-01.png" alt="Modular robot" title="FERVOR" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
 </div>

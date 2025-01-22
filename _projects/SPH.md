@@ -9,6 +9,8 @@ youtubeId: ChH7T8njWHQ
 youtubeId1: Cs4p0SmFzTk
 ---
 
+<h1 class="project-title">{{ page.title }}</h1>
+
 <div style="text-align: center; margin: 2rem 0;">
     <img src="/assets/images/SPH.jpg" alt="Simulation at multiple time steps of a micro fiber bending" title="Microfiber SPH Simulation Dragging Across a Smooth Surface" style="max-width: 50%; height: auto; display: block; margin: 0 auto;">
 </div>

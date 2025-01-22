@@ -7,6 +7,9 @@ description: "Programable cellular lattice structure for ultralight aeroelastic 
 thumbnail: "/assets/images/madcat_tunnel.jpg"
 youtubeId: RrJYV8bioIc
 ---
+
+<h1 class="project-title">{{ page.title }}</h1>
+
 <div style="text-align: center; margin: 2rem 0;">
     <img src="/assets/images/madcat_tunnel.jpg" alt="MADCAT" title="MADCAT v1" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
 </div>
@@ -32,5 +35,5 @@ As a Research Engineer on the project, I led the design of MADCAT v1 in the top 
 6. [Cramer, Nick, et al. "Extended discrete‐time transfer matrix approach to modeling and decentralized control of lattice‐based structures." Structural Control and Health Monitoring 23.10 (2016): 1256-1272.](https://onlinelibrary.wiley.com/doi/abs/10.1002/stc.1837)
 7. [Cheung, Kenneth, et al. "Development of mission adaptive digital composite aerostructure technologies (MADCAT)." 17th AIAA Aviation Technology, Integration, and Operations Conference. 2017.](https://ntrs.nasa.gov/api/citations/20170006192/downloads/20170006192.pdf)
 8. [Cramer, Nick B., et al. "Lattice-based discrete structure modeling and control for large flexible space structure applications." 58th AIAA/ASCE/AHS/ASC Structures, Structural Dynamics, and Materials Conference. 2017.](https://arc.aiaa.org/doi/abs/10.2514/6.2017-1981)
-9. https://climate.nasa.gov/news/2858/what-is-madcat-flexing-wings-for-efficient-flight/
-10. https://www.nasa.gov/aeronautics/what-is-madcat/
+9. [https://climate.nasa.gov/news/2858/what-is-madcat-flexing-wings-for-efficient-flight/](https://climate.nasa.gov/news/2858/what-is-madcat-flexing-wings-for-efficient-flight/)
+10. [https://www.nasa.gov/aeronautics/what-is-madcat/](https://www.nasa.gov/aeronautics/what-is-madcat/)

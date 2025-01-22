@@ -8,6 +8,8 @@ thumbnail: "/assets/images/DSA.jpg"
 youtubeId: 7lOMHxqG6oE
 ---
 
+<h1 class="project-title">{{ page.title }}</h1>
+
 <div style="text-align: center; margin: 2rem 0;">
     <img src="/assets/images/DSA.jpg" alt="DSA" title="Distributed Spacecraft Autonomy" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
 </div>
@@ -41,4 +43,4 @@ As both Project Manager and technical contributor, I directed the overall develo
 6. [Adams, Caleb, et al. "Development of a High-Performance, Heterogenous, Scalable Test-Bed for Distributed Spacecraft." 2023 IEEE Aerospace Conference. IEEE, 2023.](https://ieeexplore.ieee.org/document/10115695)
 7. [Hagenau, Benjamin, et al. "Introducing the lunar autonomous pnt system (laps) simulator." 2021 IEEE Aerospace Conference (50100). IEEE, 2021.](https://ieeexplore.ieee.org/document/9438538)
 8. [Cellucci, Daniel, Nick B. Cramer, and Jeremy D. Frank. "Distributed spacecraft autonomy." ASCEND 2020. 2020. 4232.](https://arc.aiaa.org/doi/abs/10.2514/6.2020-4232)
-9. https://www.nasa.gov/game-changing-development-projects/distributed-spacecraft-autonomy-dsa/
+9. [https://www.nasa.gov/game-changing-development-projects/distributed-spacecraft-autonomy-dsa/](https://www.nasa.gov/game-changing-development-projects/distributed-spacecraft-autonomy-dsa/)
