@@ -2,7 +2,7 @@
 layout: default
 title: "Anti-Phase Asymmetric Quiet Rotor Technology"
 status: "ended"
-featured: true
+featured: false
 description: "Exploration of asymmetric rotor designs to reduce blade vortex interactions."
 thumbnail: "/assets/images/AntiRotor.jpg"
 ---
