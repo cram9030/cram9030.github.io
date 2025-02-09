@@ -37,3 +37,4 @@ As a Research Engineer on the project, I led the design of MADCAT v1 in the top 
 8. [Cramer, Nick B., et al. "Lattice-based discrete structure modeling and control for large flexible space structure applications." 58th AIAA/ASCE/AHS/ASC Structures, Structural Dynamics, and Materials Conference. 2017.](https://arc.aiaa.org/doi/abs/10.2514/6.2017-1981)
 9. [https://climate.nasa.gov/news/2858/what-is-madcat-flexing-wings-for-efficient-flight/](https://climate.nasa.gov/news/2858/what-is-madcat-flexing-wings-for-efficient-flight/)
 10. [https://www.nasa.gov/aeronautics/what-is-madcat/](https://www.nasa.gov/aeronautics/what-is-madcat/)
+11. [New plane wing moves like a bird’s and could radically change aircraft design](https://www.cnn.com/style/article/nasa-mit-airplane-wing/index.html)
