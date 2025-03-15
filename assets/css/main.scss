@@ -308,3 +308,82 @@ h1.project-title {
     text-align: center;
     font-size: 2.5rem;
 }
+
+/* Volunteering page styles */
+.volunteering-section h1 {
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    color: #2c4f6e;
+}
+
+.intro-paragraph {
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+    font-size: 1.1rem;
+}
+
+.volunteering-table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 1fr 0.5fr 2fr;
+    background-color: #f7fafc;
+    font-weight: bold;
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 1fr 0.5fr 2fr;
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.table-row:last-child {
+    border-bottom: none;
+}
+
+.activity-name {
+    font-weight: 500;
+    padding-right: 1rem;
+}
+
+.activity-year {
+    padding-right: 1rem;
+}
+
+.activity-description {
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .table-header, .table-row {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    
+    .activity-name, .activity-year, .activity-description {
+        padding-right: 0;
+    }
+    
+    .table-header {
+        display: none;
+    }
+    
+    .activity-name {
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+    
+    .activity-year {
+        font-style: italic;
+        color: #4a5568;
+        margin-bottom: 0.5rem;
+    }
+}
