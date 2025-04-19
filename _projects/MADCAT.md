@@ -8,8 +8,6 @@ thumbnail: "/assets/images/madcat_tunnel.jpg"
 youtubeId: RrJYV8bioIc
 ---
 
-<h1 class="project-title">{{ page.title }}</h1>
-
 <div style="text-align: center; margin: 2rem 0;">
     <img src="/assets/images/madcat_tunnel.jpg" alt="MADCAT" title="MADCAT v1" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
 </div>

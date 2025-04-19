@@ -7,8 +7,6 @@ description: "Analysis of historical bird strike data data relating to Advanced 
 thumbnail: "/assets/images/AAMBirdFactors.jpg"
 ---
 
-<h1 class="project-title">{{ page.title }}</h1>
-
 <div style="text-align: center; margin: 2rem 0;">
     <img src="/assets/images/AAMBirdFactors.jpg" alt="Ven diagram of factors that are relevant to AAM operation." title="Contributing Factors to Bird Strikes in AAM Operations" style="max-width: 70%; height: auto; display: block; margin: 0 auto;">
 </div>

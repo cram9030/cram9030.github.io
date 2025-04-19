@@ -7,8 +7,6 @@ description: "Capabilities and gaps analysis of percption technologies for Advan
 thumbnail: "/assets/images/drone_fog.png"
 ---
 
-<h1 class="project-title">{{ page.title }}</h1>
-
 <div style="text-align: center; margin: 2rem 0;">
     <img src="/assets/images/drone_fog.png" alt="Drone with lights to determine which sensors can detect it" title="Drone in the fog at the end of the chamber" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
 </div>

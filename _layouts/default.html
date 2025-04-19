@@ -22,6 +22,9 @@
 
     <main class="site-content">
         <div class="container">
+            {% if page.title %}
+            <h1 class="page-title">{{ page.title }}</h1>
+            {% endif %}
             {{ content }}
         </div>
     </main>
@@ -34,5 +37,79 @@
             </div>
         </div>
     </footer>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        mermaid.initialize({
+        startOnLoad: true,
+        theme: 'default'
+        });
+    });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        mermaid.initialize({
+        startOnLoad: true,
+        theme: 'default',
+        flowchart: {
+            useMaxWidth: true,
+            htmlLabels: true
+        },
+        securityLevel: 'loose'
+        });
+        
+        // Add click handler for diagram elements
+        document.addEventListener('click', function(e) {
+        if (e.target.tagName === 'path' || e.target.tagName === 'tspan' || 
+            e.target.tagName === 'rect' || e.target.tagName === 'polygon') {
+            // Find the closest parent mermaid div
+            let parent = e.target;
+            while (parent && !parent.classList.contains('mermaid')) {
+            parent = parent.parentElement;
+            }
+            
+            if (parent) {
+            // Toggle fullscreen mode
+            if (!document.fullscreenElement) {
+                if (parent.requestFullscreen) {
+                parent.requestFullscreen();
+                } else if (parent.webkitRequestFullscreen) {
+                parent.webkitRequestFullscreen();
+                } else if (parent.msRequestFullscreen) {
+                parent.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+                }
+            }
+            }
+        }
+        });
+    });
+    </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            },
+            securityLevel: 'loose'
+            });
+        });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>            
+    </body>
 </html>

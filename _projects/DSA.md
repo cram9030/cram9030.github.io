@@ -8,8 +8,6 @@ thumbnail: "/assets/images/DSA.jpg"
 youtubeId: 7lOMHxqG6oE
 ---
 
-<h1 class="project-title">{{ page.title }}</h1>
-
 <div style="text-align: center; margin: 2rem 0;">
     <img src="/assets/images/DSA.jpg" alt="DSA" title="Distributed Spacecraft Autonomy" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
 </div>

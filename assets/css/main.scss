@@ -387,3 +387,14 @@ h1.project-title {
         margin-bottom: 0.5rem;
     }
 }
+
+blockquote {
+    background-color: #f5f5f5;
+    border-left: 4px solid #0077cc;
+    margin: 1.5em 0;
+    padding: 1em 1.5em;
+    position: relative;
+    font-style: italic;
+    color: #444;
+    border-radius: 0 4px 4px 0;
+}
