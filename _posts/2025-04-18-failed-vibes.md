@@ -16,11 +16,11 @@ I had a relatively simple plan of how I wanted to approach this.
 
 1. Tell Claude what my objective was and have it propose how to structure my GitHub repo
 2. Have an independent chat for each scene
-    1. Introduction
-    2. Beam types
-    3. Cross-sectional difference changing the second moments of area
-    4. Modulus of elasticity
-    5. Slope, curvature, and displacement derivate definitions
+    1. Introduction
+    2. Beam types
+    3. Cross-sectional difference changing the second moments of area
+    4. Modulus of elasticity
+    5. Slope, curvature, and displacement derivate definitions
 3. Rendering scripts
 
 ## The Execution
