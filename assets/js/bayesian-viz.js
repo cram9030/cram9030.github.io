@@ -1,4 +1,6 @@
 const BayesianVisualizer = () => {
+  console.log('React component initializing...');
+  
   // State for distribution type
   const [distributionType, setDistributionType] = React.useState('beta');
   
@@ -11,100 +13,188 @@ const BayesianVisualizer = () => {
   const [gammaBeta, setGammaBeta] = React.useState(1);
   
   // Measurement states
-  const [successes, setSuccesses] = React.useState(7);
-  const [failures, setFailures] = React.useState(3);
+  const [successes, setSuccesses] = React.useState(0);
+  const [failures, setFailures] = React.useState(0);
+  
+  // Probability calculator states
+  const [probabilityValue, setProbabilityValue] = React.useState(0.5);
+  const [probabilityDirection, setProbabilityDirection] = React.useState('greater');
+  const [probabilityResults, setProbabilityResults] = React.useState({
+    prior: 0,
+    posterior: 0
+  });
   
   // Posterior states
   const [posteriorData, setPosteriorData] = React.useState([]);
   const [priorData, setPriorData] = React.useState([]);
   const [beliefTable, setBeliefTable] = React.useState({
-    prior: { mode: 0, mean: 0, stdDev: 0 },
-    posterior: { mode: 0, mean: 0, stdDev: 0 }
+    prior: { mode: 0, mean: 0, variance: 0, stdDev: 0 },
+    posterior: { mode: 0, mean: 0, variance: 0, stdDev: 0 }
   });
   
-  // Helper functions to calculate distributions
-  const calculateBetaDistribution = (alpha, beta, points = 200) => {
-    const data = [];
-    const betaFunc = (a, b) => {
-      // Approximation of the beta function for visualization purposes
-      return Math.exp(
-        gammaLn(a) + gammaLn(b) - gammaLn(a + b)
-      );
-    };
-    
-    const gammaLn = (z) => {
-      // Approximation of the log gamma function
-      const c = [
-        76.18009172947146, -86.50532032941677, 24.01409824083091,
-        -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5
-      ];
-      let sum = 1.000000000190015;
-      let x = z;
-      for (let i = 0; i < 6; i++) {
-        sum += c[i] / ++x;
-      }
-      return Math.log(Math.sqrt(2 * Math.PI) / z * sum) + (z + 0.5) * Math.log(z + 5.5) - (z + 5.5);
-    };
-    
-    // Use more points for smoother curves
-    const step = 1 / points;
-    for (let x = step; x < 1; x += step) {
-      const density = Math.pow(x, alpha - 1) * 
-                     Math.pow(1 - x, beta - 1) / 
-                     betaFunc(alpha, beta);
-      data.push({
-        x: parseFloat(x.toFixed(4)),
-        y: density
-      });
-    }
-    
-    return data;
-  };
+  // Layout state
+  const [isWideLayout, setIsWideLayout] = React.useState(true);
   
-  const calculateGammaDistribution = (alpha, beta, points = 200) => {
-    const data = [];
+  // State for mouse hover
+  const [hoverInfo, setHoverInfo] = React.useState(null);
+
+  console.log('State initialized, defining functions...');
+
+  // Centralized, accurate log-gamma function using Stirling's approximation
+  const gammaLn = React.useCallback((z) => {
+    try {
+      // For small z, use reflection formula: Γ(z)Γ(1-z) = π/sin(πz)
+      if (z < 0.5) {
+        return Math.log(Math.PI) - Math.log(Math.sin(Math.PI * z)) - gammaLn(1 - z);
+      }
+      
+      // For z < 1, use the recurrence relation: Γ(z+1) = z*Γ(z)
+      // Therefore: ln(Γ(z)) = ln(Γ(z+1)) - ln(z)
+      if (z < 1.5) {
+        return gammaLn(z + 1) - Math.log(z);  // FIXED: Was backwards!
+      }
+      
+      // Apply Stirling's approximation for larger values
+      const logZ = Math.log(z);
+      const z2 = z * z;
+      const z3 = z2 * z;
+      const z5 = z3 * z2;
+      
+      // Main Stirling terms
+      let result = z * logZ - z - 0.5 * logZ + 0.5 * Math.log(2 * Math.PI);
+      
+      // Asymptotic series using Bernoulli numbers
+      result += 1 / (12 * z);
+      result -= 1 / (360 * z3);
+      result += 1 / (1260 * z5);
+      
+      return result;
+    } catch (error) {
+      console.error('Error in gammaLn:', error);
+      return 0;
+    }
+  }, []);
+
+  // Direct verification for Beta(0.5, 0.5) density
+  const verifyBeta05Density = React.useCallback(() => {
+    // For Beta(0.5, 0.5), the exact density at x=0.5 is 2/π ≈ 0.6366
+    const expectedDensity = 2 / Math.PI;
     
-    const gammaFunc = (a) => {
-      // Approximation of the gamma function
-      if (a < 0.5) {
-        return Math.PI / (Math.sin(Math.PI * a) * gammaFunc(1 - a));
+    // Calculate using our formula
+    const gamma05_exact = Math.log(Math.sqrt(Math.PI)); // ln(Γ(0.5)) = ln(√π)
+    const gamma1_exact = 0; // ln(Γ(1)) = ln(1) = 0
+    const betaFunc_exact = gamma05_exact + gamma05_exact - gamma1_exact; // ln(B(0.5,0.5))
+    
+    const logDensity_exact = (0.5 - 1) * Math.log(0.5) + (0.5 - 1) * Math.log(0.5) - betaFunc_exact;
+    const density_exact = Math.exp(logDensity_exact);
+    
+    // Calculate using our gammaLn function
+    const gamma05_calc = gammaLn(0.5);
+    const gamma1_calc = gammaLn(1.0);
+    const betaFunc_calc = gamma05_calc + gamma05_calc - gamma1_calc;
+    
+    const logDensity_calc = (0.5 - 1) * Math.log(0.5) + (0.5 - 1) * Math.log(0.5) - betaFunc_calc;
+    const density_calc = Math.exp(logDensity_calc);
+    
+    console.log('=== Beta(0.5, 0.5) Density Verification ===');
+    console.log(`Expected density at x=0.5: ${expectedDensity.toFixed(6)}`);
+    console.log('');
+    console.log('Exact calculation:');
+    console.log(`  ln(Γ(0.5)) = ln(√π) = ${gamma05_exact.toFixed(6)}`);
+    console.log(`  ln(B(0.5,0.5)) = ${betaFunc_exact.toFixed(6)}`);
+    console.log(`  logDensity = ${logDensity_exact.toFixed(6)}`);
+    console.log(`  density = ${density_exact.toFixed(6)}`);
+    console.log('');
+    console.log('Our calculation:');
+    console.log(`  gammaLn(0.5) = ${gamma05_calc.toFixed(6)}`);
+    console.log(`  ln(B(0.5,0.5)) = ${betaFunc_calc.toFixed(6)}`);
+    console.log(`  logDensity = ${logDensity_calc.toFixed(6)}`);
+    console.log(`  density = ${density_calc.toFixed(6)}`);
+    console.log('');
+    console.log(`Ratio (ours/expected): ${(density_calc / expectedDensity).toFixed(6)}`);
+    
+    return { expected: expectedDensity, calculated: density_calc };
+  }, [gammaLn]);
+
+  // Helper function to calculate density at a specific point
+  const calculateDensityAtPoint = React.useCallback((x, alpha, beta, isGamma = false) => {
+    try {
+      if (isGamma) {
+        if (x <= 0) return 0;
+        const gammaConstLn = alpha * Math.log(beta) - gammaLn(alpha);
+        const logDensity = (alpha - 1) * Math.log(x) - beta * x + gammaConstLn;
+        return Math.exp(logDensity);
       } else {
-        a -= 1;
-        let x = 0.99999999999980993;
-        const p = [
-          676.5203681218851, -1259.1392167224028, 771.32342877765313,
-          -176.61502916214059, 12.507343278686905, -0.13857109526572012,
-          9.9843695780195716e-6, 1.5056327351493116e-7
-        ];
-        
-        for (let i = 0; i < 8; i++) {
-          x += p[i] / (a + i + 1);
-        }
-        
-        const t = a + 7.5;
-        return Math.sqrt(2 * Math.PI) * Math.pow(t, a + 0.5) * Math.exp(-t) * x;
+        if (x <= 0 || x >= 1) return 0;
+        const betaFuncLn = gammaLn(alpha) + gammaLn(beta) - gammaLn(alpha + beta);
+        const logDensity = (alpha - 1) * Math.log(x) + (beta - 1) * Math.log(1 - x) - betaFuncLn;
+        return Math.exp(logDensity);
       }
-    };
+    } catch (error) {
+      console.error('Error calculating density:', error);
+      return 0;
+    }
+  }, [gammaLn]);
+
+  // Helper functions to calculate distributions
+  const calculateBetaDistribution = React.useCallback((alpha, beta, points = 300) => {
+    const data = [];
     
-    const maxX = alpha / beta * 5; // Reasonable range for visualization
-    const step = maxX / points;
-    
-    for (let x = step; x < maxX; x += step) {
-      const density = Math.pow(beta, alpha) * 
-                     Math.pow(x, alpha - 1) * 
-                     Math.exp(-beta * x) / 
-                     gammaFunc(alpha);
-      data.push({
-        x: parseFloat(x.toFixed(4)),
-        y: density
-      });
+    try {
+      const betaFuncLn = (a, b) => {
+        return gammaLn(a) + gammaLn(b) - gammaLn(a + b);
+      };
+      
+      // Simple uniform spacing, avoiding exact boundaries
+      for (let i = 1; i < points; i++) {
+        const x = i / points; // This gives us points from 1/points to (points-1)/points
+        
+        const logDensity = (alpha - 1) * Math.log(x) + (beta - 1) * Math.log(1 - x) - betaFuncLn(alpha, beta);
+        const density = Math.exp(logDensity);
+        
+        if (isFinite(density) && density >= 0) {
+          data.push({
+            x: parseFloat(x.toFixed(6)),
+            y: density
+          });
+        }
+      }
+      
+    } catch (error) {
+      console.error('Error calculating beta distribution:', error);
     }
     
     return data;
-  };
+  }, [gammaLn]);
   
-  // Calculate statistics for the Beta distribution
-  const calculateBetaStats = (alpha, beta) => {
+  const calculateGammaDistribution = React.useCallback((alpha, beta, points = 300) => {
+    const data = [];
+    
+    try {
+      const maxX = alpha / beta * 5;
+      const step = maxX / points;
+      
+      for (let x = step; x < maxX; x += step) {
+        const logDensity = alpha * Math.log(beta) + (alpha - 1) * Math.log(x) - beta * x - gammaLn(alpha);
+        const density = Math.exp(logDensity);
+        
+        if (isFinite(density) && density >= 0) {
+          data.push({
+            x: parseFloat(x.toFixed(6)),
+            y: density
+          });
+        }
+      }
+      
+    } catch (error) {
+      console.error('Error calculating gamma distribution:', error);
+    }
+    
+    return data;
+  }, [gammaLn]);
+  
+  // Calculate statistics for the Beta distribution with high precision
+  const calculateBetaStats = React.useCallback((alpha, beta) => {
     let mode = alpha > 1 && beta > 1 ? (alpha - 1) / (alpha + beta - 2) : 0;
     if (alpha < 1 && beta < 1) {
       mode = "Bimodal at 0 and 1";
@@ -118,302 +208,347 @@ const BayesianVisualizer = () => {
     const variance = (alpha * beta) / (Math.pow(alpha + beta, 2) * (alpha + beta + 1));
     const stdDev = Math.sqrt(variance);
     
-    return { mode, mean, stdDev };
-  };
+    return { mode, mean, variance, stdDev };
+  }, []);
   
-  // Calculate statistics for the Gamma distribution
-  const calculateGammaStats = (alpha, beta) => {
+  // Calculate statistics for the Gamma distribution with high precision
+  const calculateGammaStats = React.useCallback((alpha, beta) => {
     const mode = alpha > 1 ? (alpha - 1) / beta : "Not defined";
     const mean = alpha / beta;
     const variance = alpha / (beta * beta);
     const stdDev = Math.sqrt(variance);
     
-    return { mode, mean, stdDev };
-  };
-  
-  // Calculate the posterior distribution
-  const calculatePosterior = () => {
-    if (distributionType === 'beta') {
-      // Beta-Binomial conjugate update
-      const posteriorAlpha = betaAlpha + successes;
-      const posteriorBeta = betaBeta + failures;
+    return { mode, mean, variance, stdDev };
+  }, []);
+
+  // Simplified probability calculation for Beta
+  const calculateBetaProbability = React.useCallback((alpha, beta, x, direction) => {
+    if (x <= 0) return direction === 'greater' ? 1 : 0;
+    if (x >= 1) return direction === 'greater' ? 0 : 1;
+
+    try {
+      // For symmetric Beta(0.5, 0.5), use exact result
+      if (Math.abs(alpha - 0.5) < 0.001 && Math.abs(beta - 0.5) < 0.001) {
+        // For arcsine distribution, CDF = (2/π) * arcsin(√x)
+        const cdf = (2 / Math.PI) * Math.asin(Math.sqrt(x));
+        return direction === 'greater' ? 1 - cdf : cdf;
+      }
       
-      const priorStats = calculateBetaStats(betaAlpha, betaBeta);
-      const posteriorStats = calculateBetaStats(posteriorAlpha, posteriorBeta);
+      // Simple trapezoidal integration
+      const n = 1000;
+      const step = x / n;
+      let cdf = 0;
       
-      setBeliefTable({
-        prior: {
-          mode: typeof priorStats.mode === 'number' ? priorStats.mode.toFixed(4) : priorStats.mode,
-          mean: priorStats.mean.toFixed(4),
-          stdDev: priorStats.stdDev.toFixed(4)
-        },
-        posterior: {
-          mode: typeof posteriorStats.mode === 'number' ? posteriorStats.mode.toFixed(4) : posteriorStats.mode,
-          mean: posteriorStats.mean.toFixed(4),
-          stdDev: posteriorStats.stdDev.toFixed(4)
+      const betaConstLn = gammaLn(alpha) + gammaLn(beta) - gammaLn(alpha + beta);
+      
+      for (let i = 1; i < n; i++) {
+        const xi = i * step;
+        const logPdf = (alpha - 1) * Math.log(xi) + (beta - 1) * Math.log(1 - xi) - betaConstLn;
+        const pdf = Math.exp(logPdf);
+        if (isFinite(pdf)) {
+          cdf += pdf * step;
         }
-      });
+      }
       
-      setPriorData(calculateBetaDistribution(betaAlpha, betaBeta));
-      setPosteriorData(calculateBetaDistribution(posteriorAlpha, posteriorBeta));
-    } else {
-      // Gamma-Poisson conjugate update
-      // In a simple model where we observe the sum of values and count of observations
-      const observedSum = successes; // Repurposing the successes input for sum
-      const observedCount = failures; // Repurposing the failures input for count
-      
-      const posteriorAlpha = gammaAlpha + observedSum;
-      const posteriorBeta = gammaBeta + observedCount;
-      
-      const priorStats = calculateGammaStats(gammaAlpha, gammaBeta);
-      const posteriorStats = calculateGammaStats(posteriorAlpha, posteriorBeta);
-      
-      setBeliefTable({
-        prior: {
-          mode: typeof priorStats.mode === 'number' ? priorStats.mode.toFixed(4) : priorStats.mode,
-          mean: priorStats.mean.toFixed(4),
-          stdDev: priorStats.stdDev.toFixed(4)
-        },
-        posterior: {
-          mode: typeof posteriorStats.mode === 'number' ? posteriorStats.mode.toFixed(4) : posteriorStats.mode,
-          mean: posteriorStats.mean.toFixed(4),
-          stdDev: posteriorStats.stdDev.toFixed(4)
-        }
-      });
-      
-      setPriorData(calculateGammaDistribution(gammaAlpha, gammaBeta));
-      setPosteriorData(calculateGammaDistribution(posteriorAlpha, posteriorBeta));
+      cdf = Math.max(0, Math.min(1, cdf));
+      return direction === 'greater' ? 1 - cdf : cdf;
+    } catch (error) {
+      console.error('Error in beta probability:', error);
+      return 0.5;
     }
-  };
+  }, [gammaLn]);
+
+  // Simplified probability calculation for Gamma
+  const calculateGammaProbability = React.useCallback((alpha, beta, x, direction) => {
+    if (x <= 0) return direction === 'greater' ? 1 : 0;
+    
+    try {
+      const n = 1000;
+      const step = x / n;
+      let cdf = 0;
+      
+      const gammaConstLn = alpha * Math.log(beta) - gammaLn(alpha);
+      
+      for (let i = 1; i < n; i++) {
+        const xi = i * step;
+        const logPdf = (alpha - 1) * Math.log(xi) - beta * xi + gammaConstLn;
+        const pdf = Math.exp(logPdf);
+        if (isFinite(pdf)) {
+          cdf += pdf * step;
+        }
+      }
+      
+      cdf = Math.max(0, Math.min(1, cdf));
+      return direction === 'greater' ? 1 - cdf : cdf;
+    } catch (error) {
+      console.error('Error in gamma probability:', error);
+      return 0.5;
+    }
+  }, [gammaLn]);
+
+  // Calculate probability wrapper
+  const calculateProbability = React.useCallback((distributionType, params, x, direction) => {
+    try {
+      if (distributionType === 'beta') {
+        const { alpha, beta } = params;
+        return calculateBetaProbability(alpha, beta, x, direction);
+      } else {
+        const { alpha, beta } = params;
+        return calculateGammaProbability(alpha, beta, x, direction);
+      }
+    } catch (error) {
+      console.error('Error calculating probability:', error);
+      return 0;
+    }
+  }, [calculateBetaProbability, calculateGammaProbability]);
+  
+  // Calculate the posterior distribution and probabilities
+  const calculatePosterior = React.useCallback(() => {
+    try {
+      let priorStats, posteriorStats;
+      let priorProb, posteriorProb;
+      
+      if (distributionType === 'beta') {
+        const posteriorAlpha = betaAlpha + successes;
+        const posteriorBeta = betaBeta + failures;
+        
+        priorStats = calculateBetaStats(betaAlpha, betaBeta);
+        posteriorStats = calculateBetaStats(posteriorAlpha, posteriorBeta);
+        
+        priorProb = calculateProbability('beta', { alpha: betaAlpha, beta: betaBeta }, 
+                                       probabilityValue, probabilityDirection);
+        posteriorProb = calculateProbability('beta', { alpha: posteriorAlpha, beta: posteriorBeta }, 
+                                           probabilityValue, probabilityDirection);
+        
+        setPriorData(calculateBetaDistribution(betaAlpha, betaBeta));
+        setPosteriorData(calculateBetaDistribution(posteriorAlpha, posteriorBeta));
+      } else {
+        const observedSum = successes;
+        const observedCount = failures;
+        
+        const posteriorAlpha = gammaAlpha + observedSum;
+        const posteriorBeta = gammaBeta + observedCount;
+        
+        priorStats = calculateGammaStats(gammaAlpha, gammaBeta);
+        posteriorStats = calculateGammaStats(posteriorAlpha, posteriorBeta);
+        
+        priorProb = calculateProbability('gamma', { alpha: gammaAlpha, beta: gammaBeta }, 
+                                       probabilityValue, probabilityDirection);
+        posteriorProb = calculateProbability('gamma', { alpha: posteriorAlpha, beta: posteriorBeta }, 
+                                           probabilityValue, probabilityDirection);
+        
+        setPriorData(calculateGammaDistribution(gammaAlpha, gammaBeta));
+        setPosteriorData(calculateGammaDistribution(posteriorAlpha, posteriorBeta));
+      }
+
+      // Format values for display with high precision
+      const formatValue = (value) => {
+        if (typeof value === 'number') {
+          if (Math.abs(value) < 0.0000001 && value !== 0) {
+            return value.toExponential(10);
+          }
+          return value.toString();
+        }
+        return value;
+      };
+      
+      setBeliefTable({
+        prior: {
+          mode: formatValue(priorStats.mode),
+          mean: formatValue(priorStats.mean),
+          variance: formatValue(priorStats.variance),
+          stdDev: formatValue(priorStats.stdDev)
+        },
+        posterior: {
+          mode: formatValue(posteriorStats.mode),
+          mean: formatValue(posteriorStats.mean),
+          variance: formatValue(posteriorStats.variance),
+          stdDev: formatValue(posteriorStats.stdDev)
+        }
+      });
+      
+      setProbabilityResults({
+        prior: formatValue(priorProb),
+        posterior: formatValue(posteriorProb)
+      });
+      
+    } catch (error) {
+      console.error('Error calculating posterior:', error);
+    }
+  }, [
+    distributionType, betaAlpha, betaBeta, gammaAlpha, gammaBeta, 
+    successes, failures, probabilityValue, probabilityDirection,
+    calculateBetaStats, calculateGammaStats, calculateProbability,
+    calculateBetaDistribution, calculateGammaDistribution
+  ]);
   
   // Function to set up high-resolution canvas
-  const setupCanvas = (canvas) => {
-    // Get the device pixel ratio
+  const setupCanvas = React.useCallback((canvas) => {
     const dpr = window.devicePixelRatio || 1;
-    
-    // Get the canvas size from its parent container
     const parent = canvas.parentElement;
     const computedStyle = window.getComputedStyle(parent);
     const width = parseInt(computedStyle.width, 10) - parseInt(computedStyle.paddingLeft, 10) - parseInt(computedStyle.paddingRight, 10);
-    const height = 400; // Fixed height for better proportions
+    const height = 400;
     
-    // Update canvas size
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     
-    // Scale the drawing context
     const ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);
     
-    return {
-      ctx,
-      width,
-      height
-    };
-  };
+    return { ctx, width, height };
+  }, []);
   
-  // Handle window resize
+  // Check screen orientation on mount and resize
   React.useEffect(() => {
-    const handleResize = () => {
-      // Redraw charts when window size changes
-      if (priorData.length) {
-        drawChart('priorChart', priorData, '#8884d8');
-      }
-      if (priorData.length && posteriorData.length) {
-        drawPosteriorChart();
-      }
+    const checkOrientation = () => {
+      setIsWideLayout(window.innerWidth > window.innerHeight);
     };
     
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [priorData, posteriorData]);
-  
-  // Draw a smooth line chart using canvas with adjusted padding
-  const drawChart = (canvasId, data, color, clear = true) => {
-    React.useEffect(() => {
-      if (!data || data.length === 0) return;
-      
-      const canvas = document.getElementById(canvasId);
-      if (!canvas) return;
-      
-      // Set up high-resolution canvas
-      const { ctx, width, height } = setupCanvas(canvas);
-      
-      // Clear canvas if needed
-      if (clear) {
-        ctx.clearRect(0, 0, width, height);
-      }
-      
-      // Find min/max values
-      let maxY = 0;
-      for (const point of data) {
-        if (point.y > maxY) maxY = point.y;
-      }
-      
-      // Set scale with improved padding
-      const padding = { left: 50, right: 30, top: 30, bottom: 50 };
-      const chartWidth = width - padding.left - padding.right;
-      const chartHeight = height - padding.top - padding.bottom;
-      
-      // Draw axes with improved styling
-      ctx.beginPath();
-      ctx.strokeStyle = '#666';
-      ctx.lineWidth = 1;
-      ctx.moveTo(padding.left, height - padding.bottom);
-      ctx.lineTo(width - padding.right, height - padding.bottom); // x-axis
-      ctx.moveTo(padding.left, height - padding.bottom);
-      ctx.lineTo(padding.left, padding.top); // y-axis
-      ctx.stroke();
-      
-      // Add tick marks
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'top';
-      ctx.fillStyle = '#666';
-      ctx.font = '10px Arial';
-      
-      // X-axis ticks
-      const xTicks = distributionType === 'beta' ? 5 : 10;
-      for (let i = 0; i <= xTicks; i++) {
-        const x = padding.left + (i / xTicks) * chartWidth;
-        const tickValue = i / xTicks;
-        ctx.beginPath();
-        ctx.moveTo(x, height - padding.bottom);
-        ctx.lineTo(x, height - padding.bottom + 5);
-        ctx.stroke();
-        ctx.fillText(tickValue.toFixed(1), x, height - padding.bottom + 8);
-      }
-      
-      // Y-axis ticks - we'll use normalized values (0 to 1)
-      ctx.textAlign = 'right';
-      ctx.textBaseline = 'middle';
-      for (let i = 0; i <= 5; i++) {
-        const y = height - padding.bottom - (i / 5) * chartHeight;
-        ctx.beginPath();
-        ctx.moveTo(padding.left, y);
-        ctx.lineTo(padding.left - 5, y);
-        ctx.stroke();
-        // Show normalized values 0-1 since actual density values vary widely
-        ctx.fillText((i / 5).toFixed(1), padding.left - 8, y);
-      }
-      
-      // Draw data with improved path and anti-aliasing
-      ctx.beginPath();
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 2;
-      ctx.lineJoin = 'round';  // Smoother line joins
-      ctx.lineCap = 'round';   // Smoother line caps
-      
-      let firstPoint = true;
-      let prevX, prevY;
-      
-      // Draw the curve with smooth interpolation
-      for (let i = 0; i < data.length; i++) {
-        const point = data[i];
-        
-        let x, y;
-        if (distributionType === 'beta') {
-          x = padding.left + (point.x * chartWidth);
-        } else {
-          // For gamma, scale x differently based on the range
-          const maxX = data[data.length - 1].x;
-          x = padding.left + (point.x / maxX) * chartWidth;
-        }
-        
-        y = height - padding.bottom - ((point.y / maxY) * chartHeight);
-        
-        if (firstPoint) {
-          ctx.moveTo(x, y);
-          firstPoint = false;
-        } else {
-          // Use quadratic curves for smoother lines
-          const midX = (prevX + x) / 2;
-          const midY = (prevY + y) / 2;
-          ctx.quadraticCurveTo(prevX, prevY, midX, midY);
-        }
-        
-        prevX = x;
-        prevY = y;
-      }
-      
-      // Complete the last segment
-      if (prevX && prevY) {
-        ctx.lineTo(prevX, prevY);
-      }
-      
-      ctx.stroke();
-      
-      // Draw axes labels with improved positioning
-      ctx.font = '12px Arial';
-      ctx.fillStyle = '#333';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'top';
-      ctx.fillText('Parameter Value', width / 2, height - 15);
-      
-      ctx.save();
-      ctx.translate(15, height / 2);
-      ctx.rotate(-Math.PI / 2);
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('Density', 0, 0);
-      ctx.restore();
-      
-    }, [data, distributionType]);
-  };
+    checkOrientation();
+    window.addEventListener('resize', checkOrientation);
+    return () => {
+      window.removeEventListener('resize', checkOrientation);
+    };
+  }, []);
   
   // Effect to recalculate when parameters change
   React.useEffect(() => {
     calculatePosterior();
-  }, [distributionType, betaAlpha, betaBeta, gammaAlpha, gammaBeta, successes, failures]);
+  }, [calculatePosterior]);
   
-  // Draw charts whenever data changes
-  drawChart('priorChart', priorData, '#8884d8');
-  
-  // For the posterior chart, we need to draw both lines
+  // Simplified chart drawing effect with mouse hover
   React.useEffect(() => {
-    if (priorData.length > 0 && posteriorData.length > 0) {
-      const canvas = document.getElementById('posteriorChart');
-      if (!canvas) return;
-      
-      // Set up high-resolution canvas
+    if (priorData.length === 0) return;
+    
+    const canvas = document.getElementById('distributionChart');
+    if (!canvas) return;
+    
+    let mouseCleanup = null;
+    
+    try {
       const { ctx, width, height } = setupCanvas(canvas);
-      
-      // Clear the canvas
       ctx.clearRect(0, 0, width, height);
       
-      // Draw background elements (axes, ticks, labels)
+      const hasUpdates = (successes > 0 || failures > 0);
       const padding = 40;
       const chartWidth = width - 2 * padding;
       const chartHeight = height - 2 * padding;
       
-      // Find global max Y value across both datasets
+      // Calculate y-axis scaling from actual data
       let maxY = 0;
-      for (const point of [...priorData, ...posteriorData]) {
-        if (point.y > maxY) maxY = point.y;
+      const datasetsToCheck = hasUpdates ? [priorData, posteriorData] : [priorData];
+      for (const dataset of datasetsToCheck) {
+        for (const point of dataset) {
+          if (isFinite(point.y) && point.y > maxY) {
+            maxY = point.y;
+          }
+        }
       }
+      maxY *= 1.1; // Add 10% padding
+      
+      // Set up mouse event handlers
+      const handleMouseMove = (event) => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+        
+        // Check if mouse is within chart area
+        if (mouseX >= padding && mouseX <= width - padding && 
+            mouseY >= padding && mouseY <= height - padding) {
+          
+          let dataX, dataY;
+          
+          if (distributionType === 'beta') {
+            dataX = (mouseX - padding) / chartWidth;
+          } else {
+            const maxDataX = Math.max(
+              priorData[priorData.length - 1]?.x || 0,
+              hasUpdates ? (posteriorData[posteriorData.length - 1]?.x || 0) : 0
+            );
+            dataX = ((mouseX - padding) / chartWidth) * maxDataX;
+          }
+          
+          // Find the closest actual data point to get the real density value
+          let closestDensity = 0;
+          const datasets = hasUpdates ? [priorData, posteriorData] : [priorData];
+          
+          for (const dataset of datasets) {
+            for (const point of dataset) {
+              const pointScreenX = distributionType === 'beta' ? 
+                padding + (point.x * chartWidth) :
+                padding + (point.x / Math.max(
+                  priorData[priorData.length - 1]?.x || 0,
+                  hasUpdates ? (posteriorData[posteriorData.length - 1]?.x || 0) : 0
+                )) * chartWidth;
+              
+              // If this point is close to the mouse X position, use its density
+              if (Math.abs(pointScreenX - mouseX) < 5) { // Within 5 pixels
+                closestDensity = Math.max(closestDensity, point.y);
+              }
+            }
+          }
+          
+          // If we found a close point, use its density, otherwise calculate from mouse position
+          if (closestDensity > 0) {
+            dataY = closestDensity;
+          } else {
+            // Fallback to coordinate conversion
+            dataY = ((height - padding - mouseY) / chartHeight) * maxY;
+          }
+          
+          setHoverInfo({
+            x: dataX.toFixed(4),
+            y: dataY.toFixed(4),
+            mouseX: mouseX,
+            mouseY: mouseY
+          });
+        } else {
+          setHoverInfo(null);
+        }
+      };
+      
+      const handleMouseLeave = () => {
+        setHoverInfo(null);
+      };
+      
+      // Add event listeners
+      canvas.addEventListener('mousemove', handleMouseMove);
+      canvas.addEventListener('mouseleave', handleMouseLeave);
+      
+      // Set up cleanup function
+      mouseCleanup = () => {
+        canvas.removeEventListener('mousemove', handleMouseMove);
+        canvas.removeEventListener('mouseleave', handleMouseLeave);
+      };
       
       // Draw axes
       ctx.beginPath();
       ctx.strokeStyle = '#666';
       ctx.lineWidth = 1;
       ctx.moveTo(padding, height - padding);
-      ctx.lineTo(width - padding, height - padding); // x-axis
+      ctx.lineTo(width - padding, height - padding);
       ctx.moveTo(padding, height - padding);
-      ctx.lineTo(padding, padding); // y-axis
+      ctx.lineTo(padding, padding);
       ctx.stroke();
       
-      // Add tick marks
+      // X-axis ticks
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
       ctx.fillStyle = '#666';
       ctx.font = '10px Arial';
       
-      // X-axis ticks
       const xTicks = distributionType === 'beta' ? 5 : 10;
       for (let i = 0; i <= xTicks; i++) {
         const x = padding + (i / xTicks) * chartWidth;
-        const tickValue = i / xTicks;
+        const tickValue = distributionType === 'beta' ? 
+          (i / xTicks) : 
+          (i / xTicks) * Math.max(
+            priorData[priorData.length - 1]?.x || 0,
+            hasUpdates ? (posteriorData[posteriorData.length - 1]?.x || 0) : 0
+          );
         ctx.beginPath();
         ctx.moveTo(x, height - padding);
         ctx.lineTo(x, height - padding + 5);
@@ -426,11 +561,12 @@ const BayesianVisualizer = () => {
       ctx.textBaseline = 'middle';
       for (let i = 0; i <= 5; i++) {
         const y = height - padding - (i / 5) * chartHeight;
+        const tickValue = (i / 5) * maxY;
         ctx.beginPath();
         ctx.moveTo(padding, y);
         ctx.lineTo(padding - 5, y);
         ctx.stroke();
-        ctx.fillText((i / 5).toFixed(1), padding - 8, y);
+        ctx.fillText(tickValue.toFixed(2), padding - 8, y);
       }
       
       // Draw axes labels
@@ -450,6 +586,8 @@ const BayesianVisualizer = () => {
       
       // Function to draw a dataset
       const drawDataset = (data, color, lineWidth) => {
+        if (data.length === 0) return;
+        
         ctx.beginPath();
         ctx.strokeStyle = color;
         ctx.lineWidth = lineWidth;
@@ -457,7 +595,6 @@ const BayesianVisualizer = () => {
         ctx.lineCap = 'round';
         
         let firstPoint = true;
-        let prevX, prevY;
         
         for (let i = 0; i < data.length; i++) {
           const point = data[i];
@@ -467,8 +604,8 @@ const BayesianVisualizer = () => {
             x = padding + (point.x * chartWidth);
           } else {
             const maxX = Math.max(
-              data[data.length - 1].x,
-              distributionType === 'beta' ? 1 : posteriorData[posteriorData.length - 1].x
+              priorData[priorData.length - 1]?.x || 0,
+              posteriorData[posteriorData.length - 1]?.x || 0
             );
             x = padding + (point.x / maxX) * chartWidth;
           }
@@ -479,281 +616,363 @@ const BayesianVisualizer = () => {
             ctx.moveTo(x, y);
             firstPoint = false;
           } else {
-            // Use quadratic curves for smoother lines
-            const midX = (prevX + x) / 2;
-            const midY = (prevY + y) / 2;
-            ctx.quadraticCurveTo(prevX, prevY, midX, midY);
+            ctx.lineTo(x, y);
           }
-          
-          prevX = x;
-          prevY = y;
-        }
-        
-        // Complete the last segment
-        if (prevX && prevY) {
-          ctx.lineTo(prevX, prevY);
         }
         
         ctx.stroke();
       };
       
-      // Draw prior data (lighter, thinner)
-      drawDataset(priorData, 'rgba(136, 132, 216, 0.6)', 2);
+      if (hasUpdates) {
+        drawDataset(priorData, 'rgba(136, 132, 216, 0.6)', 2);
+        drawDataset(posteriorData, 'rgba(130, 202, 157, 1)', 3);
+        
+        // Legend
+        const legendX = width - padding - 100;
+        const legendY = padding + 20;
+        
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.fillRect(legendX - 10, legendY - 15, 120, 60);
+        ctx.strokeStyle = '#ccc';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(legendX - 10, legendY - 15, 120, 60);
+        
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(136, 132, 216, 0.6)';
+        ctx.lineWidth = 2;
+        ctx.moveTo(legendX, legendY);
+        ctx.lineTo(legendX + 20, legendY);
+        ctx.stroke();
+        
+        ctx.fillStyle = '#333';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Prior', legendX + 30, legendY);
+        
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(130, 202, 157, 1)';
+        ctx.lineWidth = 3;
+        ctx.moveTo(legendX, legendY + 25);
+        ctx.lineTo(legendX + 20, legendY + 25);
+        ctx.stroke();
+        
+        ctx.fillStyle = '#333';
+        ctx.fillText('Posterior', legendX + 30, legendY + 25);
+      } else {
+        drawDataset(priorData, 'rgba(136, 132, 216, 1)', 3);
+        
+        // Legend
+        const legendX = width - padding - 100;
+        const legendY = padding + 20;
+        
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.fillRect(legendX - 10, legendY - 15, 120, 40);
+        ctx.strokeStyle = '#ccc';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(legendX - 10, legendY - 15, 120, 40);
+        
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(136, 132, 216, 1)';
+        ctx.lineWidth = 3;
+        ctx.moveTo(legendX, legendY);
+        ctx.lineTo(legendX + 20, legendY);
+        ctx.stroke();
+        
+        ctx.fillStyle = '#333';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Prior', legendX + 30, legendY);
+      }
       
-      // Draw posterior data (darker, thicker)
-      drawDataset(posteriorData, 'rgba(130, 202, 157, 1)', 3);
-      
-      // Add legend
-      const legendX = width - padding - 100;
-      const legendY = padding + 20;
-      
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-      ctx.fillRect(legendX - 10, legendY - 15, 120, 60);
-      ctx.strokeStyle = '#ccc';
-      ctx.lineWidth = 1;
-      ctx.strokeRect(legendX - 10, legendY - 15, 120, 60);
-      
-      // Prior legend item
-      ctx.beginPath();
-      ctx.strokeStyle = 'rgba(136, 132, 216, 0.6)';
-      ctx.lineWidth = 2;
-      ctx.moveTo(legendX, legendY);
-      ctx.lineTo(legendX + 20, legendY);
-      ctx.stroke();
-      
-      ctx.fillStyle = '#333';
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('Prior', legendX + 30, legendY);
-      
-      // Posterior legend item
-      ctx.beginPath();
-      ctx.strokeStyle = 'rgba(130, 202, 157, 1)';
-      ctx.lineWidth = 3;
-      ctx.moveTo(legendX, legendY + 25);
-      ctx.lineTo(legendX + 20, legendY + 25);
-      ctx.stroke();
-      
-      ctx.fillStyle = '#333';
-      ctx.fillText('Posterior', legendX + 30, legendY + 25);
+    } catch (error) {
+      console.error('Error drawing chart:', error);
     }
-  }, [priorData, posteriorData, distributionType]);
+    
+    // Return cleanup function
+    return mouseCleanup;
+  }, [priorData, posteriorData, distributionType, successes, failures, setupCanvas]);
   
-  // UI rendering - update chart containers to ensure proper scaling
+  // UI rendering with responsive layout
   return (
     <div className="bayesian-visualizer">
       <h2 className="text-xl font-bold mb-4">Bayesian Distribution Visualizer</h2>
       
-      {/* Distribution selector */}
-      <div className="mb-6 p-4 bg-gray-100 rounded">
-        <h3 className="text-lg font-semibold mb-2">Prior Distribution</h3>
-        <div className="mb-4">
-          <label className="block mb-2">Distribution Type:</label>
-          <select 
-            value={distributionType}
-            onChange={(e) => setDistributionType(e.target.value)}
-            className="p-2 border rounded w-full"
-          >
-            <option value="beta">Beta Distribution</option>
-            <option value="gamma">Gamma Distribution</option>
-          </select>
+      <div className={`flex ${isWideLayout ? 'flex-row' : 'flex-col'} gap-4`}>
+        {/* Left side - Controls */}
+        <div className={`${isWideLayout ? 'w-1/3' : 'w-full'} space-y-4`}>
+          {/* Distribution selector */}
+          <div className="p-4 bg-gray-100 rounded">
+            <h3 className="text-lg font-semibold mb-2">Prior Distribution</h3>
+            <div className="mb-4">
+              <label className="block mb-2">Distribution Type:</label>
+              <select 
+                value={distributionType}
+                onChange={(e) => setDistributionType(e.target.value)}
+                className="p-2 border rounded w-full"
+              >
+                <option value="beta">Beta Distribution</option>
+                <option value="gamma">Gamma Distribution</option>
+              </select>
+            </div>
+            
+            {/* Parameter inputs based on distribution type */}
+            {distributionType === 'beta' ? (
+              <div className="space-y-4">
+                <div>
+                  <label className="block mb-2">Alpha (α):</label>
+                  <input 
+                    type="number" 
+                    min="0.1" 
+                    step="0.1" 
+                    value={betaAlpha}
+                    onChange={(e) => setBetaAlpha(parseFloat(e.target.value))}
+                    className="p-2 border rounded w-full"
+                  />
+                  <input 
+                    type="range" 
+                    min="0.1" 
+                    max="10" 
+                    step="0.1" 
+                    value={betaAlpha}
+                    onChange={(e) => setBetaAlpha(parseFloat(e.target.value))}
+                    className="w-full mt-2"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-2">Beta (β):</label>
+                  <input 
+                    type="number" 
+                    min="0.1" 
+                    step="0.1" 
+                    value={betaBeta}
+                    onChange={(e) => setBetaBeta(parseFloat(e.target.value))}
+                    className="p-2 border rounded w-full"
+                  />
+                  <input 
+                    type="range" 
+                    min="0.1" 
+                    max="10" 
+                    step="0.1" 
+                    value={betaBeta}
+                    onChange={(e) => setBetaBeta(parseFloat(e.target.value))}
+                    className="w-full mt-2"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div>
+                  <label className="block mb-2">Shape (α):</label>
+                  <input 
+                    type="number" 
+                    min="0.1" 
+                    step="0.1" 
+                    value={gammaAlpha}
+                    onChange={(e) => setGammaAlpha(parseFloat(e.target.value))}
+                    className="p-2 border rounded w-full"
+                  />
+                  <input 
+                    type="range" 
+                    min="0.1" 
+                    max="10" 
+                    step="0.1" 
+                    value={gammaAlpha}
+                    onChange={(e) => setGammaAlpha(parseFloat(e.target.value))}
+                    className="w-full mt-2"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-2">Rate (β):</label>
+                  <input 
+                    type="number" 
+                    min="0.1" 
+                    step="0.1" 
+                    value={gammaBeta}
+                    onChange={(e) => setGammaBeta(parseFloat(e.target.value))}
+                    className="p-2 border rounded w-full"
+                  />
+                  <input 
+                    type="range" 
+                    min="0.1" 
+                    max="10" 
+                    step="0.1" 
+                    value={gammaBeta}
+                    onChange={(e) => setGammaBeta(parseFloat(e.target.value))}
+                    className="w-full mt-2"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          
+          {/* Measurement update section */}
+          <div className="p-4 bg-gray-100 rounded">
+            <h3 className="text-lg font-semibold mb-2">Measurement Update</h3>
+            
+            {distributionType === 'beta' ? (
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block mb-2">Number of Successes:</label>
+                  <input 
+                    type="number" 
+                    min="0" 
+                    step="1" 
+                    value={successes}
+                    onChange={(e) => setSuccesses(parseInt(e.target.value))}
+                    className="p-2 border rounded w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-2">Number of Failures:</label>
+                  <input 
+                    type="number" 
+                    min="0" 
+                    step="1" 
+                    value={failures}
+                    onChange={(e) => setFailures(parseInt(e.target.value))}
+                    className="p-2 border rounded w-full"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block mb-2">Sum of Observations:</label>
+                  <input 
+                    type="number" 
+                    min="0" 
+                    step="1" 
+                    value={successes}
+                    onChange={(e) => setSuccesses(parseInt(e.target.value))}
+                    className="p-2 border rounded w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-2">Number of Observations:</label>
+                  <input 
+                    type="number" 
+                    min="1" 
+                    step="1" 
+                    value={failures}
+                    onChange={(e) => setFailures(parseInt(e.target.value))}
+                    className="p-2 border rounded w-full"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          
+          {/* Probability Calculator */}
+          <div className="p-4 bg-gray-100 rounded">
+            <h3 className="text-lg font-semibold mb-2">Probability Calculator</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block mb-2">Value:</label>
+                <input 
+                  type="number" 
+                  min="0" 
+                  max={distributionType === 'beta' ? 1 : undefined}
+                  step="0.01" 
+                  value={probabilityValue}
+                  onChange={(e) => setProbabilityValue(parseFloat(e.target.value))}
+                  className="p-2 border rounded w-full"
+                />
+              </div>
+              <div>
+                <label className="block mb-2">Direction:</label>
+                <select 
+                  value={probabilityDirection}
+                  onChange={(e) => setProbabilityDirection(e.target.value)}
+                  className="p-2 border rounded w-full"
+                >
+                  <option value="less">P(X &lt; x)</option>
+                  <option value="greater">P(X &gt; x)</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className="mt-4 bg-gray-50 p-3 rounded">
+              <h4 className="font-medium mb-2">Probability Results:</h4>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <span className="block text-sm text-gray-600">Prior:</span>
+                  <span className="font-mono">{probabilityResults.prior}</span>
+                </div>
+                <div>
+                  <span className="block text-sm text-gray-600">Posterior:</span>
+                  <span className="font-mono">{probabilityResults.posterior}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         
-        {/* Parameter inputs based on distribution type */}
-        {distributionType === 'beta' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block mb-2">Alpha (α):</label>
-              <input 
-                type="number" 
-                min="0.1" 
-                step="0.1" 
-                value={betaAlpha}
-                onChange={(e) => setBetaAlpha(parseFloat(e.target.value))}
-                className="p-2 border rounded w-full"
-              />
-              <input 
-                type="range" 
-                min="0.1" 
-                max="10" 
-                step="0.1" 
-                value={betaAlpha}
-                onChange={(e) => setBetaAlpha(parseFloat(e.target.value))}
-                className="w-full mt-2"
-              />
+        {/* Right side - Visualizations */}
+        <div className={`${isWideLayout ? 'w-2/3' : 'w-full'} space-y-4`}>
+          {/* Distribution visualization */}
+          <div className="p-4 bg-gray-100 rounded">
+            <h3 className="text-lg font-semibold mb-2">Distributions</h3>
+            
+            <div className="w-full" style={{ minHeight: "400px", position: "relative" }}>
+              <canvas id="distributionChart" className="w-full h-full"></canvas>
+              
+              {/* Hover tooltip */}
+              {hoverInfo && (
+                <div 
+                  className="absolute bg-black text-white px-2 py-1 rounded text-sm pointer-events-none z-10"
+                  style={{
+                    left: `${hoverInfo.mouseX + 10}px`,
+                    top: `${hoverInfo.mouseY - 30}px`,
+                    transform: hoverInfo.mouseX > 300 ? 'translateX(-100%)' : 'none'
+                  }}
+                >
+                  x: {hoverInfo.x}, y: {hoverInfo.y}
+                </div>
+              )}
             </div>
-            <div>
-              <label className="block mb-2">Beta (β):</label>
-              <input 
-                type="number" 
-                min="0.1" 
-                step="0.1" 
-                value={betaBeta}
-                onChange={(e) => setBetaBeta(parseFloat(e.target.value))}
-                className="p-2 border rounded w-full"
-              />
-              <input 
-                type="range" 
-                min="0.1" 
-                max="10" 
-                step="0.1" 
-                value={betaBeta}
-                onChange={(e) => setBetaBeta(parseFloat(e.target.value))}
-                className="w-full mt-2"
-              />
-            </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block mb-2">Shape (α):</label>
-              <input 
-                type="number" 
-                min="0.1" 
-                step="0.1" 
-                value={gammaAlpha}
-                onChange={(e) => setGammaAlpha(parseFloat(e.target.value))}
-                className="p-2 border rounded w-full"
-              />
-              <input 
-                type="range" 
-                min="0.1" 
-                max="10" 
-                step="0.1" 
-                value={gammaAlpha}
-                onChange={(e) => setGammaAlpha(parseFloat(e.target.value))}
-                className="w-full mt-2"
-              />
-            </div>
-            <div>
-              <label className="block mb-2">Rate (β):</label>
-              <input 
-                type="number" 
-                min="0.1" 
-                step="0.1" 
-                value={gammaBeta}
-                onChange={(e) => setGammaBeta(parseFloat(e.target.value))}
-                className="p-2 border rounded w-full"
-              />
-              <input 
-                type="range" 
-                min="0.1" 
-                max="10" 
-                step="0.1" 
-                value={gammaBeta}
-                onChange={(e) => setGammaBeta(parseFloat(e.target.value))}
-                className="w-full mt-2"
-              />
+            
+            {/* Belief table */}
+            <div className="mt-6">
+              <h4 className="font-semibold mb-2">Belief Table</h4>
+              <div className="overflow-x-auto">
+                <table className="min-w-full border">
+                  <thead>
+                    <tr className="bg-gray-200">
+                      <th className="px-4 py-2 border">Metric</th>
+                      <th className="px-4 py-2 border">Prior</th>
+                      <th className="px-4 py-2 border">Posterior</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="px-4 py-2 border font-medium">Mode</td>
+                      <td className="px-4 py-2 border font-mono">{beliefTable.prior.mode}</td>
+                      <td className="px-4 py-2 border font-mono">{beliefTable.posterior.mode}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-medium">Mean</td>
+                      <td className="px-4 py-2 border font-mono">{beliefTable.prior.mean}</td>
+                      <td className="px-4 py-2 border font-mono">{beliefTable.posterior.mean}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-medium">Variance</td>
+                      <td className="px-4 py-2 border font-mono">{beliefTable.prior.variance}</td>
+                      <td className="px-4 py-2 border font-mono">{beliefTable.posterior.variance}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 border font-medium">Standard Deviation</td>
+                      <td className="px-4 py-2 border font-mono">{beliefTable.prior.stdDev}</td>
+                      <td className="px-4 py-2 border font-mono">{beliefTable.posterior.stdDev}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-        )}
-        
-        {/* Prior distribution chart */}
-        <div className="mt-6 w-full" style={{ minHeight: "400px" }}>
-          <canvas id="priorChart" className="w-full h-full"></canvas>
         </div>
       </div>
       
-      {/* Measurement update section */}
-      <div className="mb-6 p-4 bg-gray-100 rounded">
-        <h3 className="text-lg font-semibold mb-2">Measurement Update</h3>
-        
-        {distributionType === 'beta' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block mb-2">Number of Successes:</label>
-              <input 
-                type="number" 
-                min="0" 
-                step="1" 
-                value={successes}
-                onChange={(e) => setSuccesses(parseInt(e.target.value))}
-                className="p-2 border rounded w-full"
-              />
-            </div>
-            <div>
-              <label className="block mb-2">Number of Failures:</label>
-              <input 
-                type="number" 
-                min="0" 
-                step="1" 
-                value={failures}
-                onChange={(e) => setFailures(parseInt(e.target.value))}
-                className="p-2 border rounded w-full"
-              />
-            </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block mb-2">Sum of Observations:</label>
-              <input 
-                type="number" 
-                min="0" 
-                step="1" 
-                value={successes}
-                onChange={(e) => setSuccesses(parseInt(e.target.value))}
-                className="p-2 border rounded w-full"
-              />
-            </div>
-            <div>
-              <label className="block mb-2">Number of Observations:</label>
-              <input 
-                type="number" 
-                min="1" 
-                step="1" 
-                value={failures}
-                onChange={(e) => setFailures(parseInt(e.target.value))}
-                className="p-2 border rounded w-full"
-              />
-            </div>
-          </div>
-        )}
-      </div>
-      
-      {/* Posterior visualization */}
-      <div className="mb-6 p-4 bg-gray-100 rounded">
-        <h3 className="text-lg font-semibold mb-2">Posterior Distribution</h3>
-        
-        <div className="w-full" style={{ minHeight: "400px" }}>
-          <canvas id="posteriorChart" className="w-full h-full"></canvas>
-        </div>
-        
-        {/* Belief table */}
-        <div className="mt-6">
-          <h4 className="font-semibold mb-2">Belief Table</h4>
-          <div className="overflow-x-auto">
-            <table className="min-w-full border">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="px-4 py-2 border">Metric</th>
-                  <th className="px-4 py-2 border">Prior</th>
-                  <th className="px-4 py-2 border">Posterior</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="px-4 py-2 border font-medium">Mode</td>
-                  <td className="px-4 py-2 border">{beliefTable.prior.mode}</td>
-                  <td className="px-4 py-2 border">{beliefTable.posterior.mode}</td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-2 border font-medium">Mean</td>
-                  <td className="px-4 py-2 border">{beliefTable.prior.mean}</td>
-                  <td className="px-4 py-2 border">{beliefTable.posterior.mean}</td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-2 border font-medium">Standard Deviation</td>
-                  <td className="px-4 py-2 border">{beliefTable.prior.stdDev}</td>
-                  <td className="px-4 py-2 border">{beliefTable.posterior.stdDev}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      
-      <div className="text-sm text-gray-600">
+      <div className="text-sm text-gray-600 mt-4">
         <p>This interactive tool demonstrates Bayesian updating with conjugate priors. 
         Adjust the parameters to see how prior beliefs combine with new data to form posterior beliefs.</p>
       </div>
