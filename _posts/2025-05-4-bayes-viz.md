@@ -31,6 +31,7 @@ The visualization below allows you to:
     <div class="loading">Loading visualization...</div>
 </div>
 
+<script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
