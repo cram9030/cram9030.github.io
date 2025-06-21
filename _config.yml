@@ -17,6 +17,9 @@ collections:
   projects:
     output: true
     permalink: /projects/:path/
+  tools:
+    output: true
+    permalink: /tools/:path/
 
 # Include directories
 include: ['_pages']
@@ -33,6 +36,11 @@ defaults:
       type: "projects"
     values:
       layout: "project"
+  - scope:
+      path: ""
+      type: "tools"
+    values:
+      layout: "default"
   - scope:
       path: ""
     values:

@@ -106,7 +106,7 @@ const BayesianVisualizer = () => {
         if (Math.abs(value) < 0.0000001 && value !== 0) {
           return value.toExponential(10);
         }
-        return value.toString();
+        return value.toFixed(12).toString();
       }
       return value;
     }
@@ -1005,7 +1005,7 @@ const BayesianVisualizer = () => {
       
       <div className={`flex ${isWideLayout ? 'flex-row' : 'flex-col'} gap-4`}>
         {/* Left side - Controls */}
-        <div className={`${isWideLayout ? 'w-1/3' : 'w-full'} space-y-4`}>
+        <div className={`${isWideLayout ? 'w-1/4' : 'w-full'} space-y-4`}>
           {DistributionControls}
           {MeasurementControls}
           {ProbabilityCalculator}
@@ -1013,11 +1013,11 @@ const BayesianVisualizer = () => {
         </div>
         
         {/* Right side - Visualizations */}
-        <div className={`${isWideLayout ? 'w-2/3' : 'w-full'} space-y-4`}>
+        <div className={`${isWideLayout ? 'w-3/4' : 'w-full'} space-y-4`}>
           <div className="p-4 bg-gray-100 rounded">
             <h3 className="text-lg font-semibold mb-2">Distributions</h3>
             
-            <div id="plotly-chart" style={{ width: '100%', height: '585px' }}></div>
+            <div id="plotly-chart" style={{ width: '100%', height: '655px' }}></div>
             
             {BeliefTable}
           </div>

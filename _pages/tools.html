@@ -1,0 +1,24 @@
+---
+layout: default
+title: Tools
+permalink: /tools/
+---
+
+<section class="tools-section">
+    <div class="tools-table">
+        {% for tool in site.tools %}
+        <div class="tool-row">
+            <div class="tool-visual">
+                <a href="{{ tool.url }}">
+                    <img src="{{ tool.thumbnail }}" alt="{{ tool.title }}">
+                    <h3>{{ tool.title }}</h3>
+                </a>
+            </div>
+            <div class="tool-description">
+                <p>{{ tool.content | strip_html | truncatewords: 50 }}</p>
+                <a href="{{ tool.url }}" class="read-more">Read more</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
