@@ -1,0 +1,52 @@
+<!-- _includes/plotly-chart.html -->
+{% comment %}
+Usage: {% include plotly-chart.html file="my-plot.html" title="Chart Title" height="600" %}
+{% endcomment %}
+
+<div class="plotly-container" style="margin: 2rem 0;">
+    {% if include.title %}
+    <h3 style="text-align: center; color: #007FBF; margin-bottom: 1rem;">{{ include.title }}</h3>
+    {% endif %}
+    
+    <div class="plotly-wrapper" 
+         style="border-radius: 8px; 
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+                overflow: hidden;
+                background: white;">
+        <iframe src="{{ site.baseurl }}/assets/plots/{{ include.file }}" 
+                width="100%" 
+                height="{{ include.height | default: 600 }}" 
+                frameborder="0"
+                style="display: block;">
+        </iframe>
+    </div>
+    
+    {% if include.caption %}
+    <p style="font-size: 0.9em; 
+              text-align: center; 
+              margin-top: 1rem; 
+              color: #666;">
+        {{ include.caption }}
+    </p>
+    {% endif %}
+</div>
+
+<style>
+.plotly-container {
+    margin: 2rem auto;
+    max-width: 100%;
+}
+
+.plotly-wrapper {
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    background: white;
+}
+
+@media (max-width: 768px) {
+    .plotly-wrapper iframe {
+        height: 400px !important;
+    }
+}</style>

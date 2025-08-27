@@ -41,71 +41,28 @@
         </div>
     </footer>
 </body>
-    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-
+    <!-- MathJax 3 Configuration -->
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        mermaid.initialize({
-        startOnLoad: true,
-        theme: 'default'
-        });
-    });
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        mermaid.initialize({
-        startOnLoad: true,
-        theme: 'default',
-        flowchart: {
-            useMaxWidth: true,
-            htmlLabels: true
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
         },
-        securityLevel: 'loose'
-        });
-        
-        // Add click handler for diagram elements
-        document.addEventListener('click', function(e) {
-        if (e.target.tagName === 'path' || e.target.tagName === 'tspan' || 
-            e.target.tagName === 'rect' || e.target.tagName === 'polygon') {
-            // Find the closest parent mermaid div
-            let parent = e.target;
-            while (parent && !parent.classList.contains('mermaid')) {
-            parent = parent.parentElement;
-            }
-            
-            if (parent) {
-            // Toggle fullscreen mode
-            if (!document.fullscreenElement) {
-                if (parent.requestFullscreen) {
-                parent.requestFullscreen();
-                } else if (parent.webkitRequestFullscreen) {
-                parent.webkitRequestFullscreen();
-                } else if (parent.msRequestFullscreen) {
-                parent.msRequestFullscreen();
-                }
-            } else {
-                if (document.exitFullscreen) {
-                document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-                }
-            }
-            }
+        options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
         }
-        });
-    });
+    };
     </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-        <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            mermaid.initialize({
+    <!-- Mermaid.js -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        mermaid.initialize({
             startOnLoad: true,
             theme: 'default',
             flowchart: {
@@ -113,9 +70,41 @@
                 htmlLabels: true
             },
             securityLevel: 'loose'
-            });
         });
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>            
+        
+        // Add click handler for diagram elements
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'path' || e.target.tagName === 'tspan' || 
+                e.target.tagName === 'rect' || e.target.tagName === 'polygon') {
+                // Find the closest parent mermaid div
+                let parent = e.target;
+                while (parent && !parent.classList.contains('mermaid')) {
+                    parent = parent.parentElement;
+                }
+                
+                if (parent) {
+                    // Toggle fullscreen mode
+                    if (!document.fullscreenElement) {
+                        if (parent.requestFullscreen) {
+                            parent.requestFullscreen();
+                        } else if (parent.webkitRequestFullscreen) {
+                            parent.webkitRequestFullscreen();
+                        } else if (parent.msRequestFullscreen) {
+                            parent.msRequestFullscreen();
+                        }
+                    } else {
+                        if (document.exitFullscreen) {
+                            document.exitFullscreen();
+                        } else if (document.webkitExitFullscreen) {
+                            document.webkitExitFullscreen();
+                        } else if (document.msExitFullscreen) {
+                            document.msExitFullscreen();
+                        }
+                    }
+                }
+            }
+        });
+    });
+    </script>            
     </body>
 </html>

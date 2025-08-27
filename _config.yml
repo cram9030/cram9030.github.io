@@ -7,6 +7,9 @@ url: "https://cram9030.github.io" # replace with your domain
 
 # Build settings
 markdown: kramdown
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
 sass:
   sass_dir: assets/css
   style: compressed
