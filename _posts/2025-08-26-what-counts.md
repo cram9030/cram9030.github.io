@@ -2,7 +2,7 @@
 layout: default
 title: "What Counts?"
 show_title: true
-date: 2025-07-28
+date: 2025-08-26
 ---
 
 In the [initial post](https://cram9030.github.io/2025/06/21/eng-disagree.html) in this series, I spoke about how the core issue is the engineering disagreement between a technical leader and the rank-and-file engineers. I proposed that there were three primary assumptions that were the crux of the disagreement
