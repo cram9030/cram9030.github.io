@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Network Robustness Animation</title>
+    <style>
+        /* ========================================
+           TIMING CONTROL - Adjust these values to change animation speed
+           Total animation duration: 15s (6 iterations × 2.5s each)
+           ======================================== */
+        :root {
+            --iteration-duration: 2.5s;  /* Duration of each iteration */
+            --total-duration: 15s;       /* Total animation duration (6 iterations) */
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            min-height: 300px;
+        }
+
+        /* Mobile optimization */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            svg {
+                min-height: 250px;
+            }
+        }
+
+        /* Cross-hatch pattern animation - accumulates over iterations */
+        .crosshatch-1 {
+            opacity: 0;
+            animation: showHatch1 var(--total-duration) infinite;
+        }
+        
+        .crosshatch-2 {
+            opacity: 0;
+            animation: showHatch2 var(--total-duration) infinite;
+        }
+        
+        .crosshatch-3 {
+            opacity: 0;
+            animation: showHatch3 var(--total-duration) infinite;
+        }
+        
+        .crosshatch-4 {
+            opacity: 0;
+            animation: showHatch4 var(--total-duration) infinite;
+        }
+        
+        .crosshatch-5 {
+            opacity: 0;
+            animation: showHatch5 var(--total-duration) infinite;
+        }
+        
+        .crosshatch-6 {
+            opacity: 0;
+            animation: showHatch6 var(--total-duration) infinite;
+        }
+
+        @keyframes showHatch1 {
+            0%, 100% { opacity: 1; }
+        }
+        
+        @keyframes showHatch2 {
+            0%, 16.66% { opacity: 0; }
+            16.67%, 100% { opacity: 1; }
+        }
+        
+        @keyframes showHatch3 {
+            0%, 33.32% { opacity: 0; }
+            33.33%, 100% { opacity: 1; }
+        }
+        
+        @keyframes showHatch4 {
+            0%, 49.99% { opacity: 0; }
+            50%, 100% { opacity: 1; }
+        }
+        
+        @keyframes showHatch5 {
+            0%, 66.66% { opacity: 0; }
+            66.67%, 100% { opacity: 1; }
+        }
+        
+        @keyframes showHatch6 {
+            0%, 83.32% { opacity: 0; }
+            83.33%, 100% { opacity: 1; }
+        }
+
+        /* Input box animations */
+        .input-box {
+            animation: pulse var(--total-duration) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 14%, 16.67%, 31%, 33.33%, 48%, 50%, 64%, 66.67%, 81%, 83.33%, 98%, 100% { 
+                stroke-width: 2; 
+            }
+            15%, 32%, 49%, 65%, 82%, 99% { 
+                stroke-width: 3; 
+            }
+        }
+        
+        /* Red box animations - boxes turn red in iterations 5 and 6 and stay red */
+        .red-box-5 {
+            animation: turnRed5 var(--total-duration) infinite;
+        }
+        
+        .red-box-8 {
+            animation: turnRed8 var(--total-duration) infinite;
+        }
+        
+        @keyframes turnRed5 {
+            0%, 81.16% { fill: #e3f2fd; }
+            81.17%, 100% { fill: #ffebee; }
+        }
+        
+        @keyframes turnRed8 {
+            0%, 97.82% { fill: #e3f2fd; }
+            97.83%, 100% { fill: #ffebee; }
+        }
+        
+        /* Output box color changes - starts black at each iteration, changes when layer 4 turns yellow */
+        .output-box {
+            animation: outputColor var(--total-duration) infinite;
+        }
+        
+        @keyframes outputColor {
+            /* Iteration 1 - starts black, turns blue when layer 4 highlights */
+            0%, 14% { fill: #ffffff; stroke: #000; stroke-width: 2; }
+            14.5%, 16.66% { fill: #e3f2fd; stroke: #2196f3; stroke-width: 2; }
+            /* Iteration 2 - resets to black, turns blue when layer 4 highlights */
+            16.67%, 30.67% { fill: #ffffff; stroke: #000; stroke-width: 2; }
+            31.17%, 33.32% { fill: #e3f2fd; stroke: #2196f3; stroke-width: 2; }
+            /* Iteration 3 - resets to black, turns blue when layer 4 highlights */
+            33.33%, 47.33% { fill: #ffffff; stroke: #000; stroke-width: 2; }
+            47.83%, 49.99% { fill: #e3f2fd; stroke: #2196f3; stroke-width: 2; }
+            /* Iteration 4 - resets to black, turns blue when layer 4 highlights */
+            50%, 64% { fill: #ffffff; stroke: #000; stroke-width: 2; }
+            64.5%, 66.66% { fill: #e3f2fd; stroke: #2196f3; stroke-width: 2; }
+            /* Iteration 5 - resets to black, turns RED when layer 4 highlights */
+            66.67%, 80.67% { fill: #ffffff; stroke: #000; stroke-width: 2; }
+            81.17%, 83.32% { fill: #ffebee; stroke: #f44336; stroke-width: 2; }
+            /* Iteration 6 - resets to black, turns RED when layer 4 highlights */
+            83.33%, 97.33% { fill: #ffffff; stroke: #000; stroke-width: 2; }
+            97.83%, 100% { fill: #ffebee; stroke: #f44336; stroke-width: 2; }
+        }
+        
+        /* Node highlighting animation - highlights nodes sequentially from input to output */
+        /* Each iteration is 16.67% of total time, divided into 4 phases for 4 layers */
+        .node-highlight-layer1 {
+            animation: highlightLayer1 var(--total-duration) infinite;
+        }
+        
+        .node-highlight-layer2 {
+            animation: highlightLayer2 var(--total-duration) infinite;
+        }
+        
+        .node-highlight-layer3 {
+            animation: highlightLayer3 var(--total-duration) infinite;
+        }
+        
+        .node-highlight-layer4 {
+            animation: highlightLayer4 var(--total-duration) infinite;
+        }
+
+        @keyframes highlightLayer1 {
+            /* Iteration 1 */
+            0%, 2% { fill: url(#nodeGradient); }
+            3%, 6% { fill: #ffd700; }
+            /* Iteration 2 */
+            16.67%, 18.67% { fill: url(#nodeGradient); }
+            19.67%, 22.67% { fill: #ffd700; }
+            /* Iteration 3 */
+            33.33%, 35.33% { fill: url(#nodeGradient); }
+            36.33%, 39.33% { fill: #ffd700; }
+            /* Iteration 4 */
+            50%, 52% { fill: url(#nodeGradient); }
+            53%, 56% { fill: #ffd700; }
+            /* Iteration 5 */
+            66.67%, 68.67% { fill: url(#nodeGradient); }
+            69.67%, 72.67% { fill: #ffd700; }
+            /* Iteration 6 */
+            83.33%, 85.33% { fill: url(#nodeGradient); }
+            86.33%, 89.33% { fill: #ffd700; }
+            90%, 100% { fill: url(#nodeGradient); }
+        }
+
+        @keyframes highlightLayer2 {
+            /* Iteration 1 */
+            0%, 6% { fill: url(#nodeGradientLight); }
+            7%, 10% { fill: #ffd700; }
+            /* Iteration 2 */
+            16.67%, 22.67% { fill: url(#nodeGradientLight); }
+            23.67%, 26.67% { fill: #ffd700; }
+            /* Iteration 3 */
+            33.33%, 39.33% { fill: url(#nodeGradientLight); }
+            40.33%, 43.33% { fill: #ffd700; }
+            /* Iteration 4 */
+            50%, 56% { fill: url(#nodeGradientLight); }
+            57%, 60% { fill: #ffd700; }
+            /* Iteration 5 */
+            66.67%, 72.67% { fill: url(#nodeGradientLight); }
+            73.67%, 76.67% { fill: #ffd700; }
+            /* Iteration 6 */
+            83.33%, 89.33% { fill: url(#nodeGradientLight); }
+            90.33%, 93.33% { fill: #ffd700; }
+            94%, 100% { fill: url(#nodeGradientLight); }
+        }
+
+        @keyframes highlightLayer3 {
+            /* Iteration 1 */
+            0%, 10% { fill: url(#nodeGradientLight); }
+            11%, 14% { fill: #ffd700; }
+            /* Iteration 2 */
+            16.67%, 26.67% { fill: url(#nodeGradientLight); }
+            27.67%, 30.67% { fill: #ffd700; }
+            /* Iteration 3 */
+            33.33%, 43.33% { fill: url(#nodeGradientLight); }
+            44.33%, 47.33% { fill: #ffd700; }
+            /* Iteration 4 */
+            50%, 60% { fill: url(#nodeGradientLight); }
+            61%, 64% { fill: #ffd700; }
+            /* Iteration 5 */
+            66.67%, 76.67% { fill: url(#nodeGradientLight); }
+            77.67%, 80.67% { fill: #ffd700; }
+            /* Iteration 6 */
+            83.33%, 93.33% { fill: url(#nodeGradientLight); }
+            94.33%, 97.33% { fill: #ffd700; }
+            98%, 100% { fill: url(#nodeGradientLight); }
+        }
+
+        @keyframes highlightLayer4 {
+            /* Iteration 1 */
+            0%, 14% { fill: url(#nodeGradient); }
+            14.5%, 16.5% { fill: #ffd700; }
+            /* Iteration 2 */
+            16.67%, 30.67% { fill: url(#nodeGradient); }
+            31.17%, 33.17% { fill: #ffd700; }
+            /* Iteration 3 */
+            33.33%, 47.33% { fill: url(#nodeGradient); }
+            47.83%, 49.83% { fill: #ffd700; }
+            /* Iteration 4 */
+            50%, 64% { fill: url(#nodeGradient); }
+            64.5%, 66.5% { fill: #ffd700; }
+            /* Iteration 5 */
+            66.67%, 80.67% { fill: url(#nodeGradient); }
+            81.17%, 83.17% { fill: #ffd700; }
+            /* Iteration 6 */
+            83.33%, 97.33% { fill: url(#nodeGradient); }
+            97.83%, 99.83% { fill: #ffd700; }
+            100% { fill: url(#nodeGradient); }
+        }
+            0%, 6% { fill: url(#nodeGradientLight); }
+            9%, 13% { fill: #ffd700; }
+            16.67%, 22.67% { fill: url(#nodeGradientLight); }
+            26%, 30% { fill: #ffd700; }
+            33.33%, 39.33% { fill: url(#nodeGradientLight); }
+            42.67%, 47% { fill: #ffd700; }
+            50%, 56% { fill: url(#nodeGradientLight); }
+            59.33%, 63% { fill: #ffd700; }
+            66.67%, 72.67% { fill: url(#nodeGradientLight); }
+            76%, 80% { fill: #ffd700; }
+            83.33%, 89.33% { fill: url(#nodeGradientLight); }
+            92.67%, 97% { fill: #ffd700; }
+            100% { fill: url(#nodeGradientLight); }
+        }
+
+        /* Accumulated samples in x^A and x^B */
+        .sample-a-1, .sample-a-2 {
+            opacity: 0;
+        }
+        
+        .sample-b-1, .sample-b-2, .sample-b-3, .sample-b-4 {
+            opacity: 0;
+        }
+
+        /* x^B samples (iterations 1-4) */
+        .sample-b-1 {
+            animation: appearB1 var(--total-duration) infinite;
+        }
+
+        .sample-b-2 {
+            animation: appearB2 var(--total-duration) infinite;
+        }
+        
+        .sample-b-3 {
+            animation: appearB3 var(--total-duration) infinite;
+        }
+        
+        .sample-b-4 {
+            animation: appearB4 var(--total-duration) infinite;
+        }
+
+        /* x^A samples (iterations 5-6) */
+        .sample-a-1 {
+            animation: appearA1 var(--total-duration) infinite;
+        }
+
+        .sample-a-2 {
+            animation: appearA2 var(--total-duration) infinite;
+        }
+
+        @keyframes appearB1 {
+            0%, 15% { opacity: 0; transform: scale(0); }
+            16.67% { opacity: 1; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes appearB2 {
+            0%, 32% { opacity: 0; transform: scale(0); }
+            33.33% { opacity: 1; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes appearB3 {
+            0%, 49% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes appearB4 {
+            0%, 65% { opacity: 0; transform: scale(0); }
+            66.67% { opacity: 1; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes appearA1 {
+            0%, 82% { opacity: 0; transform: scale(0); }
+            83.33% { opacity: 1; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes appearA2 {
+            0%, 99% { opacity: 0; transform: scale(0); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+    </style>
+    <script>
+        // Update iteration counter and inequality text
+        document.addEventListener('DOMContentLoaded', function() {
+            const iterationNumber = document.querySelector('.iteration-number');
+            const inequalityText = document.querySelector('.inequality-text');
+            const iterationDuration = 2.5; // seconds
+            const totalDuration = 15; // seconds
+            
+            function updateIteration() {
+                const currentTime = (Date.now() % (totalDuration * 1000)) / 1000;
+                const iteration = Math.floor(currentTime / iterationDuration) + 1;
+                
+                if (iterationNumber) {
+                    iterationNumber.textContent = iteration;
+                }
+                
+                if (inequalityText) {
+                    // Iterations 1-4: ≤ δ (benign), Iterations 5-6: > δ (adversarial)
+                    if (iteration <= 4) {
+                        inequalityText.textContent = '|f(x) - f(x\')| ≤ δ';
+                    } else {
+                        inequalityText.textContent = '|f(x) - f(x\')| > δ';
+                    }
+                }
+            }
+            
+            // Update immediately and then every 100ms for smooth transitions
+            updateIteration();
+            setInterval(updateIteration, 100);
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <svg width="800" height="550" viewBox="0 0 800 550" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Cross-hatch pattern for perturbation -->
+                <pattern id="crosshatch" patternUnits="userSpaceOnUse" width="8" height="8">
+                    <path d="M0,0 L8,8 M8,0 L0,8" stroke="#666" stroke-width="1"/>
+                </pattern>
+
+                <!-- Gradient for nodes -->
+                <radialGradient id="nodeGradient">
+                    <stop offset="0%" style="stop-color:#e3f2fd;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#2196f3;stop-opacity:1" />
+                </radialGradient>
+
+                <radialGradient id="nodeGradientLight">
+                    <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#bbdefb;stop-opacity:1" />
+                </radialGradient>
+            </defs>
+
+            <!-- Input Section -->
+            <g id="input-section">
+                <!-- Label x -->
+                <text x="140" y="60" text-anchor="middle" font-size="16" font-weight="bold" fill="#000">x</text>
+                
+                <!-- Input squares stack (10 squares in single column, 20x20 each) -->
+                <rect class="input-box" x="130" y="70" width="20" height="20" 
+                      fill="#e3f2fd" stroke="#000" stroke-width="2" rx="2"/>
+                <rect class="input-box" x="130" y="95" width="20" height="20" 
+                      fill="#e3f2fd" stroke="#000" stroke-width="2" rx="2"/>
+                <rect class="input-box" x="130" y="120" width="20" height="20" 
+                      fill="#e3f2fd" stroke="#000" stroke-width="2" rx="2"/>
+                <rect class="input-box" x="130" y="145" width="20" height="20" 
+                      fill="#e3f2fd" stroke="#000" stroke-width="2" rx="2"/>
+                <rect class="input-box red-box-5" x="130" y="170" width="20" height="20" 
+                      fill="#e3f2fd" stroke="#000" stroke-width="2" rx="2"/>
+                <rect class="input-box" x="130" y="195" width="20" height="20" 
+                      fill="#e3f2fd" stroke="#000" stroke-width="2" rx="2"/>
+                <rect class="input-box" x="130" y="220" width="20" height="20" 
+                      fill="#e3f2fd" stroke="#000" stroke-width="2" rx="2"/>
+                <rect class="input-box red-box-8" x="130" y="245" width="20" height="20" 
+                      fill="#e3f2fd" stroke="#000" stroke-width="2" rx="2"/>
+                <rect class="input-box" x="130" y="270" width="20" height="20" 
+                      fill="#e3f2fd" stroke="#000" stroke-width="2" rx="2"/>
+                <rect class="input-box" x="130" y="295" width="20" height="20" 
+                      fill="#e3f2fd" stroke="#000" stroke-width="2" rx="2"/>
+                
+                <!-- Cross-hatch overlays - RANDOM positions (not sequential) to match original -->
+                <!-- Box 3 (appears in iteration 1) -->
+                <rect class="crosshatch-1" x="130" y="120" width="20" height="20" 
+                      fill="url(#crosshatch)" stroke="none" rx="2"/>
+                <!-- Box 7 (appears in iteration 2) -->
+                <rect class="crosshatch-2" x="130" y="220" width="20" height="20" 
+                      fill="url(#crosshatch)" stroke="none" rx="2"/>
+                <!-- Box 1 (appears in iteration 3) -->
+                <rect class="crosshatch-3" x="130" y="70" width="20" height="20" 
+                      fill="url(#crosshatch)" stroke="none" rx="2"/>
+                <!-- Box 9 (appears in iteration 4) -->
+                <rect class="crosshatch-4" x="130" y="270" width="20" height="20" 
+                      fill="url(#crosshatch)" stroke="none" rx="2"/>
+                <!-- Box 5 (appears in iteration 5) -->
+                <rect class="crosshatch-5" x="130" y="170" width="20" height="20" 
+                      fill="url(#crosshatch)" stroke="none" rx="2"/>
+                <!-- Box 8 (appears in iteration 6) -->
+                <rect class="crosshatch-6" x="130" y="245" width="20" height="20" 
+                      fill="url(#crosshatch)" stroke="none" rx="2"/>
+            </g>
+
+            <!-- Neural Network -->
+            <g id="neural-network">
+                <!-- Layer 1 (Input Layer) -->
+                <g id="layer1">
+                    <circle class="node-highlight-layer1" cx="220" cy="160" r="8" fill="url(#nodeGradient)" stroke="#000" stroke-width="1.5"/>
+                    <circle class="node-highlight-layer1" cx="220" cy="190" r="8" fill="url(#nodeGradient)" stroke="#000" stroke-width="1.5"/>
+                    <circle class="node-highlight-layer1" cx="220" cy="220" r="8" fill="url(#nodeGradient)" stroke="#000" stroke-width="1.5"/>
+                </g>
+
+                <!-- Layer 2 (Hidden Layer 1) -->
+                <g id="layer2">
+                    <circle class="node-highlight-layer2" cx="320" cy="150" r="8" fill="url(#nodeGradientLight)" stroke="#000" stroke-width="1.5"/>
+                    <circle class="node-highlight-layer2" cx="320" cy="180" r="8" fill="url(#nodeGradientLight)" stroke="#000" stroke-width="1.5"/>
+                    <circle class="node-highlight-layer2" cx="320" cy="210" r="8" fill="url(#nodeGradientLight)" stroke="#000" stroke-width="1.5"/>
+                    <circle class="node-highlight-layer2" cx="320" cy="240" r="8" fill="url(#nodeGradientLight)" stroke="#000" stroke-width="1.5"/>
+                </g>
+
+                <!-- Layer 3 (Hidden Layer 2) -->
+                <g id="layer3">
+                    <circle class="node-highlight-layer3" cx="420" cy="160" r="8" fill="url(#nodeGradientLight)" stroke="#000" stroke-width="1.5"/>
+                    <circle class="node-highlight-layer3" cx="420" cy="190" r="8" fill="url(#nodeGradientLight)" stroke="#000" stroke-width="1.5"/>
+                    <circle class="node-highlight-layer3" cx="420" cy="220" r="8" fill="url(#nodeGradientLight)" stroke="#000" stroke-width="1.5"/>
+                </g>
+
+                <!-- Layer 4 (Output Layer) -->
+                <g id="layer4">
+                    <circle class="node-highlight-layer4" cx="520" cy="190" r="8" fill="url(#nodeGradient)" stroke="#000" stroke-width="1.5"/>
+                </g>
+
+                <!-- Connections (simplified - showing key paths) -->
+                <g id="connections" stroke="#000" stroke-width="1" opacity="0.3">
+                    <!-- Input to Layer 1 -->
+                    <line x1="155" y1="182" x2="212" y2="160"/>
+                    <line x1="155" y1="182" x2="212" y2="190"/>
+                    <line x1="155" y1="182" x2="212" y2="220"/>
+                    
+                    <!-- Layer 1 to Layer 2 -->
+                    <line x1="228" y1="160" x2="312" y2="150"/>
+                    <line x1="228" y1="160" x2="312" y2="180"/>
+                    <line x1="228" y1="190" x2="312" y2="180"/>
+                    <line x1="228" y1="190" x2="312" y2="210"/>
+                    <line x1="228" y1="220" x2="312" y2="210"/>
+                    <line x1="228" y1="220" x2="312" y2="240"/>
+                    
+                    <!-- Layer 2 to Layer 3 -->
+                    <line x1="328" y1="150" x2="412" y2="160"/>
+                    <line x1="328" y1="180" x2="412" y2="160"/>
+                    <line x1="328" y1="180" x2="412" y2="190"/>
+                    <line x1="328" y1="210" x2="412" y2="190"/>
+                    <line x1="328" y1="210" x2="412" y2="220"/>
+                    <line x1="328" y1="240" x2="412" y2="220"/>
+                    
+                    <!-- Layer 3 to Output -->
+                    <line x1="428" y1="160" x2="512" y2="190"/>
+                    <line x1="428" y1="190" x2="512" y2="190"/>
+                    <line x1="428" y1="220" x2="512" y2="190"/>
+                </g>
+            </g>
+
+            <!-- Output Section -->
+            <g id="output-section">
+                <rect class="output-box" x="580" y="160" width="60" height="60" 
+                      fill="#ffffff" stroke="#000" stroke-width="2" rx="4"/>
+                <text x="610" y="150" text-anchor="middle" font-size="16" font-weight="bold" fill="#000">f(x)</text>
+                
+                <!-- Inequality text (changes based on iteration) -->
+                <text x="610" y="240" text-anchor="middle" font-size="11" fill="#666">
+                    <tspan class="inequality-text">|f(x) - f(x')| ≤ δ</tspan>
+                </text>
+            </g>
+
+            <!-- Accumulated Sets Section -->
+            <g id="accumulated-sets">
+                <!-- x^A Set (Adversarial - Red/Pink) -->
+                <g id="set-xa">
+                    <rect x="50" y="380" width="200" height="120" 
+                          fill="#ffebee" stroke="#000" stroke-width="2" rx="4"/>
+                    <text x="150" y="370" text-anchor="middle" font-size="14" font-weight="bold" fill="#000">
+                        x<tspan dy="-4" font-size="10">A</tspan>
+                    </text>
+                    <text x="150" y="405" text-anchor="middle" font-size="10" fill="#666">
+                        (|f(x) - f(x')| > δ)
+                    </text>
+                    
+                    <!-- Accumulated adversarial samples -->
+                    <rect class="sample-a-1" x="70" y="425" width="30" height="30" 
+                          fill="#ef5350" stroke="#000" stroke-width="1.5" rx="2"/>
+                    <rect class="sample-a-2" x="110" y="425" width="30" height="30" 
+                          fill="#e53935" stroke="#000" stroke-width="1.5" rx="2"/>
+                </g>
+
+                <!-- x^B Set (Benign - Blue) -->
+                <g id="set-xb">
+                    <rect x="320" y="380" width="200" height="120" 
+                          fill="#e3f2fd" stroke="#000" stroke-width="2" rx="4"/>
+                    <text x="420" y="370" text-anchor="middle" font-size="14" font-weight="bold" fill="#000">
+                        x<tspan dy="-4" font-size="10">B</tspan>
+                    </text>
+                    <text x="420" y="405" text-anchor="middle" font-size="10" fill="#666">
+                        (|f(x) - f(x')| ≤ δ)
+                    </text>
+                    
+                    <!-- Accumulated benign samples (4 total) -->
+                    <rect class="sample-b-1" x="340" y="425" width="30" height="30" 
+                          fill="#42a5f5" stroke="#000" stroke-width="1.5" rx="2"/>
+                    <rect class="sample-b-2" x="380" y="425" width="30" height="30" 
+                          fill="#2196f3" stroke="#000" stroke-width="1.5" rx="2"/>
+                    <rect class="sample-b-3" x="420" y="425" width="30" height="30" 
+                          fill="#1e88e5" stroke="#000" stroke-width="1.5" rx="2"/>
+                    <rect class="sample-b-4" x="460" y="425" width="30" height="30" 
+                          fill="#1976d2" stroke="#000" stroke-width="1.5" rx="2"/>
+                </g>
+            </g>
+        </svg>
+    </div>
+</body>
+</html>
