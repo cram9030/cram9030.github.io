@@ -8,7 +8,7 @@ function TradeProposalApp() {
   const [rightPicks, setRightPicks] = React.useState([{ round: 1, pickInRound: 1 }]);
   const [chartPreset, setChartPreset] = React.useState('default');
   const [results, setResults] = React.useState(null);
-  const [resultsMeta, setResultsMeta] = React.useState(null); // snapshot of picks/preset used
+  const [resultsMeta, setResultsMeta] = React.useState(null);
   const [isCalculating, setIsCalculating] = React.useState(false);
 
   // ---------------------------------------------------------------------------
@@ -38,14 +38,18 @@ function TradeProposalApp() {
     return picks.map(p => TradeUtils.overallPickFromRound(p.round, p.pickInRound));
   }
 
-  function writtenPreview(picks, label) {
+  // Written preview for the input panel header
+  function writtenPreview(picks, sideLabel) {
     const overalls = picksToOverall(picks);
     const formatted = overalls.map(TradeUtils.pickLabel).join(' + ');
-    return `${label}: ${formatted}`;
+    return `${sideLabel} sends: ${formatted}`;
   }
 
   // ---------------------------------------------------------------------------
   // Calculation
+  // Input: leftPicks = what Side A sends, rightPicks = what Side B sends
+  // Side A receives = what Side B sends (rightPicks)
+  // Net for Side A = value(B sends) - value(A sends)
   // ---------------------------------------------------------------------------
 
   async function handleCalculate() {
@@ -54,8 +58,9 @@ function TradeProposalApp() {
       const preset = CHART_PRESETS[chartPreset].charts;
       const chartDataMap = await TradeUtils.loadAllCharts(preset);
 
-      const leftOverall  = leftPicks.map(p => TradeUtils.overallPickFromRound(p.round, p.pickInRound));
-      const rightOverall = rightPicks.map(p => TradeUtils.overallPickFromRound(p.round, p.pickInRound));
+      // What each side gives away
+      const aSendsOverall  = picksToOverall(leftPicks);
+      const bSendsOverall  = picksToOverall(rightPicks);
 
       const computed = {};
       for (const chartKey of preset) {
@@ -67,17 +72,19 @@ function TradeProposalApp() {
           return entry ? entry.value : 0;
         }
 
-        const leftTotal  = leftOverall.reduce((s, p) => s + pickVal(p), 0);
-        const rightTotal = rightOverall.reduce((s, p) => s + pickVal(p), 0);
-        const net = leftTotal - rightTotal;
+        // Side A sends these picks (= Side B receives)
+        const aSendsTotal = aSendsOverall.reduce((s, p) => s + pickVal(p), 0);
+        // Side B sends these picks (= Side A receives)
+        const bSendsTotal = bSendsOverall.reduce((s, p) => s + pickVal(p), 0);
+
+        // Net from Side A's perspective: positive = A got the better deal
+        const net = bSendsTotal - aSendsTotal;
 
         computed[chartKey] = {
-          leftTotal,
-          rightTotal,
+          sideAReceivesTotal: bSendsTotal,
+          sideBReceivesTotal: aSendsTotal,
           net,
-          leftCombo:  TradeUtils.findPickComboWithExcess(leftTotal,  data),
-          rightCombo: TradeUtils.findPickComboWithExcess(rightTotal, data),
-          netCombo:   TradeUtils.findPickComboWithExcess(Math.abs(net), data),
+          netCombo: TradeUtils.findPickComboWithExcess(Math.abs(net), data),
           scale,
         };
       }
@@ -86,8 +93,8 @@ function TradeProposalApp() {
       setResultsMeta({
         preset: chartPreset,
         presetCharts: preset,
-        leftOverall,
-        rightOverall,
+        aSendsOverall,
+        bSendsOverall,
       });
     } catch (err) {
       console.error('Calculation error:', err);
@@ -163,14 +170,14 @@ function TradeProposalApp() {
   }
 
   // ---------------------------------------------------------------------------
-  // Side panel
+  // Side panel (input — what each side sends)
   // ---------------------------------------------------------------------------
 
   function SidePanel({ picks, side, label, bgColor }) {
-    const previewText = writtenPreview(picks, label.replace('← ', '').replace(' →', ''));
+    const previewText = writtenPreview(picks, label);
     return (
       <div style={{ flex: 1, background: bgColor, border: '1px solid #e2e8f0', borderRadius: 8, padding: 16, minWidth: 0 }}>
-        <h3 style={{ margin: '0 0 8px 0', fontSize: 15, fontWeight: 600, color: '#2d3748' }}>{label}</h3>
+        <h3 style={{ margin: '0 0 8px 0', fontSize: 15, fontWeight: 600, color: '#2d3748' }}>{label} Sends</h3>
         <p style={{
           fontSize: 12, color: '#4a5568', background: 'rgba(255,255,255,0.7)',
           borderRadius: 4, padding: '6px 8px', marginBottom: 12, wordBreak: 'break-word',
@@ -196,17 +203,23 @@ function TradeProposalApp() {
   // Results table
   // ---------------------------------------------------------------------------
 
-  function EquivPicksText({ combo }) {
-    if (!combo || combo.picks.length === 0) return <span>—</span>;
+  // Render equiv picks with round.pickInRound (overall) format, joined by " + "
+  function EquivPicksDisplay({ picks }) {
+    if (!picks || picks.length === 0) return <span style={{ color: '#a0aec0' }}>—</span>;
     return (
       <span>
-        {combo.picks.map(TradeUtils.pickLabelShort).join(' + ')}
+        {picks.map((p, i) => (
+          <span key={i}>
+            {i > 0 && <span style={{ color: '#718096' }}> + </span>}
+            {TradeUtils.pickLabelWithOverall(p)}
+          </span>
+        ))}
       </span>
     );
   }
 
   function ChartResultCard({ chartKey, data }) {
-    const { leftTotal, rightTotal, net, leftCombo, rightCombo, netCombo, scale } = data;
+    const { sideAReceivesTotal, sideBReceivesTotal, net, netCombo, scale } = data;
     const netColor = TradeUtils.tradeColor(net, scale.vMax, scale.vMin);
     const label = CHART_CONFIGS[chartKey].label;
 
@@ -219,40 +232,46 @@ function TradeProposalApp() {
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
             <thead>
               <tr style={{ background: '#f7fafc' }}>
-                <th style={{ padding: '8px 12px', textAlign: 'left', borderBottom: '1px solid #e2e8f0', width: 130 }}></th>
+                <th style={{ padding: '8px 12px', textAlign: 'left', borderBottom: '1px solid #e2e8f0', width: 160 }}></th>
                 <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Side A Receives</th>
                 <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Side B Receives</th>
-                <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Net (Side A)</th>
+                <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Net Value</th>
               </tr>
             </thead>
             <tbody>
+              {/* Total Value row */}
               <tr>
                 <td style={{ padding: '8px 12px', fontWeight: 600, color: '#4a5568', borderBottom: '1px solid #f0f0f0' }}>Total Value</td>
-                <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0' }}>{leftTotal.toFixed(2)}</td>
-                <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0' }}>{rightTotal.toFixed(2)}</td>
+                <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0' }}>
+                  {sideAReceivesTotal.toFixed(2)}
+                </td>
+                <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0' }}>
+                  {sideBReceivesTotal.toFixed(2)}
+                </td>
                 <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0', background: netColor.bg, color: netColor.text, fontWeight: 600 }}>
                   {net > 0 ? '+' : ''}{net.toFixed(2)}
                 </td>
               </tr>
+              {/* Equivalent Picks row — Net column only */}
               <tr>
-                <td style={{ padding: '8px 12px', fontWeight: 600, color: '#4a5568', borderBottom: '1px solid #f0f0f0' }}>Equiv. Picks</td>
-                <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0', fontSize: 12, color: '#4a5568' }}>
-                  <EquivPicksText combo={leftCombo} />
-                </td>
-                <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0', fontSize: 12, color: '#4a5568' }}>
-                  <EquivPicksText combo={rightCombo} />
-                </td>
+                <td style={{ padding: '8px 12px', fontWeight: 600, color: '#4a5568', borderBottom: '1px solid #f0f0f0' }}>Equivalent Picks</td>
+                <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0', color: '#a0aec0' }}>—</td>
+                <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0', color: '#a0aec0' }}>—</td>
                 <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0', fontSize: 12, background: netColor.bg, color: netColor.text }}>
-                  {net !== 0 ? <EquivPicksText combo={netCombo} /> : '—'}
+                  {net !== 0
+                    ? <EquivPicksDisplay picks={netCombo.picks} />
+                    : <span style={{ color: '#a0aec0' }}>—</span>
+                  }
                 </td>
               </tr>
+              {/* Excess row — only when applicable */}
               {(netCombo && netCombo.excessResult) && (
                 <tr>
                   <td style={{ padding: '8px 12px', fontWeight: 600, color: '#4a5568' }}>Excess</td>
-                  <td style={{ padding: '8px 12px', textAlign: 'center' }}></td>
-                  <td style={{ padding: '8px 12px', textAlign: 'center' }}></td>
+                  <td style={{ padding: '8px 12px', textAlign: 'center', color: '#a0aec0' }}>—</td>
+                  <td style={{ padding: '8px 12px', textAlign: 'center', color: '#a0aec0' }}>—</td>
                   <td style={{ padding: '8px 12px', textAlign: 'center', fontSize: 12, background: netColor.bg, color: netColor.text }}>
-                    +{netCombo.excess.toFixed(1)} ≈ {netCombo.excessResult.picks.map(TradeUtils.pickLabelShort).join(' + ')}
+                    +{netCombo.excess.toFixed(1)} ≈ <EquivPicksDisplay picks={netCombo.excessResult.picks} />
                   </td>
                 </tr>
               )}
@@ -267,7 +286,6 @@ function TradeProposalApp() {
     if (!results || !resultsMeta) return null;
     const { presetCharts } = resultsMeta;
 
-    // Consensus: count charts where Side A gains value
     const positiveCount = presetCharts.filter(k => results[k].net > 0).length;
     const negativeCount = presetCharts.filter(k => results[k].net < 0).length;
     const total = presetCharts.length;
@@ -306,7 +324,7 @@ function TradeProposalApp() {
 
   function ExportView() {
     if (!results || !resultsMeta) return null;
-    const { presetCharts, leftOverall, rightOverall } = resultsMeta;
+    const { presetCharts, aSendsOverall, bSendsOverall } = resultsMeta;
     const presetLabel = CHART_PRESETS[resultsMeta.preset].label;
     const ts = new Date().toLocaleDateString();
 
@@ -315,7 +333,6 @@ function TradeProposalApp() {
         display: 'none', width: 1200, padding: 32,
         fontFamily: 'system-ui, sans-serif', background: '#ffffff',
       }}>
-        {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, borderBottom: '2px solid #2d3748', paddingBottom: 16 }}>
           <div>
             <div style={{ fontSize: 22, fontWeight: 700, color: '#2d3748' }}>NFL Draft Trade Proposal</div>
@@ -323,23 +340,21 @@ function TradeProposalApp() {
           </div>
         </div>
 
-        {/* Pick lists */}
         <div style={{ display: 'flex', gap: 40, marginBottom: 24 }}>
           <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 700, color: '#2b6cb0', marginBottom: 6, fontSize: 14 }}>Side A Receives:</div>
-            {leftOverall.map((p, i) => (
+            <div style={{ fontWeight: 700, color: '#2b6cb0', marginBottom: 6, fontSize: 14 }}>Side A Sends:</div>
+            {aSendsOverall.map((p, i) => (
               <div key={i} style={{ fontSize: 13, color: '#2d3748' }}>{TradeUtils.pickLabel(p)}</div>
             ))}
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 700, color: '#c05621', marginBottom: 6, fontSize: 14 }}>Side B Receives:</div>
-            {rightOverall.map((p, i) => (
+            <div style={{ fontWeight: 700, color: '#c05621', marginBottom: 6, fontSize: 14 }}>Side B Sends:</div>
+            {bSendsOverall.map((p, i) => (
               <div key={i} style={{ fontSize: 13, color: '#2d3748' }}>{TradeUtils.pickLabel(p)}</div>
             ))}
           </div>
         </div>
 
-        {/* Results table */}
         {presetCharts.map(chartKey => {
           const d = results[chartKey];
           const netColor = TradeUtils.tradeColor(d.net, d.scale.vMax, d.scale.vMin);
@@ -352,30 +367,29 @@ function TradeProposalApp() {
                 <thead>
                   <tr style={{ background: '#f7fafc' }}>
                     <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'left' }}></th>
-                    <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>Side A</th>
-                    <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>Side B</th>
-                    <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>Net (A)</th>
+                    <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>Side A Receives</th>
+                    <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>Side B Receives</th>
+                    <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>Net Value</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', fontWeight: 600 }}>Total Value</td>
-                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>{d.leftTotal.toFixed(2)}</td>
-                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>{d.rightTotal.toFixed(2)}</td>
+                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>{d.sideAReceivesTotal.toFixed(2)}</td>
+                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>{d.sideBReceivesTotal.toFixed(2)}</td>
                     <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', background: netColor.bg, color: netColor.text, fontWeight: 600 }}>
                       {d.net > 0 ? '+' : ''}{d.net.toFixed(2)}
                     </td>
                   </tr>
                   <tr>
-                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', fontWeight: 600 }}>Equiv. Picks</td>
-                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12 }}>
-                      {d.leftCombo.picks.map(TradeUtils.pickLabelShort).join(' + ') || '—'}
-                    </td>
-                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12 }}>
-                      {d.rightCombo.picks.map(TradeUtils.pickLabelShort).join(' + ') || '—'}
-                    </td>
+                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', fontWeight: 600 }}>Equivalent Picks</td>
+                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', color: '#a0aec0' }}>—</td>
+                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', color: '#a0aec0' }}>—</td>
                     <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12, background: netColor.bg, color: netColor.text }}>
-                      {d.net !== 0 ? (d.netCombo.picks.map(TradeUtils.pickLabelShort).join(' + ') || '—') : '—'}
+                      {d.net !== 0
+                        ? (d.netCombo.picks.map(TradeUtils.pickLabelWithOverall).join(' + ') || '—')
+                        : '—'
+                      }
                     </td>
                   </tr>
                 </tbody>
@@ -384,7 +398,6 @@ function TradeProposalApp() {
           );
         })}
 
-        {/* Watermark */}
         <div style={{ textAlign: 'right', marginTop: 16, color: '#a0aec0', fontSize: 12 }}>
           cram9030.github.io
         </div>
@@ -399,7 +412,7 @@ function TradeProposalApp() {
   return (
     <div style={{ maxWidth: 960, margin: '0 auto', padding: '16px 0' }}>
       <h1 style={{ fontSize: '1.875rem', fontWeight: 700, marginBottom: 4 }}>NFL Draft Trade Evaluator</h1>
-      <p style={{ color: '#718096', marginBottom: 24 }}>Compare a proposed trade across multiple draft value charts.</p>
+      <p style={{ color: '#718096', marginBottom: 24 }}>Enter what each side sends, then calculate to see who receives more value.</p>
 
       {/* Chart Selection Panel */}
       <div style={{ background: '#f7fafc', border: '1px solid #e2e8f0', borderRadius: 8, padding: '12px 16px', marginBottom: 20 }}>
@@ -418,10 +431,10 @@ function TradeProposalApp() {
         </div>
       </div>
 
-      {/* Trade Builder */}
+      {/* Trade Builder — inputs labelled as what each side sends */}
       <div style={{ display: 'flex', flexDirection: 'row', gap: 16, marginBottom: 20 }} className="trade-builder">
-        <SidePanel picks={leftPicks} side="left" label="← Side A Receives" bgColor="#ebf8ff" />
-        <SidePanel picks={rightPicks} side="right" label="Side B Receives →" bgColor="#fffbeb" />
+        <SidePanel picks={leftPicks} side="left" label="Side A" bgColor="#ebf8ff" />
+        <SidePanel picks={rightPicks} side="right" label="Side B" bgColor="#fffbeb" />
       </div>
 
       <style>{`@media (max-width: 767px) { .trade-builder { flex-direction: column !important; } }`}</style>
@@ -441,10 +454,8 @@ function TradeProposalApp() {
         </button>
       </div>
 
-      {/* Results */}
       <ResultsSection />
 
-      {/* Export button */}
       <div style={{ textAlign: 'center', marginTop: 20, display: results === null ? 'none' : 'block' }}>
         <button
           onClick={handleExport}
@@ -457,7 +468,6 @@ function TradeProposalApp() {
         </button>
       </div>
 
-      {/* Hidden export view rendered off-screen */}
       <ExportView />
     </div>
   );

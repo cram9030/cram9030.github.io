@@ -51,7 +51,7 @@
   const CHART_CONFIGS = {
     rich_hill:              { label: 'Rich Hill',              file: 'rich_hill' },
     fitzgerald_spielberger: { label: 'Fitzgerald-Spielberger', file: 'fitzgerald_spielberger' },
-    eavar:                  { label: 'Exp. AV Above Rep.',     file: 'eavar' },
+    eavar:                  { label: 'Expected AV Above Replacement (EAVAR)', file: 'eavar' },
     jimmy_johnson:          { label: 'Jimmy Johnson',          file: 'jimmy_johnson' },
     pff_war:                { label: 'PFF WAR',                file: 'pff_war' },
   };
@@ -73,14 +73,25 @@
   }
 
   function roundFromOverall(overall) {
-    const round = Math.ceil(overall / 32);
-    const pickInRound = overall - (round - 1) * 32;
-    return { round, pickInRound };
+    // Cap at round 7: compensatory picks extend round 7 beyond 32 slots
+    // rather than creating an 8th round that doesn't exist in the NFL draft.
+    if (overall <= 192) {
+      const round = Math.ceil(overall / 32);
+      const pickInRound = overall - (round - 1) * 32;
+      return { round, pickInRound };
+    }
+    return { round: 7, pickInRound: overall - 192 };
   }
 
   function pickLabel(overall) {
     const { round, pickInRound } = roundFromOverall(overall);
     return `Rd ${round}, Pk ${pickInRound} (Overall: ${overall})`;
+  }
+
+  // Returns "R.P (Overall)" e.g. "2.14 (46)" — used in equivalent picks display
+  function pickLabelWithOverall(overall) {
+    const { round, pickInRound } = roundFromOverall(overall);
+    return `${round}.${pickInRound} (${overall})`;
   }
 
   function pickLabelShort(overall) {
@@ -270,7 +281,7 @@
 
   window.TradeUtils = {
     NFL_TEAMS, CHART_CONFIGS, CHART_PRESETS,
-    overallPickFromRound, roundFromOverall, pickLabel, pickLabelShort, formatPickList,
+    overallPickFromRound, roundFromOverall, pickLabel, pickLabelShort, pickLabelWithOverall, formatPickList,
     teamLogoUrl, getTeamByAbbrev,
     loadChartData, loadAllCharts, getChartScale,
     findPickCombination, findPickComboWithExcess,
