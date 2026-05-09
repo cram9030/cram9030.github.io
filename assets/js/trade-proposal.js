@@ -2,12 +2,13 @@
 // The onError fallback (showing team abbreviation text) is the graceful degradation.
 
 function TradeProposalApp() {
-  const { CHART_PRESETS } = TradeUtils;
+  const { CHART_PRESETS, CHART_CONFIGS } = TradeUtils;
 
   const [leftPicks, setLeftPicks] = React.useState([{ round: 1, pickInRound: 1 }]);
   const [rightPicks, setRightPicks] = React.useState([{ round: 1, pickInRound: 1 }]);
   const [chartPreset, setChartPreset] = React.useState('default');
   const [results, setResults] = React.useState(null);
+  const [resultsMeta, setResultsMeta] = React.useState(null); // snapshot of picks/preset used
   const [isCalculating, setIsCalculating] = React.useState(false);
 
   // ---------------------------------------------------------------------------
@@ -44,18 +45,82 @@ function TradeProposalApp() {
   }
 
   // ---------------------------------------------------------------------------
-  // Stub calculate handler (replaced in Phase 4)
+  // Calculation
   // ---------------------------------------------------------------------------
 
   async function handleCalculate() {
     setIsCalculating(true);
-    await new Promise(r => setTimeout(r, 200));
-    setResults({ stub: true });
+    try {
+      const preset = CHART_PRESETS[chartPreset].charts;
+      const chartDataMap = await TradeUtils.loadAllCharts(preset);
+
+      const leftOverall  = leftPicks.map(p => TradeUtils.overallPickFromRound(p.round, p.pickInRound));
+      const rightOverall = rightPicks.map(p => TradeUtils.overallPickFromRound(p.round, p.pickInRound));
+
+      const computed = {};
+      for (const chartKey of preset) {
+        const data  = chartDataMap[chartKey];
+        const scale = TradeUtils.getChartScale(data);
+
+        function pickVal(overall) {
+          const entry = data.find(d => d.pick === overall);
+          return entry ? entry.value : 0;
+        }
+
+        const leftTotal  = leftOverall.reduce((s, p) => s + pickVal(p), 0);
+        const rightTotal = rightOverall.reduce((s, p) => s + pickVal(p), 0);
+        const net = leftTotal - rightTotal;
+
+        computed[chartKey] = {
+          leftTotal,
+          rightTotal,
+          net,
+          leftCombo:  TradeUtils.findPickComboWithExcess(leftTotal,  data),
+          rightCombo: TradeUtils.findPickComboWithExcess(rightTotal, data),
+          netCombo:   TradeUtils.findPickComboWithExcess(Math.abs(net), data),
+          scale,
+        };
+      }
+
+      setResults(computed);
+      setResultsMeta({
+        preset: chartPreset,
+        presetCharts: preset,
+        leftOverall,
+        rightOverall,
+      });
+    } catch (err) {
+      console.error('Calculation error:', err);
+      alert('Error loading chart data. Please check your connection and try again.');
+    }
     setIsCalculating(false);
   }
 
   // ---------------------------------------------------------------------------
-  // Pick row component
+  // PNG Export
+  // ---------------------------------------------------------------------------
+
+  async function handleExport() {
+    const el = document.getElementById('trade-proposal-export');
+    el.style.display = 'block';
+    await new Promise(r => setTimeout(r, 50));
+    const canvas = await html2canvas(el, {
+      width: 1200,
+      scale: 1,
+      backgroundColor: '#ffffff',
+      useCORS: true,
+      allowTaint: false,
+      logging: false,
+    });
+    el.style.display = 'none';
+    const link = document.createElement('a');
+    link.download = `trade-proposal-${Date.now()}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  // ---------------------------------------------------------------------------
+  // Pick row
   // ---------------------------------------------------------------------------
 
   function PickRow({ pick, index, side, canRemove }) {
@@ -87,13 +152,8 @@ function TradeProposalApp() {
         <button
           onClick={() => removePick(side, index)}
           style={{
-            marginLeft: 'auto',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            color: '#e53e3e',
-            fontSize: 16,
-            padding: '2px 6px',
+            marginLeft: 'auto', background: 'none', border: 'none',
+            cursor: 'pointer', color: '#e53e3e', fontSize: 16, padding: '2px 6px',
             visibility: canRemove ? 'visible' : 'hidden',
           }}
           title="Remove pick"
@@ -103,27 +163,17 @@ function TradeProposalApp() {
   }
 
   // ---------------------------------------------------------------------------
-  // Side panel (one column of the trade builder)
+  // Side panel
   // ---------------------------------------------------------------------------
 
   function SidePanel({ picks, side, label, bgColor }) {
-    const overalls = picksToOverall(picks);
     const previewText = writtenPreview(picks, label.replace('← ', '').replace(' →', ''));
-
     return (
-      <div style={{
-        flex: 1,
-        background: bgColor,
-        border: '1px solid #e2e8f0',
-        borderRadius: 8,
-        padding: 16,
-        minWidth: 0,
-      }}>
+      <div style={{ flex: 1, background: bgColor, border: '1px solid #e2e8f0', borderRadius: 8, padding: 16, minWidth: 0 }}>
         <h3 style={{ margin: '0 0 8px 0', fontSize: 15, fontWeight: 600, color: '#2d3748' }}>{label}</h3>
         <p style={{
           fontSize: 12, color: '#4a5568', background: 'rgba(255,255,255,0.7)',
-          borderRadius: 4, padding: '6px 8px', marginBottom: 12,
-          wordBreak: 'break-word',
+          borderRadius: 4, padding: '6px 8px', marginBottom: 12, wordBreak: 'break-word',
         }}>
           {previewText}
         </p>
@@ -133,16 +183,211 @@ function TradeProposalApp() {
         <button
           onClick={() => addPick(side)}
           style={{
-            marginTop: 8,
-            padding: '6px 14px',
-            background: 'white',
-            border: '1px dashed #007FBF',
-            borderRadius: 4,
-            color: '#007FBF',
-            cursor: 'pointer',
-            fontSize: 13,
+            marginTop: 8, padding: '6px 14px', background: 'white',
+            border: '1px dashed #007FBF', borderRadius: 4, color: '#007FBF',
+            cursor: 'pointer', fontSize: 13,
           }}
         >＋ Add Pick</button>
+      </div>
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Results table
+  // ---------------------------------------------------------------------------
+
+  function EquivPicksText({ combo }) {
+    if (!combo || combo.picks.length === 0) return <span>—</span>;
+    return (
+      <span>
+        {combo.picks.map(TradeUtils.pickLabelShort).join(' + ')}
+      </span>
+    );
+  }
+
+  function ChartResultCard({ chartKey, data }) {
+    const { leftTotal, rightTotal, net, leftCombo, rightCombo, netCombo, scale } = data;
+    const netColor = TradeUtils.tradeColor(net, scale.vMax, scale.vMin);
+    const label = CHART_CONFIGS[chartKey].label;
+
+    return (
+      <div style={{ marginBottom: 20, border: '1px solid #e2e8f0', borderRadius: 8, overflow: 'hidden' }}>
+        <div style={{ background: '#2d3748', color: 'white', padding: '8px 14px', fontWeight: 600, fontSize: 14 }}>
+          {label}
+        </div>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+            <thead>
+              <tr style={{ background: '#f7fafc' }}>
+                <th style={{ padding: '8px 12px', textAlign: 'left', borderBottom: '1px solid #e2e8f0', width: 130 }}></th>
+                <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Side A Receives</th>
+                <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Side B Receives</th>
+                <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Net (Side A)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style={{ padding: '8px 12px', fontWeight: 600, color: '#4a5568', borderBottom: '1px solid #f0f0f0' }}>Total Value</td>
+                <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0' }}>{leftTotal.toFixed(2)}</td>
+                <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0' }}>{rightTotal.toFixed(2)}</td>
+                <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0', background: netColor.bg, color: netColor.text, fontWeight: 600 }}>
+                  {net > 0 ? '+' : ''}{net.toFixed(2)}
+                </td>
+              </tr>
+              <tr>
+                <td style={{ padding: '8px 12px', fontWeight: 600, color: '#4a5568', borderBottom: '1px solid #f0f0f0' }}>Equiv. Picks</td>
+                <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0', fontSize: 12, color: '#4a5568' }}>
+                  <EquivPicksText combo={leftCombo} />
+                </td>
+                <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0', fontSize: 12, color: '#4a5568' }}>
+                  <EquivPicksText combo={rightCombo} />
+                </td>
+                <td style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #f0f0f0', fontSize: 12, background: netColor.bg, color: netColor.text }}>
+                  {net !== 0 ? <EquivPicksText combo={netCombo} /> : '—'}
+                </td>
+              </tr>
+              {(netCombo && netCombo.excessResult) && (
+                <tr>
+                  <td style={{ padding: '8px 12px', fontWeight: 600, color: '#4a5568' }}>Excess</td>
+                  <td style={{ padding: '8px 12px', textAlign: 'center' }}></td>
+                  <td style={{ padding: '8px 12px', textAlign: 'center' }}></td>
+                  <td style={{ padding: '8px 12px', textAlign: 'center', fontSize: 12, background: netColor.bg, color: netColor.text }}>
+                    +{netCombo.excess.toFixed(1)} ≈ {netCombo.excessResult.picks.map(TradeUtils.pickLabelShort).join(' + ')}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  function ResultsSection() {
+    if (!results || !resultsMeta) return null;
+    const { presetCharts } = resultsMeta;
+
+    // Consensus: count charts where Side A gains value
+    const positiveCount = presetCharts.filter(k => results[k].net > 0).length;
+    const negativeCount = presetCharts.filter(k => results[k].net < 0).length;
+    const total = presetCharts.length;
+
+    let consensusText, consensusBg, consensusColor;
+    if (positiveCount > negativeCount) {
+      consensusText = `Based on ${positiveCount}/${total} charts: Side A receives more value.`;
+      consensusBg = '#f0fff4'; consensusColor = '#276749';
+    } else if (negativeCount > positiveCount) {
+      consensusText = `Based on ${negativeCount}/${total} charts: Side B receives more value.`;
+      consensusBg = '#fff5f5'; consensusColor = '#9b2c2c';
+    } else {
+      consensusText = `Charts are split (${positiveCount}/${total} favor Side A) — roughly even trade.`;
+      consensusBg = '#fffbeb'; consensusColor = '#744210';
+    }
+
+    return (
+      <div>
+        {presetCharts.map(k => (
+          <ChartResultCard key={k} chartKey={k} data={results[k]} />
+        ))}
+        <div style={{
+          padding: '12px 16px', borderRadius: 8, marginTop: 8,
+          background: consensusBg, color: consensusColor,
+          border: `1px solid ${consensusColor}40`, fontWeight: 600, fontSize: 14,
+        }}>
+          {consensusText}
+        </div>
+      </div>
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Hidden export view
+  // ---------------------------------------------------------------------------
+
+  function ExportView() {
+    if (!results || !resultsMeta) return null;
+    const { presetCharts, leftOverall, rightOverall } = resultsMeta;
+    const presetLabel = CHART_PRESETS[resultsMeta.preset].label;
+    const ts = new Date().toLocaleDateString();
+
+    return (
+      <div id="trade-proposal-export" style={{
+        display: 'none', width: 1200, padding: 32,
+        fontFamily: 'system-ui, sans-serif', background: '#ffffff',
+      }}>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, borderBottom: '2px solid #2d3748', paddingBottom: 16 }}>
+          <div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: '#2d3748' }}>NFL Draft Trade Proposal</div>
+            <div style={{ fontSize: 14, color: '#718096', marginTop: 4 }}>{presetLabel} • {ts}</div>
+          </div>
+        </div>
+
+        {/* Pick lists */}
+        <div style={{ display: 'flex', gap: 40, marginBottom: 24 }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 700, color: '#2b6cb0', marginBottom: 6, fontSize: 14 }}>Side A Receives:</div>
+            {leftOverall.map((p, i) => (
+              <div key={i} style={{ fontSize: 13, color: '#2d3748' }}>{TradeUtils.pickLabel(p)}</div>
+            ))}
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 700, color: '#c05621', marginBottom: 6, fontSize: 14 }}>Side B Receives:</div>
+            {rightOverall.map((p, i) => (
+              <div key={i} style={{ fontSize: 13, color: '#2d3748' }}>{TradeUtils.pickLabel(p)}</div>
+            ))}
+          </div>
+        </div>
+
+        {/* Results table */}
+        {presetCharts.map(chartKey => {
+          const d = results[chartKey];
+          const netColor = TradeUtils.tradeColor(d.net, d.scale.vMax, d.scale.vMin);
+          return (
+            <div key={chartKey} style={{ marginBottom: 16 }}>
+              <div style={{ fontWeight: 700, fontSize: 13, color: '#2d3748', marginBottom: 4 }}>
+                {CHART_CONFIGS[chartKey].label}
+              </div>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+                <thead>
+                  <tr style={{ background: '#f7fafc' }}>
+                    <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'left' }}></th>
+                    <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>Side A</th>
+                    <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>Side B</th>
+                    <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>Net (A)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', fontWeight: 600 }}>Total Value</td>
+                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>{d.leftTotal.toFixed(2)}</td>
+                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>{d.rightTotal.toFixed(2)}</td>
+                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', background: netColor.bg, color: netColor.text, fontWeight: 600 }}>
+                      {d.net > 0 ? '+' : ''}{d.net.toFixed(2)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', fontWeight: 600 }}>Equiv. Picks</td>
+                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12 }}>
+                      {d.leftCombo.picks.map(TradeUtils.pickLabelShort).join(' + ') || '—'}
+                    </td>
+                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12 }}>
+                      {d.rightCombo.picks.map(TradeUtils.pickLabelShort).join(' + ') || '—'}
+                    </td>
+                    <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12, background: netColor.bg, color: netColor.text }}>
+                      {d.net !== 0 ? (d.netCombo.picks.map(TradeUtils.pickLabelShort).join(' + ') || '—') : '—'}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          );
+        })}
+
+        {/* Watermark */}
+        <div style={{ textAlign: 'right', marginTop: 16, color: '#a0aec0', fontSize: 12 }}>
+          cram9030.github.io
+        </div>
       </div>
     );
   }
@@ -153,23 +398,17 @@ function TradeProposalApp() {
 
   return (
     <div style={{ maxWidth: 960, margin: '0 auto', padding: '16px 0' }}>
-      {/* Page header */}
       <h1 style={{ fontSize: '1.875rem', fontWeight: 700, marginBottom: 4 }}>NFL Draft Trade Evaluator</h1>
       <p style={{ color: '#718096', marginBottom: 24 }}>Compare a proposed trade across multiple draft value charts.</p>
 
       {/* Chart Selection Panel */}
-      <div style={{
-        background: '#f7fafc', border: '1px solid #e2e8f0', borderRadius: 8,
-        padding: '12px 16px', marginBottom: 20,
-      }}>
+      <div style={{ background: '#f7fafc', border: '1px solid #e2e8f0', borderRadius: 8, padding: '12px 16px', marginBottom: 20 }}>
         <span style={{ fontWeight: 600, fontSize: 14, marginRight: 16 }}>Value Charts:</span>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 20px', marginTop: 8 }}>
           {Object.entries(CHART_PRESETS).map(([key, preset]) => (
             <label key={key} style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 13 }}>
               <input
-                type="radio"
-                name="chartPreset"
-                value={key}
+                type="radio" name="chartPreset" value={key}
                 checked={chartPreset === key}
                 onChange={() => setChartPreset(key)}
               />
@@ -180,24 +419,12 @@ function TradeProposalApp() {
       </div>
 
       {/* Trade Builder */}
-      <div style={{
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 16,
-        marginBottom: 20,
-      }}
-        className="trade-builder"
-      >
+      <div style={{ display: 'flex', flexDirection: 'row', gap: 16, marginBottom: 20 }} className="trade-builder">
         <SidePanel picks={leftPicks} side="left" label="← Side A Receives" bgColor="#ebf8ff" />
         <SidePanel picks={rightPicks} side="right" label="Side B Receives →" bgColor="#fffbeb" />
       </div>
 
-      {/* Responsive stacking */}
-      <style>{`
-        @media (max-width: 767px) {
-          .trade-builder { flex-direction: column !important; }
-        }
-      `}</style>
+      <style>{`@media (max-width: 767px) { .trade-builder { flex-direction: column !important; } }`}</style>
 
       {/* Calculate button */}
       <div style={{ textAlign: 'center', marginBottom: 24 }}>
@@ -205,45 +432,33 @@ function TradeProposalApp() {
           onClick={handleCalculate}
           disabled={isCalculating}
           style={{
-            padding: '10px 40px',
-            background: isCalculating ? '#a0aec0' : '#007FBF',
-            color: 'white',
-            border: 'none',
-            borderRadius: 6,
-            fontSize: 16,
-            fontWeight: 600,
-            cursor: isCalculating ? 'not-allowed' : 'pointer',
-            width: '100%',
-            maxWidth: 320,
+            padding: '10px 40px', background: isCalculating ? '#a0aec0' : '#007FBF',
+            color: 'white', border: 'none', borderRadius: 6, fontSize: 16, fontWeight: 600,
+            cursor: isCalculating ? 'not-allowed' : 'pointer', width: '100%', maxWidth: 320,
           }}
         >
           {isCalculating ? 'Calculating…' : 'Calculate'}
         </button>
       </div>
 
-      {/* Results area */}
-      {results !== null && (
-        <div style={{ background: '#f7fafc', border: '1px solid #e2e8f0', borderRadius: 8, padding: 20 }}>
-          <p style={{ color: '#4a5568' }}>Results will appear here.</p>
-        </div>
-      )}
+      {/* Results */}
+      <ResultsSection />
 
-      {/* Export button — hidden when no results */}
-      <div style={{ textAlign: 'center', marginTop: 16, display: results === null ? 'none' : 'block' }}>
+      {/* Export button */}
+      <div style={{ textAlign: 'center', marginTop: 20, display: results === null ? 'none' : 'block' }}>
         <button
+          onClick={handleExport}
           style={{
-            padding: '8px 28px',
-            background: 'white',
-            border: '1px solid #007FBF',
-            borderRadius: 6,
-            color: '#007FBF',
-            fontSize: 14,
-            cursor: 'pointer',
+            padding: '8px 28px', background: 'white', border: '1px solid #007FBF',
+            borderRadius: 6, color: '#007FBF', fontSize: 14, cursor: 'pointer',
           }}
         >
           Export PNG
         </button>
       </div>
+
+      {/* Hidden export view rendered off-screen */}
+      <ExportView />
     </div>
   );
 }
