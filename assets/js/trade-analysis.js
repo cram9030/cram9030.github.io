@@ -1,0 +1,525 @@
+// NOTE: ESPN logos may not render in PNG export on Safari due to CORS restrictions.
+// The onError fallback (showing team abbreviation text) is the graceful degradation.
+
+// ---------------------------------------------------------------------------
+// Team Selector — custom dropdown with logos
+// ---------------------------------------------------------------------------
+
+function TeamSelector({ value, onChange }) {
+  const [open, setOpen] = React.useState(false);
+  const ref = React.useRef(null);
+  const selected = TradeUtils.NFL_TEAMS.find(t => t.abbrev === value);
+
+  React.useEffect(() => {
+    function handleClick(e) {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  return (
+    <div ref={ref} style={{ position: 'relative', display: 'inline-block' }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px',
+          border: '1px solid #cbd5e0', borderRadius: 6, background: 'white',
+          cursor: 'pointer', minWidth: 220, fontSize: 14,
+        }}
+      >
+        {selected
+          ? <>
+              <img
+                src={TradeUtils.teamLogoUrl(selected.espn)}
+                width={28} height={28}
+                onError={e => { e.target.style.display = 'none'; }}
+                alt={selected.abbrev}
+              />
+              <span>{selected.name}</span>
+            </>
+          : <span style={{ color: '#718096' }}>Select a team…</span>
+        }
+        <span style={{ marginLeft: 'auto' }}>▾</span>
+      </button>
+
+      {open && (
+        <div style={{
+          position: 'absolute', zIndex: 200, background: 'white',
+          border: '1px solid #e2e8f0', borderRadius: 6, top: '110%', left: 0,
+          display: 'grid', gridTemplateColumns: '1fr 1fr',
+          width: 440, maxHeight: 380, overflowY: 'auto',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+        }}>
+          {TradeUtils.NFL_TEAMS.map(team => (
+            <button
+              key={team.abbrev}
+              onClick={() => { onChange(team.abbrev); setOpen(false); }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                padding: '8px 12px',
+                background: value === team.abbrev ? '#ebf8ff' : 'white',
+                border: 'none', cursor: 'pointer', textAlign: 'left',
+                borderBottom: '1px solid #f7fafc',
+              }}
+            >
+              <img
+                src={TradeUtils.teamLogoUrl(team.espn)}
+                width={24} height={24}
+                onError={e => { e.target.style.display = 'none'; }}
+                alt={team.abbrev}
+              />
+              <span style={{ fontSize: 13 }}>{team.name}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Main App
+// ---------------------------------------------------------------------------
+
+function TradeAnalysisApp() {
+  const { CHART_PRESETS, CHART_CONFIGS } = TradeUtils;
+
+  const [selectedTeam, setSelectedTeam] = React.useState('');
+  const [selectedYear, setSelectedYear] = React.useState(new Date().getFullYear() - 1);
+  const [chartPreset, setChartPreset] = React.useState('default');
+  const [trades, setTrades] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+  const [availableYears, setAvailableYears] = React.useState([]);
+  const [activeChartKeys, setActiveChartKeys] = React.useState(CHART_PRESETS['default'].charts);
+  const chartDataRef = React.useRef({});
+
+  // Fetch index on mount
+  React.useEffect(() => {
+    const base = window.JEKYLL_BASEURL || '';
+    fetch(`${base}/assets/data/trades/index.json`)
+      .then(r => r.json())
+      .then(data => {
+        const years = [...data.available_years].sort((a, b) => b - a);
+        setAvailableYears(years);
+        if (years.length > 0) setSelectedYear(years[0]);
+      })
+      .catch(() => {});
+  }, []);
+
+  // ---------------------------------------------------------------------------
+  // Analyze handler
+  // ---------------------------------------------------------------------------
+
+  async function handleAnalyze() {
+    if (!selectedTeam) { alert('Please select a team.'); return; }
+    setIsLoading(true);
+    setError(null);
+    setTrades(null);
+
+    const preset = CHART_PRESETS[chartPreset].charts;
+
+    try {
+      const base = window.JEKYLL_BASEURL || '';
+      const resp = await fetch(`${base}/assets/data/trades/${selectedYear}.json`);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const yearData = await resp.json();
+
+      const teamTrades = (yearData.teams || {})[selectedTeam];
+      if (!teamTrades || teamTrades.length === 0) {
+        setError(`No draft trade data found for ${selectedTeam} in ${selectedYear}. The team may not have made pick-for-pick trades that year, or data may not be available for that period.`);
+        setIsLoading(false);
+        return;
+      }
+
+      // Load chart scales (cached)
+      const chartDataMap = await TradeUtils.loadAllCharts(preset);
+      chartDataRef.current = chartDataMap;
+
+      setActiveChartKeys(preset);
+      setTrades(teamTrades);
+    } catch (e) {
+      setError(`Could not load data for ${selectedYear}. ${e.message}`);
+    }
+    setIsLoading(false);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Export
+  // ---------------------------------------------------------------------------
+
+  async function handleExport() {
+    const el = document.getElementById('trade-analysis-export');
+    el.style.display = 'block';
+    await new Promise(r => setTimeout(r, 50));
+    const canvas = await html2canvas(el, {
+      width: 1200,
+      scale: 1,
+      backgroundColor: '#ffffff',
+      useCORS: true,
+      allowTaint: false,
+      logging: false,
+    });
+    el.style.display = 'none';
+    const link = document.createElement('a');
+    link.download = `trade-analysis-${selectedTeam}-${selectedYear}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  // ---------------------------------------------------------------------------
+  // Results table helpers
+  // ---------------------------------------------------------------------------
+
+  function getScale(chartKey) {
+    const data = chartDataRef.current[chartKey];
+    if (!data) return { vMax: 1, vMin: 0 };
+    return TradeUtils.getChartScale(data);
+  }
+
+  function PickListCell({ picks }) {
+    if (!picks || picks.length === 0) return <span style={{ color: '#a0aec0' }}>—</span>;
+    return (
+      <span style={{ fontSize: 12, lineHeight: 1.6 }}>
+        {picks.map((p, i) => (
+          <span key={i}>
+            {i > 0 && <br />}
+            {TradeUtils.pickLabel(p)}
+          </span>
+        ))}
+      </span>
+    );
+  }
+
+  function ChartCell({ chartKey, tradeData }) {
+    const cv = tradeData.chart_values[chartKey];
+    if (!cv) return <td style={{ padding: '8px 10px', border: '1px solid #e2e8f0', textAlign: 'center', color: '#a0aec0' }}>—</td>;
+
+    const { net, equiv_picks, excess, excess_picks } = cv;
+    const scale = getScale(chartKey);
+    const color = TradeUtils.tradeColor(net, scale.vMax, scale.vMin);
+
+    return (
+      <td style={{
+        padding: '8px 10px', border: '1px solid #e2e8f0', textAlign: 'center',
+        background: color.bg, color: color.text, verticalAlign: 'top',
+      }}>
+        <div style={{ fontWeight: 600, fontSize: 13 }}>
+          {net > 0 ? '+' : ''}{net.toFixed(1)}
+        </div>
+        {equiv_picks && equiv_picks.length > 0 && (
+          <div style={{ fontSize: 11, marginTop: 2, opacity: 0.85 }}>
+            ≈ {equiv_picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
+          </div>
+        )}
+        {excess > 0 && excess_picks && excess_picks.length > 0 && (
+          <div style={{ fontSize: 11, marginTop: 1, opacity: 0.75 }}>
+            excess: {excess_picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
+          </div>
+        )}
+      </td>
+    );
+  }
+
+  function TradedWithCell({ abbrev }) {
+    const team = TradeUtils.getTeamByAbbrev(abbrev);
+    if (!team) return <td style={{ padding: '8px 10px', border: '1px solid #e2e8f0', fontSize: 13 }}>{abbrev}</td>;
+    return (
+      <td style={{ padding: '8px 10px', border: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <img
+            src={TradeUtils.teamLogoUrl(team.espn)}
+            width={24} height={24}
+            onError={e => { e.target.style.display = 'none'; }}
+            alt={team.abbrev}
+          />
+          <span style={{ fontSize: 13 }}>{team.name}</span>
+        </div>
+      </td>
+    );
+  }
+
+  function ResultsTable() {
+    if (!trades) return null;
+
+    return (
+      <div style={{ overflowX: 'auto', marginTop: 16 }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 700 }}>
+          <thead>
+            <tr style={{ background: '#2d3748', color: 'white' }}>
+              <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #4a5568', fontWeight: 600, fontSize: 12 }}>Trade ID</th>
+              <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #4a5568', fontWeight: 600 }}>Traded With</th>
+              <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #4a5568', fontWeight: 600 }}>Received</th>
+              <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #4a5568', fontWeight: 600 }}>Gave</th>
+              {activeChartKeys.map(k => (
+                <th key={k} style={{ padding: '10px 10px', textAlign: 'center', border: '1px solid #4a5568', fontWeight: 600 }}>
+                  {CHART_CONFIGS[k].label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {trades.map((trade, i) => {
+              // team_traded_with may be comma-separated
+              const tradedWithList = (trade.team_traded_with || '').split(',').map(s => s.trim()).filter(Boolean);
+              return (
+                <tr key={trade.trade_id} style={{ background: i % 2 === 0 ? '#ffffff' : '#f7fafc' }}>
+                  <td style={{ padding: '8px 10px', border: '1px solid #e2e8f0', color: '#718096', fontSize: 11 }}>
+                    {trade.trade_id}
+                  </td>
+                  {/* Render first traded-with team in its own cell; extras below */}
+                  <td style={{ padding: '8px 10px', border: '1px solid #e2e8f0' }}>
+                    {tradedWithList.map(abbrev => {
+                      const team = TradeUtils.getTeamByAbbrev(abbrev);
+                      return (
+                        <div key={abbrev} style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                          {team && (
+                            <img
+                              src={TradeUtils.teamLogoUrl(team.espn)}
+                              width={20} height={20}
+                              onError={e => { e.target.style.display = 'none'; }}
+                              alt={abbrev}
+                            />
+                          )}
+                          <span style={{ fontSize: 13 }}>{team ? team.name : abbrev}</span>
+                        </div>
+                      );
+                    })}
+                  </td>
+                  <td style={{ padding: '8px 10px', border: '1px solid #e2e8f0' }}>
+                    <PickListCell picks={trade.picks_received} />
+                  </td>
+                  <td style={{ padding: '8px 10px', border: '1px solid #e2e8f0' }}>
+                    <PickListCell picks={trade.picks_gave} />
+                  </td>
+                  {activeChartKeys.map(k => (
+                    <ChartCell key={k} chartKey={k} tradeData={trade} />
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Hidden export view
+  // ---------------------------------------------------------------------------
+
+  function ExportView() {
+    if (!trades || !selectedTeam) return null;
+    const team = TradeUtils.getTeamByAbbrev(selectedTeam);
+
+    return (
+      <div id="trade-analysis-export" style={{
+        display: 'none', width: 1200, padding: 32,
+        fontFamily: 'system-ui, sans-serif', background: '#ffffff',
+      }}>
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20, borderBottom: '2px solid #2d3748', paddingBottom: 16 }}>
+          {team && (
+            <img
+              src={TradeUtils.teamLogoUrl(team.espn)}
+              width={64} height={64}
+              onError={e => { e.target.style.display = 'none'; }}
+              alt={selectedTeam}
+            />
+          )}
+          <div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: '#2d3748' }}>
+              {team ? team.name : selectedTeam} — {selectedYear} Draft Trade History
+            </div>
+            <div style={{ fontSize: 14, color: '#718096', marginTop: 4 }}>
+              {CHART_PRESETS[chartPreset].label}
+            </div>
+          </div>
+        </div>
+
+        {/* Table */}
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
+          <thead>
+            <tr style={{ background: '#2d3748', color: 'white' }}>
+              <th style={{ padding: '8px', border: '1px solid #4a5568', textAlign: 'left' }}>ID</th>
+              <th style={{ padding: '8px', border: '1px solid #4a5568', textAlign: 'left' }}>Traded With</th>
+              <th style={{ padding: '8px', border: '1px solid #4a5568', textAlign: 'left' }}>Received</th>
+              <th style={{ padding: '8px', border: '1px solid #4a5568', textAlign: 'left' }}>Gave</th>
+              {activeChartKeys.map(k => (
+                <th key={k} style={{ padding: '8px', border: '1px solid #4a5568', textAlign: 'center' }}>
+                  {CHART_CONFIGS[k].label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {trades.map((trade, i) => {
+              const tradedWithList = (trade.team_traded_with || '').split(',').map(s => s.trim()).filter(Boolean);
+              return (
+                <tr key={trade.trade_id} style={{ background: i % 2 === 0 ? '#ffffff' : '#f7fafc' }}>
+                  <td style={{ padding: '6px 8px', border: '1px solid #e2e8f0', color: '#718096', fontSize: 11 }}>{trade.trade_id}</td>
+                  <td style={{ padding: '6px 8px', border: '1px solid #e2e8f0' }}>
+                    {tradedWithList.map(abbrev => {
+                      const t = TradeUtils.getTeamByAbbrev(abbrev);
+                      return <div key={abbrev}>{t ? t.name : abbrev}</div>;
+                    })}
+                  </td>
+                  <td style={{ padding: '6px 8px', border: '1px solid #e2e8f0', fontSize: 11 }}>
+                    {(trade.picks_received || []).map(p => <div key={p}>{TradeUtils.pickLabel(p)}</div>)}
+                  </td>
+                  <td style={{ padding: '6px 8px', border: '1px solid #e2e8f0', fontSize: 11 }}>
+                    {(trade.picks_gave || []).map(p => <div key={p}>{TradeUtils.pickLabel(p)}</div>)}
+                  </td>
+                  {activeChartKeys.map(k => {
+                    const cv = trade.chart_values[k];
+                    if (!cv) return <td key={k} style={{ padding: '6px 8px', border: '1px solid #e2e8f0', textAlign: 'center' }}>—</td>;
+                    const scale = getScale(k);
+                    const color = TradeUtils.tradeColor(cv.net, scale.vMax, scale.vMin);
+                    return (
+                      <td key={k} style={{ padding: '6px 8px', border: '1px solid #e2e8f0', textAlign: 'center', background: color.bg, color: color.text, fontWeight: 600 }}>
+                        {cv.net > 0 ? '+' : ''}{cv.net.toFixed(1)}
+                        {cv.equiv_picks && cv.equiv_picks.length > 0 && (
+                          <div style={{ fontSize: 10, fontWeight: 400 }}>
+                            ≈ {cv.equiv_picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
+                          </div>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+
+        <div style={{ textAlign: 'right', marginTop: 16, color: '#a0aec0', fontSize: 12 }}>
+          cram9030.github.io
+        </div>
+      </div>
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Render
+  // ---------------------------------------------------------------------------
+
+  return (
+    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '16px 0' }}>
+      <h1 style={{ fontSize: '1.875rem', fontWeight: 700, marginBottom: 4 }}>NFL Team Trade History Analyzer</h1>
+      <p style={{ color: '#718096', marginBottom: 20 }}>Select a team and year to see their draft pick trades evaluated across multiple value charts.</p>
+
+      {/* Controls */}
+      <div style={{
+        display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'flex-start',
+        background: '#f7fafc', border: '1px solid #e2e8f0', borderRadius: 8,
+        padding: '16px', marginBottom: 24,
+      }}>
+        {/* Team selector */}
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 600, color: '#4a5568', marginBottom: 6 }}>Team</div>
+          <TeamSelector value={selectedTeam} onChange={setSelectedTeam} />
+        </div>
+
+        {/* Year selector */}
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 600, color: '#4a5568', marginBottom: 6 }}>Year</div>
+          <select
+            value={selectedYear}
+            onChange={e => setSelectedYear(Number(e.target.value))}
+            style={{ padding: '8px 12px', border: '1px solid #cbd5e0', borderRadius: 6, fontSize: 14, background: 'white' }}
+          >
+            {availableYears.map(y => <option key={y} value={y}>{y}</option>)}
+          </select>
+        </div>
+
+        {/* Chart preset */}
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 600, color: '#4a5568', marginBottom: 6 }}>Value Charts</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 16px' }}>
+            {Object.entries(CHART_PRESETS).map(([key, preset]) => (
+              <label key={key} style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontSize: 13 }}>
+                <input
+                  type="radio" name="analysisChartPreset" value={key}
+                  checked={chartPreset === key}
+                  onChange={() => setChartPreset(key)}
+                />
+                {preset.label}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Analyze button */}
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'flex-end' }}>
+          <button
+            onClick={handleAnalyze}
+            disabled={isLoading}
+            style={{
+              padding: '10px 28px', background: isLoading ? '#a0aec0' : '#007FBF',
+              color: 'white', border: 'none', borderRadius: 6, fontSize: 15,
+              fontWeight: 600, cursor: isLoading ? 'not-allowed' : 'pointer',
+            }}
+          >
+            {isLoading ? 'Loading…' : 'Analyze'}
+          </button>
+        </div>
+      </div>
+
+      {/* Loading spinner */}
+      {isLoading && <div className="trade-spinner"></div>}
+
+      {/* Error state */}
+      {error && !isLoading && (
+        <div style={{
+          padding: '16px', borderRadius: 8,
+          background: '#ebf8ff', border: '1px solid #4299e1', color: '#2b6cb0',
+          marginBottom: 16,
+        }}>
+          <strong>No data found.</strong> {error}
+          <div style={{ marginTop: 10 }}>
+            <button
+              onClick={handleAnalyze}
+              style={{
+                padding: '6px 16px', background: '#007FBF', color: 'white',
+                border: 'none', borderRadius: 4, cursor: 'pointer', fontSize: 13,
+              }}
+            >Retry</button>
+          </div>
+        </div>
+      )}
+
+      {/* Results */}
+      {trades && !isLoading && (
+        <>
+          <div style={{ fontSize: 14, color: '#4a5568', marginBottom: 8 }}>
+            Showing <strong>{trades.length}</strong> trade{trades.length !== 1 ? 's' : ''} for{' '}
+            <strong>{TradeUtils.getTeamByAbbrev(selectedTeam)?.name || selectedTeam}</strong> in{' '}
+            <strong>{selectedYear}</strong>
+          </div>
+          <ResultsTable />
+        </>
+      )}
+
+      {/* Export button */}
+      {trades && (
+        <div style={{ textAlign: 'center', marginTop: 20 }}>
+          <button
+            onClick={handleExport}
+            style={{
+              padding: '8px 28px', background: 'white', border: '1px solid #007FBF',
+              borderRadius: 6, color: '#007FBF', fontSize: 14, cursor: 'pointer',
+            }}
+          >
+            Export PNG
+          </button>
+        </div>
+      )}
+
+      <ExportView />
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('trade-analysis-root'));
+root.render(<TradeAnalysisApp />);
