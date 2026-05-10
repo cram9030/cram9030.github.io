@@ -10,6 +10,7 @@ function TradeProposalApp() {
   const [results, setResults] = React.useState(null);
   const [resultsMeta, setResultsMeta] = React.useState(null);
   const [isCalculating, setIsCalculating] = React.useState(false);
+  const [calcError, setCalcError] = React.useState(null);
 
   // ---------------------------------------------------------------------------
   // Pick list helpers
@@ -54,6 +55,7 @@ function TradeProposalApp() {
 
   async function handleCalculate() {
     setIsCalculating(true);
+    setCalcError(null);
     try {
       const preset = CHART_PRESETS[chartPreset].charts;
       const chartDataMap = await TradeUtils.loadAllCharts(preset);
@@ -98,7 +100,7 @@ function TradeProposalApp() {
       });
     } catch (err) {
       console.error('Calculation error:', err);
-      alert('Error loading chart data. Please check your connection and try again.');
+      setCalcError('Error loading chart data. Please check your connection and try again.');
     }
     setIsCalculating(false);
   }
@@ -453,6 +455,26 @@ function TradeProposalApp() {
           {isCalculating ? 'Calculating…' : 'Calculate'}
         </button>
       </div>
+
+      {isCalculating && <div className="trade-spinner"></div>}
+
+      {calcError && !isCalculating && (
+        <div style={{
+          padding: '14px 16px', borderRadius: 8, marginBottom: 16,
+          background: '#fff5f5', border: '1px solid #fc8181', color: '#9b2c2c',
+        }}>
+          <strong>Error:</strong> {calcError}
+          <div style={{ marginTop: 10 }}>
+            <button
+              onClick={handleCalculate}
+              style={{
+                padding: '6px 16px', background: '#007FBF', color: 'white',
+                border: 'none', borderRadius: 4, cursor: 'pointer', fontSize: 13,
+              }}
+            >Retry</button>
+          </div>
+        </div>
+      )}
 
       <ResultsSection />
 

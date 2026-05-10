@@ -48,7 +48,7 @@ function TeamSelector({ value, onChange }) {
           position: 'absolute', zIndex: 200, background: 'white',
           border: '1px solid #e2e8f0', borderRadius: 6, top: '110%', left: 0,
           display: 'grid', gridTemplateColumns: '1fr 1fr',
-          width: 440, maxHeight: 380, overflowY: 'auto',
+          width: 'min(440px, 90vw)', maxHeight: 380, overflowY: 'auto',
           boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
         }}>
           {TradeUtils.NFL_TEAMS.map(team => (
