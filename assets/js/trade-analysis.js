@@ -95,7 +95,6 @@ function TradeAnalysisApp() {
   const [activeChartKeys, setActiveChartKeys] = React.useState(CHART_PRESETS['default'].charts);
   const chartDataRef = React.useRef({});
 
-  // Fetch index on mount
   React.useEffect(() => {
     const base = window.JEKYLL_BASEURL || '';
     fetch(`${base}/assets/data/trades/index.json`)
@@ -109,7 +108,7 @@ function TradeAnalysisApp() {
   }, []);
 
   // ---------------------------------------------------------------------------
-  // Analyze handler
+  // Analyze
   // ---------------------------------------------------------------------------
 
   async function handleAnalyze() {
@@ -133,7 +132,6 @@ function TradeAnalysisApp() {
         return;
       }
 
-      // Load chart scales (cached)
       const chartDataMap = await TradeUtils.loadAllCharts(preset);
       chartDataRef.current = chartDataMap;
 
@@ -154,12 +152,8 @@ function TradeAnalysisApp() {
     el.style.display = 'block';
     await new Promise(r => setTimeout(r, 50));
     const canvas = await html2canvas(el, {
-      width: 1200,
-      scale: 1,
-      backgroundColor: '#ffffff',
-      useCORS: true,
-      allowTaint: false,
-      logging: false,
+      width: 1200, scale: 1, backgroundColor: '#ffffff',
+      useCORS: true, allowTaint: false, logging: false,
     });
     el.style.display = 'none';
     const link = document.createElement('a');
@@ -169,7 +163,7 @@ function TradeAnalysisApp() {
   }
 
   // ---------------------------------------------------------------------------
-  // Results table helpers
+  // Helpers
   // ---------------------------------------------------------------------------
 
   function getScale(chartKey) {
@@ -178,20 +172,22 @@ function TradeAnalysisApp() {
     return TradeUtils.getChartScale(data);
   }
 
+  // Render a list of pick objects (or plain ints for backward compat)
   function PickListCell({ picks }) {
     if (!picks || picks.length === 0) return <span style={{ color: '#a0aec0' }}>—</span>;
     return (
-      <span style={{ fontSize: 12, lineHeight: 1.6 }}>
+      <span style={{ fontSize: 12, lineHeight: 1.7 }}>
         {picks.map((p, i) => (
           <span key={i}>
             {i > 0 && <br />}
-            {TradeUtils.pickLabel(p)}
+            {TradeUtils.pickLabelFromData(p)}
           </span>
         ))}
       </span>
     );
   }
 
+  // Chart value cell — pick objects for actual picks, plain ints for equiv/excess
   function ChartCell({ chartKey, tradeData }) {
     const cv = tradeData.chart_values[chartKey];
     if (!cv) return <td style={{ padding: '8px 10px', border: '1px solid #e2e8f0', textAlign: 'center', color: '#a0aec0' }}>—</td>;
@@ -209,12 +205,12 @@ function TradeAnalysisApp() {
           {net > 0 ? '+' : ''}{net.toFixed(1)}
         </div>
         {equiv_picks && equiv_picks.length > 0 && (
-          <div style={{ fontSize: 11, marginTop: 2, opacity: 0.85 }}>
+          <div style={{ fontSize: 11, marginTop: 2, opacity: 0.9 }}>
             ≈ {equiv_picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
           </div>
         )}
         {excess > 0 && excess_picks && excess_picks.length > 0 && (
-          <div style={{ fontSize: 11, marginTop: 1, opacity: 0.75 }}>
+          <div style={{ fontSize: 11, marginTop: 1, opacity: 0.8 }}>
             excess: {excess_picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
           </div>
         )}
@@ -222,21 +218,37 @@ function TradeAnalysisApp() {
     );
   }
 
-  function TradedWithCell({ abbrev }) {
-    const team = TradeUtils.getTeamByAbbrev(abbrev);
-    if (!team) return <td style={{ padding: '8px 10px', border: '1px solid #e2e8f0', fontSize: 13 }}>{abbrev}</td>;
+  // Totals row — sum net values across all trades for each chart
+  function TotalsRow({ trades, activeChartKeys }) {
+    const totals = {};
+    for (const chartKey of activeChartKeys) {
+      const scale = getScale(chartKey);
+      const sum = trades.reduce((acc, trade) => {
+        const cv = trade.chart_values[chartKey];
+        return acc + (cv ? cv.net : 0);
+      }, 0);
+      totals[chartKey] = { sum, scale };
+    }
+
     return (
-      <td style={{ padding: '8px 10px', border: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <img
-            src={TradeUtils.teamLogoUrl(team.espn)}
-            width={24} height={24}
-            onError={e => { e.target.style.display = 'none'; }}
-            alt={team.abbrev}
-          />
-          <span style={{ fontSize: 13 }}>{team.name}</span>
-        </div>
-      </td>
+      <tr style={{ background: '#edf2f7', fontWeight: 700, borderTop: '2px solid #cbd5e0' }}>
+        <td style={{ padding: '10px 10px', border: '1px solid #e2e8f0', fontSize: 13, color: '#2d3748' }}
+            colSpan={3}>
+          Total ({trades.length} trade{trades.length !== 1 ? 's' : ''})
+        </td>
+        {activeChartKeys.map(k => {
+          const { sum, scale } = totals[k];
+          const color = TradeUtils.tradeColor(sum, scale.vMax, scale.vMin);
+          return (
+            <td key={k} style={{
+              padding: '10px 10px', border: '1px solid #e2e8f0', textAlign: 'center',
+              background: color.bg, color: color.text, fontWeight: 700, fontSize: 13,
+            }}>
+              {sum > 0 ? '+' : ''}{sum.toFixed(1)}
+            </td>
+          );
+        })}
+      </tr>
     );
   }
 
@@ -245,10 +257,9 @@ function TradeAnalysisApp() {
 
     return (
       <div style={{ overflowX: 'auto', marginTop: 16 }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 700 }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 600 }}>
           <thead>
             <tr style={{ background: '#2d3748', color: 'white' }}>
-              <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #4a5568', fontWeight: 600, fontSize: 12 }}>Trade ID</th>
               <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #4a5568', fontWeight: 600 }}>Traded With</th>
               <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #4a5568', fontWeight: 600 }}>Received</th>
               <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #4a5568', fontWeight: 600 }}>Gave</th>
@@ -261,14 +272,9 @@ function TradeAnalysisApp() {
           </thead>
           <tbody>
             {trades.map((trade, i) => {
-              // team_traded_with may be comma-separated
               const tradedWithList = (trade.team_traded_with || '').split(',').map(s => s.trim()).filter(Boolean);
               return (
-                <tr key={trade.trade_id} style={{ background: i % 2 === 0 ? '#ffffff' : '#f7fafc' }}>
-                  <td style={{ padding: '8px 10px', border: '1px solid #e2e8f0', color: '#718096', fontSize: 11 }}>
-                    {trade.trade_id}
-                  </td>
-                  {/* Render first traded-with team in its own cell; extras below */}
+                <tr key={i} style={{ background: i % 2 === 0 ? '#ffffff' : '#f7fafc' }}>
                   <td style={{ padding: '8px 10px', border: '1px solid #e2e8f0' }}>
                     {tradedWithList.map(abbrev => {
                       const team = TradeUtils.getTeamByAbbrev(abbrev);
@@ -299,6 +305,7 @@ function TradeAnalysisApp() {
                 </tr>
               );
             })}
+            <TotalsRow trades={trades} activeChartKeys={activeChartKeys} />
           </tbody>
         </table>
       </div>
@@ -318,7 +325,6 @@ function TradeAnalysisApp() {
         display: 'none', width: 1200, padding: 32,
         fontFamily: 'system-ui, sans-serif', background: '#ffffff',
       }}>
-        {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20, borderBottom: '2px solid #2d3748', paddingBottom: 16 }}>
           {team && (
             <img
@@ -338,11 +344,9 @@ function TradeAnalysisApp() {
           </div>
         </div>
 
-        {/* Table */}
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
           <thead>
             <tr style={{ background: '#2d3748', color: 'white' }}>
-              <th style={{ padding: '8px', border: '1px solid #4a5568', textAlign: 'left' }}>ID</th>
               <th style={{ padding: '8px', border: '1px solid #4a5568', textAlign: 'left' }}>Traded With</th>
               <th style={{ padding: '8px', border: '1px solid #4a5568', textAlign: 'left' }}>Received</th>
               <th style={{ padding: '8px', border: '1px solid #4a5568', textAlign: 'left' }}>Gave</th>
@@ -357,8 +361,7 @@ function TradeAnalysisApp() {
             {trades.map((trade, i) => {
               const tradedWithList = (trade.team_traded_with || '').split(',').map(s => s.trim()).filter(Boolean);
               return (
-                <tr key={trade.trade_id} style={{ background: i % 2 === 0 ? '#ffffff' : '#f7fafc' }}>
-                  <td style={{ padding: '6px 8px', border: '1px solid #e2e8f0', color: '#718096', fontSize: 11 }}>{trade.trade_id}</td>
+                <tr key={i} style={{ background: i % 2 === 0 ? '#ffffff' : '#f7fafc' }}>
                   <td style={{ padding: '6px 8px', border: '1px solid #e2e8f0' }}>
                     {tradedWithList.map(abbrev => {
                       const t = TradeUtils.getTeamByAbbrev(abbrev);
@@ -366,10 +369,14 @@ function TradeAnalysisApp() {
                     })}
                   </td>
                   <td style={{ padding: '6px 8px', border: '1px solid #e2e8f0', fontSize: 11 }}>
-                    {(trade.picks_received || []).map(p => <div key={p}>{TradeUtils.pickLabel(p)}</div>)}
+                    {(trade.picks_received || []).map((p, j) => (
+                      <div key={j}>{TradeUtils.pickLabelFromData(p)}</div>
+                    ))}
                   </td>
                   <td style={{ padding: '6px 8px', border: '1px solid #e2e8f0', fontSize: 11 }}>
-                    {(trade.picks_gave || []).map(p => <div key={p}>{TradeUtils.pickLabel(p)}</div>)}
+                    {(trade.picks_gave || []).map((p, j) => (
+                      <div key={j}>{TradeUtils.pickLabelFromData(p)}</div>
+                    ))}
                   </td>
                   {activeChartKeys.map(k => {
                     const cv = trade.chart_values[k];
@@ -390,6 +397,22 @@ function TradeAnalysisApp() {
                 </tr>
               );
             })}
+            {/* Totals row in export */}
+            <tr style={{ background: '#edf2f7', fontWeight: 700, borderTop: '2px solid #cbd5e0' }}>
+              <td style={{ padding: '8px', border: '1px solid #e2e8f0', fontSize: 12 }} colSpan={3}>
+                Total ({trades.length} trades)
+              </td>
+              {activeChartKeys.map(k => {
+                const sum = trades.reduce((acc, t) => acc + ((t.chart_values[k] || {}).net || 0), 0);
+                const scale = getScale(k);
+                const color = TradeUtils.tradeColor(sum, scale.vMax, scale.vMin);
+                return (
+                  <td key={k} style={{ padding: '8px', border: '1px solid #e2e8f0', textAlign: 'center', background: color.bg, color: color.text, fontWeight: 700, fontSize: 12 }}>
+                    {sum > 0 ? '+' : ''}{sum.toFixed(1)}
+                  </td>
+                );
+              })}
+            </tr>
           </tbody>
         </table>
 
@@ -415,13 +438,11 @@ function TradeAnalysisApp() {
         background: '#f7fafc', border: '1px solid #e2e8f0', borderRadius: 8,
         padding: '16px', marginBottom: 24,
       }}>
-        {/* Team selector */}
         <div>
           <div style={{ fontSize: 12, fontWeight: 600, color: '#4a5568', marginBottom: 6 }}>Team</div>
           <TeamSelector value={selectedTeam} onChange={setSelectedTeam} />
         </div>
 
-        {/* Year selector */}
         <div>
           <div style={{ fontSize: 12, fontWeight: 600, color: '#4a5568', marginBottom: 6 }}>Year</div>
           <select
@@ -433,7 +454,6 @@ function TradeAnalysisApp() {
           </select>
         </div>
 
-        {/* Chart preset */}
         <div>
           <div style={{ fontSize: 12, fontWeight: 600, color: '#4a5568', marginBottom: 6 }}>Value Charts</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 16px' }}>
@@ -450,7 +470,6 @@ function TradeAnalysisApp() {
           </div>
         </div>
 
-        {/* Analyze button */}
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'flex-end' }}>
           <button
             onClick={handleAnalyze}
@@ -466,10 +485,8 @@ function TradeAnalysisApp() {
         </div>
       </div>
 
-      {/* Loading spinner */}
       {isLoading && <div className="trade-spinner"></div>}
 
-      {/* Error state */}
       {error && !isLoading && (
         <div style={{
           padding: '16px', borderRadius: 8,
@@ -489,7 +506,6 @@ function TradeAnalysisApp() {
         </div>
       )}
 
-      {/* Results */}
       {trades && !isLoading && (
         <>
           <div style={{ fontSize: 14, color: '#4a5568', marginBottom: 8 }}>
@@ -501,7 +517,6 @@ function TradeAnalysisApp() {
         </>
       )}
 
-      {/* Export button */}
       {trades && (
         <div style={{ textAlign: 'center', marginTop: 20 }}>
           <button

@@ -263,6 +263,19 @@
   // Color shading
   // ---------------------------------------------------------------------------
 
+  // pickLabelFromData: accepts either a plain integer (overall pick) or a
+  // {overall, round, pick} object as stored in baked trade JSON.
+  function pickLabelFromData(p) {
+    if (typeof p === 'number') return pickLabel(p);
+    return `Rd ${p.round}, Pk ${p.pick} (Overall: ${p.overall})`;
+  }
+
+  // Compact "R.P (overall)" format for equivalent picks display.
+  function pickLabelWithOverallFromData(p) {
+    if (typeof p === 'number') return pickLabelWithOverall(p);
+    return `${p.round}.${p.pick} (${p.overall})`;
+  }
+
   function tradeColor(net, vMax, vMin) {
     if (net === 0) return { bg: '#ffffff', text: '#1a1a1a' };
     const magnitude = Math.abs(net);
@@ -271,7 +284,8 @@
     const lightness = Math.round(95 - t * 65);
     const hue = net > 0 ? 122 : 4;
     const sat = net > 0 ? 60 : 70;
-    const textColor = lightness < 55 ? '#ffffff' : '#1a1a1a';
+    // Only use white text for very dark backgrounds (lightness < 40%)
+    const textColor = lightness < 40 ? '#ffffff' : '#1a1a1a';
     return { bg: `hsl(${hue}, ${sat}%, ${lightness}%)`, text: textColor };
   }
 
@@ -281,7 +295,8 @@
 
   window.TradeUtils = {
     NFL_TEAMS, CHART_CONFIGS, CHART_PRESETS,
-    overallPickFromRound, roundFromOverall, pickLabel, pickLabelShort, pickLabelWithOverall, formatPickList,
+    overallPickFromRound, roundFromOverall, pickLabel, pickLabelShort, pickLabelWithOverall,
+    pickLabelFromData, pickLabelWithOverallFromData, formatPickList,
     teamLogoUrl, getTeamByAbbrev,
     loadChartData, loadAllCharts, getChartScale,
     findPickCombination, findPickComboWithExcess,

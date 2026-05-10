@@ -2,31 +2,21 @@
 
 import argparse
 import json
+import math
 import sys
-import types
 from datetime import datetime, timezone
 from pathlib import Path
 
+import nflreadpy
 import polars as pl
 
-# ---------------------------------------------------------------------------
-# Monkey-patch src.data_ingest (not present in this repo) before importing
-# trade_value, which uses `from src.data_ingest import load_csv`.
-# ---------------------------------------------------------------------------
-_src = types.ModuleType('src')
-_di  = types.ModuleType('src.data_ingest')
-_di.load_csv = lambda path: pl.read_csv(path, infer_schema_length=10000)
-sys.modules['src'] = _src
-sys.modules['src.data_ingest'] = _di
-
-sys.path.insert(0, str(Path(__file__).parent.parent))  # repo root → trade_value.py
+sys.path.insert(0, str(Path(__file__).parent))  # scripts/ → trade_value.py
 from trade_value import analyze_draft_trades, find_pick_combination, load_trade_chart  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
 
-# Maps column prefixes in analyze_draft_trades output to JSON chart keys
 PREFIX_TO_CHART = {
     'fitz_spiel': 'fitzgerald_spielberger',
     'jj':         'jimmy_johnson',
@@ -35,16 +25,23 @@ PREFIX_TO_CHART = {
     'eaar':       'eavar',
 }
 
-# Historical abbreviation normalization
 ABBREV_NORMALIZE = {
-    'OAK': 'LV',   # Raiders moved to Las Vegas 2020
-    'STL': 'LA',   # Rams moved to Los Angeles 2016
-    'SD':  'LAC',  # Chargers moved to Los Angeles 2017
-    'JAC': 'JAX',  # Alternate spelling
-    'ARZ': 'ARI',  # Alternate spelling
-    'BLT': 'BAL',  # Alternate spelling
-    'CLV': 'CLE',  # Alternate spelling
-    'HST': 'HOU',  # Alternate spelling
+    'OAK': 'LV',
+    'STL': 'LA',
+    'SD':  'LAC',
+    'JAC': 'JAX',
+    'ARZ': 'ARI',
+    'BLT': 'BAL',
+    'CLV': 'CLE',
+    'HST': 'HOU',
+    'NWE': 'NE',   # nflreadpy uses NWE for New England
+    'GNB': 'GB',   # nflreadpy uses GNB for Green Bay
+    'KAN': 'KC',   # nflreadpy uses KAN for Kansas City
+    'SFO': 'SF',   # nflreadpy uses SFO for San Francisco
+    'NOR': 'NO',   # nflreadpy uses NOR for New Orleans
+    'TAM': 'TB',   # nflreadpy uses TAM for Tampa Bay
+    'LVR': 'LV',   # alternate for Las Vegas Raiders
+    'RAM': 'LA',   # alternate for Rams
 }
 
 NFL_TEAMS = [
@@ -57,6 +54,52 @@ NFL_TEAMS = [
 
 def normalize_abbrev(abbrev: str) -> str:
     return ABBREV_NORMALIZE.get(abbrev, abbrev)
+
+
+# ---------------------------------------------------------------------------
+# Draft pick map — exact round/pick-in-round from nflreadpy
+# ---------------------------------------------------------------------------
+
+_draft_cache: dict[int, dict[int, dict]] = {}
+
+
+def build_pick_map(year: int) -> dict[int, dict]:
+    """Return {overall_pick: {overall, round, pick}} for every pick in the year's draft."""
+    if year in _draft_cache:
+        return _draft_cache[year]
+
+    all_draft = nflreadpy.load_draft_picks()
+    year_picks = all_draft.filter(pl.col('season') == year).sort('pick')
+
+    mapping: dict[int, dict] = {}
+    for round_num in range(1, 8):
+        round_picks = sorted(
+            year_picks.filter(pl.col('round') == round_num)['pick'].to_list()
+        )
+        for pick_in_round, overall in enumerate(round_picks, start=1):
+            mapping[overall] = {'overall': overall, 'round': round_num, 'pick': pick_in_round}
+
+    _draft_cache[year] = mapping
+    return mapping
+
+
+def overall_to_pick_obj(overall: int, pick_map: dict[int, dict]) -> dict:
+    """Convert an overall pick number to a {overall, round, pick} object.
+
+    Uses the actual draft order when available; falls back to 32-per-round
+    approximation capped at round 7 for picks not in the given year's draft
+    (e.g. future picks traded before the draft).
+    """
+    if overall in pick_map:
+        return pick_map[overall]
+    # Fallback: approximate with round cap at 7
+    if overall <= 192:
+        round_num = math.ceil(overall / 32)
+        pick_in_round = overall - (round_num - 1) * 32
+    else:
+        round_num = 7
+        pick_in_round = overall - 192
+    return {'overall': overall, 'round': round_num, 'pick': pick_in_round}
 
 
 # ---------------------------------------------------------------------------
@@ -96,8 +139,8 @@ def parse_pick_list(s: str) -> list[int]:
     return [int(x.strip()) for x in s.split(',') if x.strip()]
 
 
-def bake_year(year: int, output_dir: Path, charts_dir: Path) -> dict:
-    """Return the JSON dict for one year; write to output_dir/{year}.json."""
+def bake_year(year: int, output_dir: Path, charts_dir: Path) -> None:
+    pick_map = build_pick_map(year)
     teams_data: dict[str, list] = {}
     total_trades = 0
 
@@ -120,21 +163,23 @@ def bake_year(year: int, output_dir: Path, charts_dir: Path) -> dict:
                 try:
                     chart_values[chart_key] = compute_excess(net, chart_key, charts_dir)
                 except Exception as e:
-                    print(f"      WARNING: excess compute failed {team}/{year}/{chart_key} — {e}")
+                    print(f"      WARNING: {team}/{year}/{chart_key} — {e}")
                     chart_values[chart_key] = {'net': round(net, 4), 'equiv_picks': [], 'excess': 0.0, 'excess_picks': []}
 
-            # Normalize the "traded with" team abbreviations
             raw_with = row.get('team_traded_with', '') or ''
             traded_with = ','.join(
                 normalize_abbrev(t.strip())
                 for t in raw_with.split(',') if t.strip()
             )
 
+            # Convert overall pick numbers to {overall, round, pick} objects
+            rcv_overall = parse_pick_list(row.get('picks_received', '') or '')
+            gave_overall = parse_pick_list(row.get('picks_gave', '') or '')
+
             trade_list.append({
-                'trade_id': int(row['trade_id']),
                 'team_traded_with': traded_with,
-                'picks_received': parse_pick_list(row.get('picks_received', '') or ''),
-                'picks_gave':     parse_pick_list(row.get('picks_gave', '') or ''),
+                'picks_received': [overall_to_pick_obj(p, pick_map) for p in rcv_overall],
+                'picks_gave':     [overall_to_pick_obj(p, pick_map) for p in gave_overall],
                 'chart_values': chart_values,
             })
 
@@ -152,9 +197,7 @@ def bake_year(year: int, output_dir: Path, charts_dir: Path) -> dict:
     with open(out_path, 'w') as f:
         json.dump(year_obj, f)
 
-    teams_present = len(teams_data)
-    print(f"  Baking {year}... {teams_present} teams, {total_trades} trades. ✓")
-    return year_obj
+    print(f"  Baking {year}... {len(teams_data)} teams, {total_trades} trades. ✓")
 
 
 # ---------------------------------------------------------------------------
@@ -163,22 +206,17 @@ def bake_year(year: int, output_dir: Path, charts_dir: Path) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(description='Bake NFL trade data to JSON')
-    parser.add_argument('--years', nargs='+', default=['all'],
-                        help='Years to bake (integers) or "all"')
-    parser.add_argument('--output-dir', default='assets/data/trades/',
-                        help='Output directory for JSON files')
-    parser.add_argument('--charts-dir', default='assets/data/',
-                        help='Directory containing trade chart CSVs')
+    parser.add_argument('--years', nargs='+', default=['all'])
+    parser.add_argument('--output-dir', default='assets/data/trades/')
+    parser.add_argument('--charts-dir', default='assets/data/')
     args = parser.parse_args()
 
     output_dir = Path(args.output_dir)
     charts_dir = Path(args.charts_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Determine year range
-    if args.years == ['all'] or args.years == ['all']:
+    if args.years == ['all']:
         current_year = datetime.now().year
-        # nflreadpy data typically starts from 2010
         years = list(range(2010, current_year + 1))
     else:
         years = [int(y) for y in args.years]
@@ -193,7 +231,6 @@ def main():
         except Exception as e:
             print(f"  ERROR baking {year}: {e}")
 
-    # Write index.json
     index = {
         'available_years': sorted(baked_years),
         'generated_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
