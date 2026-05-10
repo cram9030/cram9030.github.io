@@ -218,16 +218,20 @@ function TradeAnalysisApp() {
     );
   }
 
-  // Totals row — sum net values across all trades for each chart
+  // Totals row — sum net values + equivalent picks across all trades
   function TotalsRow({ trades, activeChartKeys }) {
     const totals = {};
     for (const chartKey of activeChartKeys) {
       const scale = getScale(chartKey);
+      const chartData = chartDataRef.current[chartKey];
       const sum = trades.reduce((acc, trade) => {
         const cv = trade.chart_values[chartKey];
         return acc + (cv ? cv.net : 0);
       }, 0);
-      totals[chartKey] = { sum, scale };
+      const combo = chartData && Math.abs(sum) > 0
+        ? TradeUtils.findPickComboWithExcess(Math.abs(sum), chartData)
+        : null;
+      totals[chartKey] = { sum, scale, combo };
     }
 
     return (
@@ -237,14 +241,26 @@ function TradeAnalysisApp() {
           Total ({trades.length} trade{trades.length !== 1 ? 's' : ''})
         </td>
         {activeChartKeys.map(k => {
-          const { sum, scale } = totals[k];
+          const { sum, scale, combo } = totals[k];
           const color = TradeUtils.tradeColor(sum, scale.vMax, scale.vMin);
           return (
             <td key={k} style={{
               padding: '10px 10px', border: '1px solid #e2e8f0', textAlign: 'center',
-              background: color.bg, color: color.text, fontWeight: 700, fontSize: 13,
+              background: color.bg, color: color.text, verticalAlign: 'top',
             }}>
-              {sum > 0 ? '+' : ''}{sum.toFixed(1)}
+              <div style={{ fontWeight: 700, fontSize: 13 }}>
+                {sum > 0 ? '+' : ''}{sum.toFixed(1)}
+              </div>
+              {combo && combo.picks.length > 0 && (
+                <div style={{ fontSize: 11, fontWeight: 400, marginTop: 2, opacity: 0.9 }}>
+                  ≈ {combo.picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
+                </div>
+              )}
+              {combo && combo.excessResult && (
+                <div style={{ fontSize: 11, fontWeight: 400, marginTop: 1, opacity: 0.8 }}>
+                  excess: {combo.excessResult.picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
+                </div>
+              )}
             </td>
           );
         })}
@@ -259,12 +275,12 @@ function TradeAnalysisApp() {
       <div style={{ overflowX: 'auto', marginTop: 16 }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 600 }}>
           <thead>
-            <tr style={{ background: '#2d3748', color: 'white' }}>
-              <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #4a5568', fontWeight: 600 }}>Traded With</th>
-              <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #4a5568', fontWeight: 600 }}>Received</th>
-              <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #4a5568', fontWeight: 600 }}>Gave</th>
+            <tr style={{ background: '#e2e8f0', color: '#1a1a1a' }}>
+              <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #cbd5e0', fontWeight: 700 }}>Traded With</th>
+              <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #cbd5e0', fontWeight: 700 }}>Received</th>
+              <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #cbd5e0', fontWeight: 700 }}>Gave</th>
               {activeChartKeys.map(k => (
-                <th key={k} style={{ padding: '10px 10px', textAlign: 'center', border: '1px solid #4a5568', fontWeight: 600 }}>
+                <th key={k} style={{ padding: '10px 10px', textAlign: 'center', border: '1px solid #cbd5e0', fontWeight: 700 }}>
                   {CHART_CONFIGS[k].label}
                 </th>
               ))}
@@ -346,12 +362,12 @@ function TradeAnalysisApp() {
 
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
           <thead>
-            <tr style={{ background: '#2d3748', color: 'white' }}>
-              <th style={{ padding: '8px', border: '1px solid #4a5568', textAlign: 'left' }}>Traded With</th>
-              <th style={{ padding: '8px', border: '1px solid #4a5568', textAlign: 'left' }}>Received</th>
-              <th style={{ padding: '8px', border: '1px solid #4a5568', textAlign: 'left' }}>Gave</th>
+            <tr style={{ background: '#e2e8f0', color: '#1a1a1a' }}>
+              <th style={{ padding: '8px', border: '1px solid #cbd5e0', textAlign: 'left', fontWeight: 700 }}>Traded With</th>
+              <th style={{ padding: '8px', border: '1px solid #cbd5e0', textAlign: 'left', fontWeight: 700 }}>Received</th>
+              <th style={{ padding: '8px', border: '1px solid #cbd5e0', textAlign: 'left', fontWeight: 700 }}>Gave</th>
               {activeChartKeys.map(k => (
-                <th key={k} style={{ padding: '8px', border: '1px solid #4a5568', textAlign: 'center' }}>
+                <th key={k} style={{ padding: '8px', border: '1px solid #cbd5e0', textAlign: 'center', fontWeight: 700 }}>
                   {CHART_CONFIGS[k].label}
                 </th>
               ))}
@@ -406,9 +422,23 @@ function TradeAnalysisApp() {
                 const sum = trades.reduce((acc, t) => acc + ((t.chart_values[k] || {}).net || 0), 0);
                 const scale = getScale(k);
                 const color = TradeUtils.tradeColor(sum, scale.vMax, scale.vMin);
+                const chartData = chartDataRef.current[k];
+                const combo = chartData && Math.abs(sum) > 0
+                  ? TradeUtils.findPickComboWithExcess(Math.abs(sum), chartData)
+                  : null;
                 return (
-                  <td key={k} style={{ padding: '8px', border: '1px solid #e2e8f0', textAlign: 'center', background: color.bg, color: color.text, fontWeight: 700, fontSize: 12 }}>
-                    {sum > 0 ? '+' : ''}{sum.toFixed(1)}
+                  <td key={k} style={{ padding: '8px', border: '1px solid #e2e8f0', textAlign: 'center', background: color.bg, color: color.text, verticalAlign: 'top' }}>
+                    <div style={{ fontWeight: 700, fontSize: 12 }}>{sum > 0 ? '+' : ''}{sum.toFixed(1)}</div>
+                    {combo && combo.picks.length > 0 && (
+                      <div style={{ fontSize: 10, fontWeight: 400, marginTop: 1 }}>
+                        ≈ {combo.picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
+                      </div>
+                    )}
+                    {combo && combo.excessResult && (
+                      <div style={{ fontSize: 10, fontWeight: 400, marginTop: 1 }}>
+                        excess: {combo.excessResult.picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
+                      </div>
+                    )}
                   </td>
                 );
               })}
