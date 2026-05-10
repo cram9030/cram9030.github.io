@@ -280,7 +280,7 @@ function TradeAnalysisApp() {
               <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #cbd5e0', fontWeight: 700 }}>Received</th>
               <th style={{ padding: '10px 10px', textAlign: 'left', border: '1px solid #cbd5e0', fontWeight: 700 }}>Gave</th>
               {activeChartKeys.map(k => (
-                <th key={k} style={{ padding: '10px 10px', textAlign: 'center', border: '1px solid #cbd5e0', fontWeight: 700 }}>
+                <th key={k} style={{ padding: '10px 10px', textAlign: 'center', border: '1px solid #cbd5e0', fontWeight: 700, whiteSpace: 'pre-line' }}>
                   {CHART_CONFIGS[k].label}
                 </th>
               ))}
@@ -367,7 +367,7 @@ function TradeAnalysisApp() {
               <th style={{ padding: '8px', border: '1px solid #cbd5e0', textAlign: 'left', fontWeight: 700 }}>Received</th>
               <th style={{ padding: '8px', border: '1px solid #cbd5e0', textAlign: 'left', fontWeight: 700 }}>Gave</th>
               {activeChartKeys.map(k => (
-                <th key={k} style={{ padding: '8px', border: '1px solid #cbd5e0', textAlign: 'center', fontWeight: 700 }}>
+                <th key={k} style={{ padding: '8px', border: '1px solid #cbd5e0', textAlign: 'center', fontWeight: 700, whiteSpace: 'pre-line' }}>
                   {CHART_CONFIGS[k].label}
                 </th>
               ))}

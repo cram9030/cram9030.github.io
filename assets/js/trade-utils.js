@@ -51,7 +51,7 @@
   const CHART_CONFIGS = {
     rich_hill:              { label: 'Rich Hill',              file: 'rich_hill' },
     fitzgerald_spielberger: { label: 'Fitzgerald-Spielberger', file: 'fitzgerald_spielberger' },
-    eavar:                  { label: 'Expected AV Above Replacement (EAVAR)', file: 'eavar' },
+    eavar:                  { label: 'Expected AV\nAbove Replacement\n(EAVAR)', file: 'eavar' },
     jimmy_johnson:          { label: 'Jimmy Johnson',          file: 'jimmy_johnson' },
     pff_war:                { label: 'PFF WAR',                file: 'pff_war' },
   };
