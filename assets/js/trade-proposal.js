@@ -235,7 +235,7 @@ function TradeProposalApp() {
                 <th style={{ padding: '8px 12px', textAlign: 'left', borderBottom: '1px solid #e2e8f0', width: 160 }}></th>
                 <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Side A Receives</th>
                 <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Side B Receives</th>
-                <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Net Value</th>
+                <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Net Value (Side A)</th>
               </tr>
             </thead>
             <tbody>
