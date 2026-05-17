@@ -180,14 +180,30 @@ def bake_year(year: int, output_dir: Path, charts_dir: Path) -> None:
                 for t in raw_with.split(',') if t.strip()
             )
 
-            # Convert overall pick numbers to {overall, round, pick} objects
+            # Convert overall pick numbers to {overall, round, pick} objects,
+            # adding pick_year for picks that belong to a different draft year.
             rcv_overall = parse_pick_list(row.get('picks_received', '') or '')
             gave_overall = parse_pick_list(row.get('picks_gave', '') or '')
+            rcv_seasons = parse_pick_list(row.get('picks_received_seasons', '') or '')
+            gave_seasons = parse_pick_list(row.get('picks_gave_seasons', '') or '')
+
+            def to_pick_obj(overall: int, season: int) -> dict:
+                if season != year:
+                    season_map = build_pick_map(season)
+                    obj = overall_to_pick_obj(overall, season_map)
+                    return {**obj, 'pick_year': season}
+                return overall_to_pick_obj(overall, pick_map)
 
             trade_list.append({
                 'team_traded_with': traded_with,
-                'picks_received': [overall_to_pick_obj(p, pick_map) for p in rcv_overall],
-                'picks_gave':     [overall_to_pick_obj(p, pick_map) for p in gave_overall],
+                'picks_received': [
+                    to_pick_obj(p, s)
+                    for p, s in zip(rcv_overall, rcv_seasons or ([year] * len(rcv_overall)))
+                ],
+                'picks_gave': [
+                    to_pick_obj(p, s)
+                    for p, s in zip(gave_overall, gave_seasons or ([year] * len(gave_overall)))
+                ],
                 'chart_values': chart_values,
             })
 

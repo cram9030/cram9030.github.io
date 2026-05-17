@@ -264,10 +264,11 @@
   // ---------------------------------------------------------------------------
 
   // pickLabelFromData: accepts either a plain integer (overall pick) or a
-  // {overall, round, pick} object as stored in baked trade JSON.
+  // {overall, round, pick[, pick_year]} object as stored in baked trade JSON.
   function pickLabelFromData(p) {
     if (typeof p === 'number') return pickLabel(p);
-    return `Rd ${p.round}, Pk ${p.pick} (Overall: ${p.overall})`;
+    const base = `Rd ${p.round}, Pk ${p.pick} (Overall: ${p.overall})`;
+    return p.pick_year ? `${base} [${p.pick_year}]` : base;
   }
 
   // Compact "R.P (overall)" format for equivalent picks display.
