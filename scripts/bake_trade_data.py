@@ -140,17 +140,12 @@ def parse_pick_list(s: str) -> list[int]:
     return [int(x.strip()) for x in s.split(',') if x.strip()]
 
 
-def bake_year(year: int, output_dir: Path, charts_dir: Path) -> None:
+def bake_year(year: int, output_dir: Path, charts_dir: Path, trades_df=None) -> None:
     pick_map = build_pick_map(year)
     teams_data: dict[str, list] = {}
     total_trades = 0
 
-    all_trades = nflreadpy.load_trades()
-    patch_path = charts_dir / f"trade_patch_{year}.json"
-    if patch_path.exists():
-        with open(patch_path) as f:
-            patch = json.load(f)
-        all_trades = apply_trade_patch(all_trades, patch)
+    all_trades = trades_df if trades_df is not None else nflreadpy.load_trades()
 
     for raw_abbrev in NFL_TEAMS:
         team = normalize_abbrev(raw_abbrev)
@@ -246,11 +241,19 @@ def main():
         years = [int(y) for y in args.years]
 
     print(f"Baking {len(years)} year(s): {years[0]}–{years[-1]}")
+
+    all_trades = nflreadpy.load_trades()
+    for patch_path in sorted(charts_dir.glob("trade_patch_*.json")):
+        with open(patch_path) as f:
+            patch = json.load(f)
+        all_trades = apply_trade_patch(all_trades, patch)
+        print(f"  Applied patch: {patch_path.name}")
+
     baked_years = []
 
     for year in years:
         try:
-            bake_year(year, output_dir, charts_dir)
+            bake_year(year, output_dir, charts_dir, trades_df=all_trades)
             baked_years.append(year)
         except Exception as e:
             print(f"  ERROR baking {year}: {e}")
