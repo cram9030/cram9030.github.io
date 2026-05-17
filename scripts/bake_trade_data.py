@@ -12,6 +12,7 @@ import polars as pl
 
 sys.path.insert(0, str(Path(__file__).parent))  # scripts/ → trade_value.py
 from trade_value import analyze_draft_trades, find_pick_combination, load_trade_chart  # noqa: E402
+from draft_integration import apply_trade_patch  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -144,10 +145,17 @@ def bake_year(year: int, output_dir: Path, charts_dir: Path) -> None:
     teams_data: dict[str, list] = {}
     total_trades = 0
 
+    all_trades = nflreadpy.load_trades()
+    patch_path = charts_dir / f"trade_patch_{year}.json"
+    if patch_path.exists():
+        with open(patch_path) as f:
+            patch = json.load(f)
+        all_trades = apply_trade_patch(all_trades, patch)
+
     for raw_abbrev in NFL_TEAMS:
         team = normalize_abbrev(raw_abbrev)
         try:
-            df = analyze_draft_trades(team, year, data_dir=charts_dir)
+            df = analyze_draft_trades(team, year, data_dir=charts_dir, trades_df=all_trades)
         except Exception as e:
             print(f"    WARNING: {team} {year} failed — {e}")
             continue

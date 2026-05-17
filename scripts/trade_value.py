@@ -271,9 +271,10 @@ def analyze_draft_trades(
     team: str,
     year: int,
     data_dir: Path | str = _PROCESSED_DATA_DIR,
+    trades_df: pl.DataFrame | None = None,
 ) -> pl.DataFrame:
     """Return a DataFrame of draft trades involving team in the given year."""
-    all_trades = nflreadpy.load_trades()
+    all_trades = trades_df if trades_df is not None else nflreadpy.load_trades()
     team_trades = all_trades.filter(
         (pl.col("season") == year)
         & ((pl.col("gave") == team) | (pl.col("received") == team))
@@ -296,6 +297,13 @@ def analyze_draft_trades(
 
     for tid in team_trades["trade_id"].unique().to_list():
         trade_rows = team_trades.filter(pl.col("trade_id") == tid)
+
+        if trade_rows.filter(
+            pl.col("pick_season").is_null()
+            & pl.col("pick_round").is_null()
+            & pl.col("pick_number").is_null()
+        ).height > 0:
+            continue
 
         player_rows = trade_rows.filter(pl.col("pfr_id").is_not_null())
         if any(
