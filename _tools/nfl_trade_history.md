@@ -3,7 +3,7 @@ layout: default
 title: "NFL Team Trade History Analyzer"
 show_title: false
 description: "Analyze an NFL team's draft pick trade history across multiple value charts"
-thumbnail: "/assets/images/NFL_Draft_logo.svg"
+thumbnail: "/assets/images/NFL_Draft_Board.svg"
 ---
 
 <div id="trade-analysis-root">
