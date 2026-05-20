@@ -176,7 +176,7 @@ function DraftTable({ players, draftYear, selectedModel, showAllModels, teamData
 
   const thStyle = {
     padding: '10px 8px', textAlign: 'center', border: '1px solid #cbd5e0',
-    background: '#e2e8f0', fontWeight: 700, fontSize: 12, whiteSpace: 'nowrap',
+    fontWeight: 700, fontSize: 12, whiteSpace: 'nowrap',
   };
   const tdStyle = {
     padding: '8px 8px', textAlign: 'center', border: '1px solid #e2e8f0',
@@ -187,7 +187,7 @@ function DraftTable({ players, draftYear, selectedModel, showAllModels, teamData
     <div style={{ overflowX: 'auto', marginTop: 16 }}>
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 820 }}>
         <thead>
-          <tr>
+          <tr style={{ background: '#e2e8f0', color: '#1a1a1a' }}>
             <th style={{ ...thStyle, width: 40 }}>Rnd</th>
             <th style={{ ...thStyle, width: 45 }}>Pick</th>
             <th style={{ ...thStyle, textAlign: 'left', minWidth: 130 }}>Player</th>
