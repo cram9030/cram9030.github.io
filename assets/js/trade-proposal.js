@@ -235,9 +235,9 @@ function TradeProposalApp() {
             <thead>
               <tr style={{ background: '#f7fafc' }}>
                 <th style={{ padding: '8px 12px', textAlign: 'left', borderBottom: '1px solid #e2e8f0', width: 160 }}></th>
-                <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Side A Receives</th>
-                <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Side B Receives</th>
-                <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Net Value (Side A)</th>
+                <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Team A Receives</th>
+                <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Team B Receives</th>
+                <th style={{ padding: '8px 12px', textAlign: 'center', borderBottom: '1px solid #e2e8f0' }}>Net Value (Team A)</th>
               </tr>
             </thead>
             <tbody>
@@ -294,13 +294,13 @@ function TradeProposalApp() {
 
     let consensusText, consensusBg, consensusColor;
     if (positiveCount > negativeCount) {
-      consensusText = `Based on ${positiveCount}/${total} charts: Side A receives more value.`;
+      consensusText = `Based on ${positiveCount}/${total} charts: Team A receives more value.`;
       consensusBg = '#f0fff4'; consensusColor = '#276749';
     } else if (negativeCount > positiveCount) {
-      consensusText = `Based on ${negativeCount}/${total} charts: Side B receives more value.`;
+      consensusText = `Based on ${negativeCount}/${total} charts: Team B receives more value.`;
       consensusBg = '#fff5f5'; consensusColor = '#9b2c2c';
     } else {
-      consensusText = `Charts are split (${positiveCount}/${total} favor Side A) — roughly even trade.`;
+      consensusText = `Charts are split (${positiveCount}/${total} favor Team A) — roughly even trade.`;
       consensusBg = '#fffbeb'; consensusColor = '#744210';
     }
 
@@ -344,13 +344,13 @@ function TradeProposalApp() {
 
         <div style={{ display: 'flex', gap: 40, marginBottom: 24 }}>
           <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 700, color: '#2b6cb0', marginBottom: 6, fontSize: 14 }}>Side A Sends:</div>
+            <div style={{ fontWeight: 700, color: '#2b6cb0', marginBottom: 6, fontSize: 14 }}>Team A Sends:</div>
             {aSendsOverall.map((p, i) => (
               <div key={i} style={{ fontSize: 13, color: '#2d3748' }}>{TradeUtils.pickLabel(p)}</div>
             ))}
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 700, color: '#c05621', marginBottom: 6, fontSize: 14 }}>Side B Sends:</div>
+            <div style={{ fontWeight: 700, color: '#c05621', marginBottom: 6, fontSize: 14 }}>Team B Sends:</div>
             {bSendsOverall.map((p, i) => (
               <div key={i} style={{ fontSize: 13, color: '#2d3748' }}>{TradeUtils.pickLabel(p)}</div>
             ))}
@@ -369,8 +369,8 @@ function TradeProposalApp() {
                 <thead>
                   <tr style={{ background: '#f7fafc' }}>
                     <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'left' }}></th>
-                    <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>Side A Receives</th>
-                    <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>Side B Receives</th>
+                    <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>Team A Receives</th>
+                    <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>Team B Receives</th>
                     <th style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center' }}>Net Value</th>
                   </tr>
                 </thead>
@@ -435,8 +435,8 @@ function TradeProposalApp() {
 
       {/* Trade Builder — inputs labelled as what each side sends */}
       <div style={{ display: 'flex', flexDirection: 'row', gap: 16, marginBottom: 20 }} className="trade-builder">
-        <SidePanel picks={leftPicks} side="left" label="Side A" bgColor="#ebf8ff" />
-        <SidePanel picks={rightPicks} side="right" label="Side B" bgColor="#fffbeb" />
+        <SidePanel picks={leftPicks} side="left" label="Team A" bgColor="#ebf8ff" />
+        <SidePanel picks={rightPicks} side="right" label="Team B" bgColor="#fffbeb" />
       </div>
 
       <style>{`@media (max-width: 767px) { .trade-builder { flex-direction: column !important; } }`}</style>
