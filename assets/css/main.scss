@@ -389,6 +389,11 @@ h1.project-title {
     }
 }
 
+// Indent first line of paragraphs in markdown content, but not in tables or description blocks
+.site-content p:not(table p):not(.project-description p):not(.tool-description p):not(.post-excerpt p) {
+    text-indent: 2em;
+}
+
 blockquote {
     background-color: #f5f5f5;
     border-left: 4px solid #0077cc;
