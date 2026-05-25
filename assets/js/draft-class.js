@@ -16,7 +16,7 @@ const ESPN_TO_PFR = Object.fromEntries(
 const espnAbbrev = pfr => PFR_TO_ESPN[pfr] || pfr;
 const pfrAbbrev  = espn => ESPN_TO_PFR[espn] || espn;
 
-const DRAFT_YEARS = Array.from({ length: 15 }, (_, i) => 2024 - i); // 2024..2010
+const DRAFT_YEARS = Array.from({ length: 25 }, (_, i) => 2024 - i); // 2024..2000
 const MODELS = ['quadratic', 'knn', 'linear'];
 const MODEL_LABELS = { quadratic: 'Quadratic', knn: 'KNN', linear: 'Linear' };
 
