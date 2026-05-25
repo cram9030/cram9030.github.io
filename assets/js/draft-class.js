@@ -17,8 +17,8 @@ const espnAbbrev = pfr => PFR_TO_ESPN[pfr] || pfr;
 const pfrAbbrev  = espn => ESPN_TO_PFR[espn] || espn;
 
 const DRAFT_YEARS = Array.from({ length: 15 }, (_, i) => 2024 - i); // 2024..2010
-const MODELS = ['parametric', 'knn', 'ridge'];
-const MODEL_LABELS = { parametric: 'Parametric', knn: 'KNN', ridge: 'Ridge' };
+const MODELS = ['quadratic', 'knn', 'linear'];
+const MODEL_LABELS = { quadratic: 'Quadratic', knn: 'KNN', linear: 'Linear' };
 
 // ---------------------------------------------------------------------------
 // Data helpers
@@ -26,7 +26,10 @@ const MODEL_LABELS = { parametric: 'Parametric', knn: 'KNN', ridge: 'Ridge' };
 
 function getPlayers(teamData, model) {
   if (!teamData) return [];
-  if (teamData.models) return teamData.models[model]?.players || [];
+  if (teamData.models) {
+    if (model === 'quadratic') return teamData.models.parametric?.quadratic?.players || [];
+    return teamData.models[model]?.players || [];
+  }
   return teamData.players || [];
 }
 
@@ -164,12 +167,12 @@ function DraftTable({ players, draftYear, selectedModel, showAllModels, teamData
   const projMask = getProjectedMask(players);
   const hasProjected = projMask[2] || projMask[3];
 
-  const knnPlayers   = showAllModels ? teamData?.models?.knn?.players   || [] : [];
-  const ridgePlayers = showAllModels ? teamData?.models?.ridge?.players  || [] : [];
+  const knnPlayers    = showAllModels ? teamData?.models?.knn?.players    || [] : [];
+  const linearPlayers = showAllModels ? teamData?.models?.linear?.players || [] : [];
 
   const totalSurplus = players.reduce((s, p) => s + (p.surplus_av || 0), 0);
   const totalKnn     = knnPlayers.reduce((s, p) => s + (p.surplus_av || 0), 0);
-  const totalRidge   = ridgePlayers.reduce((s, p) => s + (p.surplus_av || 0), 0);
+  const totalLinear  = linearPlayers.reduce((s, p) => s + (p.surplus_av || 0), 0);
   const totalAV      = players.reduce((s, p) => s + (p.total_4yr_av || 0), 0);
   const totalAVAR    = players.reduce((s, p) => s + (p.total_4yr_av_above_replacement || 0), 0);
   const totalEAVAR   = players.reduce((s, p) => s + (p.eavar || 0), 0);
@@ -214,8 +217,7 @@ function DraftTable({ players, draftYear, selectedModel, showAllModels, teamData
         <tbody>
           {players.map((player, i) => {
             const rowBg = i % 2 === 0 ? '#ffffff' : '#f7fafc';
-            const knnP   = knnPlayers[i];
-            const ridgeP = ridgePlayers[i];
+            const knnP = knnPlayers[i];
             return (
               <tr key={`${player.pick}-${i}`} style={{ background: rowBg }}>
                 <td style={tdStyle}>{TradeUtils.roundFromOverall(player.pick).round}</td>
@@ -242,7 +244,7 @@ function DraftTable({ players, draftYear, selectedModel, showAllModels, teamData
                 {showAllModels ? [
                   <SurplusCell key="p" surplus={player.surplus_av} />,
                   <SurplusCell key="k" surplus={knnP?.surplus_av ?? 0} />,
-                  <SurplusCell key="r" surplus={ridgeP?.surplus_av ?? 0} />,
+                  <SurplusCell key="r" surplus={linearPlayers[i]?.surplus_av ?? 0} />,
                 ] : (
                   <SurplusCell surplus={player.surplus_av} />
                 )}
@@ -263,7 +265,7 @@ function DraftTable({ players, draftYear, selectedModel, showAllModels, teamData
             {showAllModels ? [
               <SurplusCell key="pt" surplus={totalSurplus} />,
               <SurplusCell key="kt" surplus={totalKnn} />,
-              <SurplusCell key="rt" surplus={totalRidge} />,
+              <SurplusCell key="rt" surplus={totalLinear} />,
             ] : (
               <SurplusCell surplus={totalSurplus} />
             )}
@@ -340,7 +342,7 @@ function ExportView({ id, players, draftYear, selectedModel, showAllModels, team
 function DraftClassApp() {
   const [selectedTeam,  setSelectedTeam]  = React.useState(null);
   const [selectedYear,  setSelectedYear]  = React.useState(2024);
-  const [selectedModel, setSelectedModel] = React.useState('parametric');
+  const [selectedModel, setSelectedModel] = React.useState('linear');
   const [draftData,     setDraftData]     = React.useState(null);
   const [isLoading,     setIsLoading]     = React.useState(true);
   const [error,         setError]         = React.useState(null);
@@ -351,7 +353,7 @@ function DraftClassApp() {
     setError(null);
     setDraftData(null);
     const base = window.JEKYLL_BASEURL || '';
-    fetch(`${base}/assets/data/baked/draft_${selectedYear}.json`)
+    fetch(`${base}/assets/data/draft_class/draft_${selectedYear}.json`)
       .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
       .then(d  => { setDraftData(d); setIsLoading(false); })
       .catch(e => { setError(e.message); setIsLoading(false); });
@@ -362,12 +364,12 @@ function DraftClassApp() {
   const hasModels   = !!(teamData?.models);
   const showAllModels = hasModels && selectedModel === 'all';
   // When showing all models use parametric as the base (observed fields are identical).
-  const displayModel = hasModels ? (showAllModels ? 'parametric' : selectedModel) : 'parametric';
+  const displayModel = hasModels ? (showAllModels ? 'quadratic' : selectedModel) : 'quadratic';
   const players = getPlayers(teamData, displayModel);
 
   const handleYearChange = y => {
     setSelectedYear(Number(y));
-    setSelectedModel('parametric');
+    setSelectedModel('linear');
   };
 
   async function handleExport() {
