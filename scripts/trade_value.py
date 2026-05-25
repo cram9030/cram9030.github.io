@@ -7,7 +7,7 @@ import nflreadpy
 import polars as pl
 
 _REPO_ROOT = Path(__file__).resolve().parents[1]
-_PROCESSED_DATA_DIR = _REPO_ROOT / "assets" / "data"
+_PROCESSED_DATA_DIR = _REPO_ROOT / "data" / "processed"
 
 # Registry: chart_name -> (filename, pick_col, value_col, deduplicate_on_pick)
 _CHART_REGISTRY: dict[str, tuple[str, str, str, bool]] = {
@@ -285,16 +285,6 @@ def analyze_draft_trades(
     if len(team_trades) == 0:
         return _empty_trade_df()
 
-    all_players = nflreadpy.load_players()
-    pfr_to_draft_year: dict[str, int | None] = {
-        pfr_id: dy
-        for pfr_id, dy in zip(
-            all_players["pfr_id"].to_list(),
-            all_players["draft_year"].to_list(),
-        )
-        if pfr_id is not None
-    }
-
     output_rows: list[dict] = []
 
     for tid in team_trades["trade_id"].unique().to_list():
@@ -305,13 +295,6 @@ def analyze_draft_trades(
             & pl.col("pick_round").is_null()
             & pl.col("pick_number").is_null()
         ).height > 0:
-            continue
-
-        player_rows = trade_rows.filter(pl.col("pfr_id").is_not_null())
-        if any(
-            pfr_to_draft_year.get(pfr_id) != year
-            for pfr_id in player_rows["pfr_id"].to_list()
-        ):
             continue
 
         rcv_pick_data: list[tuple[int, int]] = []  # (overall, season)
@@ -363,3 +346,54 @@ def analyze_draft_trades(
         return _empty_trade_df()
 
     return pl.DataFrame(output_rows)
+
+
+def aggregate_trade_value(
+    team: str,
+    years: list[int],
+    data_dir: Path | str = _PROCESSED_DATA_DIR,
+    chart_name: str = "eaar",
+) -> dict:
+    """Aggregate net trade value across multiple draft years for a team.
+
+    Calls :func:`analyze_draft_trades` for each year, extracts the column
+    ``{chart_name}_value``, and sums across all trades in that year.  Years
+    with no draft trades count as 0.0 net value and are included in ``n_years``.
+
+    Args:
+        team: Stathead team code (e.g. ``"DET"``).
+        years: List of draft years to aggregate.
+        data_dir: Directory containing trade chart CSVs.
+        chart_name: Column prefix in :func:`analyze_draft_trades` output
+            to sum (default: ``"eaar"`` — EAVAR units, same scale as surplus AV).
+
+    Returns:
+        Dict with keys:
+        - ``total_trade_value``: sum of yearly net values.
+        - ``per_year``: ``{year: net_value}`` for every requested year.
+        - ``n_years``: number of requested years (including 0-trade years).
+        - ``avg_trade_per_year``: ``total / n_years`` (0.0 when n_years==0).
+    """
+    per_year: dict[int, float] = {}
+    col = f"{chart_name}_value"
+
+    for year in years:
+        try:
+            trades_df = analyze_draft_trades(team, year, data_dir=data_dir)
+        except Exception:
+            per_year[year] = 0.0
+            continue
+
+        if col in trades_df.columns and len(trades_df) > 0:
+            per_year[year] = round(float(trades_df[col].drop_nulls().sum()), 3)
+        else:
+            per_year[year] = 0.0
+
+    total = sum(per_year.values())
+    n = len(per_year)
+    return {
+        "total_trade_value": round(total, 3),
+        "per_year": per_year,
+        "n_years": n,
+        "avg_trade_per_year": round(total / n, 3) if n > 0 else 0.0,
+    }
