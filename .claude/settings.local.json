@@ -2,7 +2,22 @@
   "permissions": {
     "allow": [
       "Bash(bundle exec *)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s https://unpkg.com/react@18/umd/react.production.min.js)",
+      "Bash(openssl dgst *)",
+      "Bash(openssl base64 *)",
+      "Bash(curl -s https://unpkg.com/react-dom@18/umd/react-dom.production.min.js)",
+      "Bash(curl -s https://unpkg.com/@babel/standalone/babel.min.js)",
+      "Bash(curl -s https://cdn.tailwindcss.com)",
+      "Bash(curl -sI https://unpkg.com/react@18/umd/react.production.min.js)",
+      "Bash(curl -sI https://unpkg.com/react-dom@18/umd/react-dom.production.min.js)",
+      "Bash(curl -sI https://unpkg.com/@babel/standalone/babel.min.js)",
+      "Bash(curl -s https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js)",
+      "Bash(curl -s https://unpkg.com/react@18.3.1/umd/react.production.min.js)",
+      "Bash(curl -s https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js)",
+      "Bash(curl -s https://unpkg.com/@babel/standalone@7.29.7/babel.min.js)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
