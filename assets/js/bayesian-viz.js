@@ -979,6 +979,10 @@ const BayesianVisualizer = () => {
         // Create new plot
         Plotly.newPlot(plotDiv, traces, layout, config);
         setPlotlyDiv(plotDiv);
+        // Resize after Tailwind styles settle — without the old duplicate script
+        // block, Plotly initializes before Tailwind's MutationObserver finishes
+        // injecting layout-affecting CSS, leaving the SVG wider than its container.
+        setTimeout(() => { Plotly.Plots.resize(plotDiv); }, 200);
       }
     } catch (error) {
       console.error('Error creating Plotly chart:', error);
@@ -1014,7 +1018,7 @@ const BayesianVisualizer = () => {
         
         {/* Right side - Visualizations */}
         <div className={`${isWideLayout ? 'w-3/4' : 'w-full'} space-y-4`}>
-          <div className="p-4 bg-gray-100 rounded">
+          <div className="p-4 bg-gray-100 rounded overflow-hidden">
             <h3 className="text-lg font-semibold mb-2">Distributions</h3>
             
             <div id="plotly-chart" style={{ width: '100%', height: '655px' }}></div>
