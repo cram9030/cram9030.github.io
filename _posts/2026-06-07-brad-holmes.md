@@ -76,8 +76,8 @@ Finally we have Malcom Rodriguez probably one of my favorite picks not just beca
 
 |  Parameter       |                   |
 | ---------------- | ----------------- |
-| Most Projected Surplus AV  | [Jahmyr Gibbs]()      |
-| Least Projected Surplus AV | [Brodric Martin]()    |
+| Most Projected Surplus AV  | [Jahmyr Gibbs](https://www.pro-football-reference.com/players/G/GibbJa01.htm)      |
+| Least Projected Surplus AV | [Brodric Martin](https://www.pro-football-reference.com/players/M/MartBr00.htm)    |
 | Hit Rate         | 57.1 %            |
 
 Here's the gem of a draft where the first four picks were all significant contributers and hits. It is also the draft that gets held up as proof positional value doesn't matter. I don't think that is the case but that is for another post. For the sake of assessing Brad Holmes drafing performance there is no question it was a good draft. It would probably suprise some people that by cumlative Expected Approximate Value Above Replacement this projected total is still less than the 2021 draft, even when accounting for the trade value between the two drafts. That is driven primarily by a few factors:
@@ -88,7 +88,7 @@ Here's the gem of a draft where the first four picks were all significant contri
 
 It's worth touching on the projections for the next year for each of the first four picks. Generally they seem pretty reasonable with a lot more optimisim for Sam LaPorta than Branch which does seem to make sense. The type or time of the injuries are not taken into account it is primarily driven by LaPorta's stand out performance in his first two years compared to Branch only having a single season as a high impact starter. Gibbs is still projected to have a impactful year but it's hard to be as good as Gibbs has been for the past two years both from an likelihood to stay on the field perspective as well as just generally being that efficent is hard. Campbell is in a similar boat it's just rare that players stay performing at an All-Pro for multiple consecutive years.
 
-Now 
+Now let's talk about the bad, Brodric Martin was a head scratching trade at the time. He came from a small school and wasn't [particularly atheletic](https://www.reddit.com/r/detroitlions/comments/132hkpg/brodric_martin_scored_a_214_ras_this_ranked_1275/#lightbox). In a lot of ways Martin is the worst of Brad Holmes picks because unlike Josh Paschal and Levi Onwuzurike there was no serious injuries and couldn't make it on the field even when healthy. Antoine Green on the other hand seemed to have been coming on when an [concussion ended his career](https://lionswire.usatoday.com/story/sports/nfl/lions/2025/04/30/antoine-green-lions-concussion-injury-waiver/83366518007/).
 
 ## 2024 Draft
 
@@ -102,6 +102,16 @@ Now
         <p style="font-size: 0.9em; margin-top: 8px;">2024 Trade Value</p>
     </div>
 </div>
+
+|  Parameter       |                   |
+| ---------------- | ----------------- |
+| Most Projected Surplus AV  | [Christian Mahogany](https://www.pro-football-reference.com/players/M/MahoCh00.htm)      |
+| Least Projected Surplus AV | [ Ennis Rakestraw](https://www.pro-football-reference.com/players/R/RakeEn00.htm)    |
+| Hit Rate         | 20 %            |
+
+Here is the draft that takes the cake for Brad Holmes worst draft. It has his worst pick in Ennis Rakestraw who hasn't seen the field in two years. Given that Ennis would have to be a full time starter for the next two years in order to be worth the pick that was expended on him. Even the most optimistic projections have him being a bust. It is neck and neck with Brodric Martin for Brad Holmes worst pick but for different reasons. Martin was clearly overdrafted with no real upside whereas Rakestraw had never played a full season in college so he represented a serious risk. Of the rest of the draft picks Terrion Arnold feels like a bust to a lot of people but he is on track to meet expectations which is really a good reminder how we are biased by the high performers in the first round being the expectation as opposed to the reality.
+
+Before we get to the good its worth mentioning that beyond the players themselves not performing it was also the draft class that lost more value through trades than the other draft classes combined. 
 
 ## Comparing to the rest of the league
 
