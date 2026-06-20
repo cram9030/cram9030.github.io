@@ -126,11 +126,11 @@ After going through each draft, it's natural to wonder how Brad Holmes stacks up
 </iframe>
 
 
-Before we get to Brad Holmes, it's worth looking at the other GMs. The teams in the upper right make a lot of sense. John Schneider, who in my opinion is the NFL's version of Sam Presti the best GM in the league for having maintained winning teams with multiple coaches and multiple core set of players. There's no question that Schneider is what is making the team successful. Brandon Beane has a chance to join Schneider depending on how things work out with Joe Brady. It's still wild to me that some Bills fans wanted to run the only GM who's never had a bad draft out of town. They could end up being right and it could have just been Josh McDerment this whole time developing players but we have a chance to find that out. 
+Before we get to Brad Holmes, it’s worth looking at the other GMs. The teams in the upper right make a lot of sense. John Schneider, who, in my opinion, is the NFL’s version of Sam Presti the best GM in the league for having maintained winning teams with multiple coaches and multiple core sets of players. There’s no question that Schneider is what is making the team successful. Brandon Beane has a chance to join Schneider depending on how things work out with Joe Brady. It’s still wild to me that some Bills fans wanted to run the only GM who’s never had a bad draft out of town. They could end up being right, and it could have just been Josh McDerment this whole time developing players, but we have a chance to find that out.
 
 Finally, you'll notice that in the far right, [one of these things is not like the other, one of these things just doesn't belong](https://youtu.be/rsRjQDrDnY8?si=ZAUXuR3zZ1A7ThXZ). What the hell is Ryan Pace doing there? Well he may not have been able to find a playoff caliber QB but drafting QBs who can start basically guarentees they aren't busts even if they can't make it to the playoffs (QBs who can't start well lets just say I don't expect JJ McCarthy to be in the green) beyond that though Pace found incredible value from Running Backs and Safeties with a smattering of solid offensive linemen like Larry Borom. 
 
-Now to the main topic, that Brad Holmes guy sure looks pretty good, except for those bad value trades. That being said, the magnitude of the trade value lost is very small compared to the player value. It would only move him back behind John Schneider in Net rankings. It's a black mark and something that, as we looked at above, when Holmes made those trades, they were often for his worst picks (Brodric Martin, Geovanni Manu, and Soni Vaki) but not something that negates how good he is a picking players.
+Now to the main topic, that Brad Holmes guy sure looks pretty good, except for those bad value trades. That being said, the magnitude of the trade value lost is very small compared to the player value. It would only move him back behind John Schneider in Net rankings. It’s a black mark and something that, as we looked at before, when Holmes made those trades, they were often for his worst picks (Brodric Martin, Geovanni Manu, and Soni Vaki), so they feel especially compounding. It's a bad habit, but not something that negates how good he is at picking players.
 
 <iframe src="/assets/plots/DET_2024_gm_draft_bar.html"
         width="100%"
@@ -144,12 +144,12 @@ Now to the main topic, that Brad Holmes guy sure looks pretty good, except for t
         frameborder="0">
 </iframe>
 
-The ranking bar charts show something interesting, which is that while the trad values are relatively symetric, the zero value is about the 22nd out of 42, which isn't the case for the General Managers listed. This does beg the question of why? Well, there are a few reasons.
+The ranking bar charts show something interesting, which is that while the trad values are relatively symmetric, the zero value is about the 22nd out of 42, which isn’t the case for the General Managers listed. This does beg the question of why? Well, there are a few reasons.
 
 1. GMs have been getting better over time, so current GMs should be expected to be slightly better than past GMs
 2. Survivor bias, good GMs are employed for longer and therefore more likely to be included in any time-based sample.
 
-While I haven't done a formal analysis of this, it's similar to why you always spend more time in the longest line. By definition, the longest line has the most people, so a random selection of people should be biased towards the longest line. In the same sense, a random selection of currently employed GMs should include mostly GMs who have been employed for a while, which means they weren't so completely terrible; let's call these people Mike Mayocks, to get fired after a short time. 
+While I haven’t done a formal analysis of this, it’s similar to why you always spend more time in the longest line. By definition, the longest line has the most people, so a random selection of people should be biased towards the longest line. In the same sense, a random selection of currently employed GMs should include mostly GMs who have been employed for a while, which means they weren’t so completely terrible; let’s call these people Mike Mayocks, to get fired after a short time.
 
 ## How about to our past?
 
@@ -161,7 +161,7 @@ Now, if you are like me, you probably wonder how our past GMs did because there 
         frameborder="0">
 </iframe>
 
-We can see of the 130 GMs who were in the league between 2001 and 2024 the Lions GMs rank
+We can see that of the 130 GMs who were in the league between 2001 and 2024, the Lions GMs rank
 
 | General Manager | Average EAVAR per Draft | Number of Drafts | Rank |
 | --------------- | ----------------------- | ---------------- | ---- |
@@ -170,4 +170,4 @@ We can see of the 130 GMs who were in the league between 2001 and 2024 the Lions
 | Martin Mayhew   | -3.4                    | 8                | 92   |
 | Matt Millen     | -15.51                  | 7                | 115  |
 
-Don't leave us Brad.
+Don’t leave us, Brad.
