@@ -130,7 +130,7 @@ Before we get to Brad Holmes, it's worth looking at the other GMs. The teams in 
 
 Finally, you'll notice that in the far right, [one of these things is not like the other, one of these things just doesn't belong](https://youtu.be/rsRjQDrDnY8?si=ZAUXuR3zZ1A7ThXZ). What the hell is Ryan Pace doing there? Well he may not have been able to find a playoff caliber QB but drafting QBs who can start basically guarentees they aren't busts even if they can't make it to the playoffs (QBs who can't start well lets just say I don't expect JJ McCarthy to be in the green) beyond that though Pace found incredible value from Running Backs and Safeties with a smattering of solid offensive linemen like Larry Borom. 
 
-Now to the main topic, that Brad Holmes guy sure looks pretty good, except for those bad value trades. That being said, the magnitude of the trade value lost is very small compared to the player value. It would only move him back behind John Schneider and Les Sneed in Net rankings. It's a black mark and something that, as we looked at above, when Holmes made those trades, they were often for his worst picks (Brodric Martin, Geovanni Manu, and Soni Vaki).
+Now to the main topic, that Brad Holmes guy sure looks pretty good, except for those bad value trades. That being said, the magnitude of the trade value lost is very small compared to the player value. It would only move him back behind John Schneider in Net rankings. It's a black mark and something that, as we looked at above, when Holmes made those trades, they were often for his worst picks (Brodric Martin, Geovanni Manu, and Soni Vaki) but not something that negates how good he is a picking players.
 
 <iframe src="/assets/plots/DET_2024_gm_draft_bar.html"
         width="100%"
@@ -153,10 +153,21 @@ While I haven't done a formal analysis of this, it's similar to why you always s
 
 ## How about to our past?
 
-Now if you are like me you probably wonder how our past GMs did because there is nothing you love more than finding an old wound picking that scab and rubbing salt into just to remind you what life was like when you got hurt so bably. (No? Just me? Therapy you say? I uhhh will take that under consideration.) Masochism asside let look at all those ghost that stil haunt our hearts.
+Now, if you are like me, you probably wonder how our past GMs did because there is nothing you love more than doing the mental equivalent of finding an old wound, picking that scab, and rubbing salt into it just to remind you what life was like when you got hurt so badly. (No? Just me? Therapy, you say? I uhhh will take that under consideration.) Masochism aside, let's look at all those ghosts that still haunt our hearts.
 
 <iframe src="/assets/plots/2001_2024_gm_draft_bar.html"
         width="100%"
         height="800"
         frameborder="0">
 </iframe>
+
+We can see of the 130 GMs who were in the league between 2001 and 2024 the Lions GMs rank
+
+| General Manager | Average EAVAR per Draft | Number of Drafts | Rank |
+| --------------- | ----------------------- | ---------------- | ---- |
+| Brad Holmes     | 28.86                   | 4                | 4    |
+| Bob Quinn       | -0.28                   | 4                | 82   |
+| Martin Mayhew   | -3.4                    | 8                | 92   |
+| Matt Millen     | -15.51                  | 7                | 115  |
+
+Don't leave us Brad.
