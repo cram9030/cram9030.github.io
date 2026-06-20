@@ -220,7 +220,7 @@ function DraftTable({ players, draftYear, selectedModel, showAllModels, teamData
             const knnP = knnPlayers[i];
             return (
               <tr key={`${player.pick}-${i}`} style={{ background: rowBg }}>
-                <td style={tdStyle}>{TradeUtils.roundFromOverall(player.pick).round}</td>
+                <td style={tdStyle}>{player.round}</td>
                 <td style={tdStyle}>{player.pick}</td>
                 <td style={{ ...tdStyle, textAlign: 'left', fontWeight: 500 }}>{player.player}</td>
                 <td style={tdStyle}>{player.pos}</td>
