@@ -1,9 +1,10 @@
 {
   "metadata": {
-    "generated_at": "2026-05-25T19:05:11.273863+00:00",
+    "generated_at": "2026-06-20T00:51:13.801570+00:00",
     "year": 2010,
     "models": {
       "parametric": [
+        "gamma",
         "quadratic"
       ],
       "knn": true,
@@ -48,6 +49,22 @@
           "surplus_av": 14.6
         },
         {
+          "player": "Mike Johnson",
+          "pos": "OG",
+          "pick": 98,
+          "obs_yr0": 0.0,
+          "obs_yr1": 0.0,
+          "obs_yr2": 2.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 2.0,
+          "total_4yr_av_above_replacement": -2.6,
+          "eavar": 4.539,
+          "eavar_upper": 4.658,
+          "eavar_lower": 4.42,
+          "replacement_level": 4.586,
+          "surplus_av": -7.1
+        },
+        {
           "player": "Joe Hawley",
           "pos": "OC",
           "pick": 117,
@@ -80,6 +97,22 @@
           "surplus_av": -2.1
         },
         {
+          "player": "Kerry Meier",
+          "pos": "WR",
+          "pick": 165,
+          "obs_yr0": 0.0,
+          "obs_yr1": 0.0,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 0.0,
+          "total_4yr_av_above_replacement": -4.6,
+          "eavar": 1.598,
+          "eavar_upper": 1.712,
+          "eavar_lower": 1.484,
+          "replacement_level": 4.586,
+          "surplus_av": -6.2
+        },
+        {
           "player": "Shann Schillinger",
           "pos": "S",
           "pick": 171,
@@ -97,11 +130,11 @@
         }
       ],
       "class_summary": {
-        "total_4yr_av": 67.0,
-        "total_above_replacement": 44.0,
-        "total_eavar": 29.522,
-        "class_surplus": 14.4,
-        "n_players": 5
+        "total_4yr_av": 69.0,
+        "total_above_replacement": 36.8,
+        "total_eavar": 35.659,
+        "class_surplus": 1.1,
+        "n_players": 7
       }
     },
     "BUF": {
@@ -157,6 +190,22 @@
           "surplus_av": -5.5
         },
         {
+          "player": "Marcus Easley",
+          "pos": "WR",
+          "pick": 107,
+          "obs_yr0": 0.0,
+          "obs_yr1": 0.0,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 0.0,
+          "total_4yr_av_above_replacement": -4.6,
+          "eavar": 3.931,
+          "eavar_upper": 4.043,
+          "eavar_lower": 3.819,
+          "replacement_level": 4.586,
+          "surplus_av": -8.5
+        },
+        {
           "player": "Ed Wang",
           "pos": "OT",
           "pick": 140,
@@ -189,6 +238,22 @@
           "surplus_av": 5.1
         },
         {
+          "player": "Danny Batten",
+          "pos": "LB",
+          "pick": 192,
+          "obs_yr0": 0.0,
+          "obs_yr1": 2.0,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 2.0,
+          "total_4yr_av_above_replacement": -2.6,
+          "eavar": 1.077,
+          "eavar_upper": 1.212,
+          "eavar_lower": 0.942,
+          "replacement_level": 4.586,
+          "surplus_av": -3.7
+        },
+        {
           "player": "Levi Brown",
           "pos": "QB",
           "pick": 209,
@@ -206,11 +271,11 @@
         }
       ],
       "class_summary": {
-        "total_4yr_av": 49.0,
-        "total_above_replacement": 21.4,
-        "total_eavar": 42.176,
-        "class_surplus": -20.7,
-        "n_players": 6
+        "total_4yr_av": 51.0,
+        "total_above_replacement": 14.2,
+        "total_eavar": 47.184,
+        "class_surplus": -32.9,
+        "n_players": 8
       }
     },
     "CAR": {
@@ -319,15 +384,15 @@
           "pick": 202,
           "obs_yr0": 2.0,
           "obs_yr1": 1.0,
-          "obs_yr2": 1.0,
+          "obs_yr2": 0.0,
           "obs_yr3": 0.0,
-          "total_4yr_av": 4.0,
-          "total_4yr_av_above_replacement": -0.6,
+          "total_4yr_av": 3.0,
+          "total_4yr_av_above_replacement": -1.6,
           "eavar": 0.936,
           "eavar_upper": 1.079,
           "eavar_lower": 0.793,
           "replacement_level": 4.586,
-          "surplus_av": -1.5
+          "surplus_av": -2.5
         },
         {
           "player": "Tony Pike",
@@ -346,28 +411,44 @@
           "surplus_av": -5.5
         },
         {
+          "player": "R.J. Stanford",
+          "pos": "S",
+          "pick": 223,
+          "obs_yr0": 0.0,
+          "obs_yr1": 1.0,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 1.0,
+          "total_4yr_av_above_replacement": -3.6,
+          "eavar": 0.706,
+          "eavar_upper": 0.865,
+          "eavar_lower": 0.548,
+          "replacement_level": 4.586,
+          "surplus_av": -4.3
+        },
+        {
           "player": "Robert McClain",
           "pos": "S",
           "pick": 249,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
-          "obs_yr2": 3.0,
-          "obs_yr3": 3.0,
-          "total_4yr_av": 7.0,
-          "total_4yr_av_above_replacement": 2.4,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 1.0,
+          "total_4yr_av_above_replacement": -3.6,
           "eavar": 0.513,
           "eavar_upper": 0.687,
           "eavar_lower": 0.339,
           "replacement_level": 4.586,
-          "surplus_av": 1.9
+          "surplus_av": -4.1
         }
       ],
       "class_summary": {
-        "total_4yr_av": 67.0,
-        "total_above_replacement": 25.6,
-        "total_eavar": 29.437,
-        "class_surplus": -3.8,
-        "n_players": 9
+        "total_4yr_av": 61.0,
+        "total_above_replacement": 15.0,
+        "total_eavar": 30.143,
+        "class_surplus": -15.1,
+        "n_players": 10
       }
     },
     "CHI": {
@@ -429,21 +510,21 @@
           "obs_yr0": 5.0,
           "obs_yr1": 6.0,
           "obs_yr2": 7.0,
-          "obs_yr3": 1.0,
-          "total_4yr_av": 19.0,
-          "total_4yr_av_above_replacement": 14.4,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 18.0,
+          "total_4yr_av_above_replacement": 13.4,
           "eavar": 0.754,
           "eavar_upper": 0.909,
           "eavar_lower": 0.599,
           "replacement_level": 4.586,
-          "surplus_av": 13.6
+          "surplus_av": 12.6
         }
       ],
       "class_summary": {
-        "total_4yr_av": 50.0,
-        "total_above_replacement": 31.6,
+        "total_4yr_av": 49.0,
+        "total_above_replacement": 30.6,
         "total_eavar": 13.44,
-        "class_surplus": 18.1,
+        "class_surplus": 17.1,
         "n_players": 4
       }
     },
@@ -489,15 +570,15 @@
           "pick": 84,
           "obs_yr0": 5.0,
           "obs_yr1": 0.0,
-          "obs_yr2": 2.0,
+          "obs_yr2": 0.0,
           "obs_yr3": 0.0,
-          "total_4yr_av": 7.0,
-          "total_4yr_av_above_replacement": 2.4,
+          "total_4yr_av": 5.0,
+          "total_4yr_av_above_replacement": 0.4,
           "eavar": 5.684,
           "eavar_upper": 5.815,
           "eavar_lower": 5.554,
           "replacement_level": 4.586,
-          "surplus_av": -3.3
+          "surplus_av": -5.3
         },
         {
           "player": "Brandon Ghee",
@@ -546,30 +627,14 @@
           "eavar_lower": 2.589,
           "replacement_level": 4.586,
           "surplus_av": -6.3
-        },
-        {
-          "player": "Dezmon Briscoe",
-          "pos": "WR",
-          "pick": 191,
-          "obs_yr0": 1.0,
-          "obs_yr1": 3.0,
-          "obs_yr2": 0.0,
-          "obs_yr3": 0.0,
-          "total_4yr_av": 4.0,
-          "total_4yr_av_above_replacement": -0.6,
-          "eavar": 1.092,
-          "eavar_upper": 1.227,
-          "eavar_lower": 0.958,
-          "replacement_level": 4.586,
-          "surplus_av": -1.7
         }
       ],
       "class_summary": {
-        "total_4yr_av": 91.0,
-        "total_above_replacement": 58.8,
-        "total_eavar": 42.473,
-        "class_surplus": 16.3,
-        "n_players": 7
+        "total_4yr_av": 85.0,
+        "total_above_replacement": 57.4,
+        "total_eavar": 41.38,
+        "class_surplus": 16.0,
+        "n_players": 6
       }
     },
     "CLE": {
@@ -609,6 +674,22 @@
           "surplus_av": 10.4
         },
         {
+          "player": "Montario Hardesty",
+          "pos": "RB",
+          "pick": 59,
+          "obs_yr0": 0.0,
+          "obs_yr1": 2.0,
+          "obs_yr2": 2.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 4.0,
+          "total_4yr_av_above_replacement": -0.6,
+          "eavar": 8.525,
+          "eavar_upper": 8.667,
+          "eavar_lower": 8.383,
+          "replacement_level": 4.586,
+          "surplus_av": -9.1
+        },
+        {
           "player": "Colt McCoy",
           "pos": "QB",
           "pick": 85,
@@ -641,22 +722,6 @@
           "surplus_av": 8.4
         },
         {
-          "player": "Larry Asante",
-          "pos": "S",
-          "pick": 160,
-          "obs_yr0": 0.0,
-          "obs_yr1": 0.0,
-          "obs_yr2": 0.0,
-          "obs_yr3": 0.0,
-          "total_4yr_av": 0.0,
-          "total_4yr_av_above_replacement": -4.6,
-          "eavar": 1.723,
-          "eavar_upper": 1.834,
-          "eavar_lower": 1.612,
-          "replacement_level": 4.586,
-          "surplus_av": -6.3
-        },
-        {
           "player": "Carlton Mitchell",
           "pos": "WR",
           "pick": 177,
@@ -671,30 +736,14 @@
           "eavar_lower": 1.215,
           "replacement_level": 4.586,
           "surplus_av": -5.9
-        },
-        {
-          "player": "Clifton Geathers",
-          "pos": "DE",
-          "pick": 186,
-          "obs_yr0": 0.0,
-          "obs_yr1": 0.0,
-          "obs_yr2": 1.0,
-          "obs_yr3": 1.0,
-          "total_4yr_av": 2.0,
-          "total_4yr_av_above_replacement": -2.6,
-          "eavar": 1.174,
-          "eavar_upper": 1.304,
-          "eavar_lower": 1.043,
-          "replacement_level": 4.586,
-          "surplus_av": -3.8
         }
       ],
       "class_summary": {
-        "total_4yr_av": 85.0,
-        "total_above_replacement": 52.8,
-        "total_eavar": 46.813,
-        "class_surplus": 6.0,
-        "n_players": 7
+        "total_4yr_av": 87.0,
+        "total_above_replacement": 59.4,
+        "total_eavar": 52.441,
+        "class_surplus": 7.0,
+        "n_players": 6
       }
     },
     "IND": {
@@ -708,14 +757,14 @@
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
           "obs_yr2": 4.0,
-          "obs_yr3": 3.0,
-          "total_4yr_av": 9.0,
-          "total_4yr_av_above_replacement": 4.4,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 6.0,
+          "total_4yr_av_above_replacement": 1.4,
           "eavar": 13.47,
           "eavar_upper": 13.612,
           "eavar_lower": 13.327,
           "replacement_level": 4.586,
-          "surplus_av": -9.1
+          "surplus_av": -12.1
         },
         {
           "player": "Pat Angerer",
@@ -734,20 +783,36 @@
           "surplus_av": 6.4
         },
         {
+          "player": "Kevin Thomas",
+          "pos": "CB",
+          "pick": 94,
+          "obs_yr0": 0.0,
+          "obs_yr1": 2.0,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 2.0,
+          "total_4yr_av_above_replacement": -2.6,
+          "eavar": 4.839,
+          "eavar_upper": 4.962,
+          "eavar_lower": 4.717,
+          "replacement_level": 4.586,
+          "surplus_av": -7.4
+        },
+        {
           "player": "Jacques McClendon",
           "pos": "OG",
           "pick": 129,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
           "obs_yr2": 0.0,
-          "obs_yr3": 1.0,
-          "total_4yr_av": 1.0,
-          "total_4yr_av_above_replacement": -3.6,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 0.0,
+          "total_4yr_av_above_replacement": -4.6,
           "eavar": 2.777,
           "eavar_upper": 2.879,
           "eavar_lower": 2.674,
           "replacement_level": 4.586,
-          "surplus_av": -6.4
+          "surplus_av": -7.4
         },
         {
           "player": "Brody Eldridge",
@@ -799,11 +864,11 @@
         }
       ],
       "class_summary": {
-        "total_4yr_av": 51.0,
-        "total_above_replacement": 23.4,
-        "total_eavar": 27.061,
-        "class_surplus": -3.8,
-        "n_players": 6
+        "total_4yr_av": 49.0,
+        "total_above_replacement": 16.8,
+        "total_eavar": 31.901,
+        "class_surplus": -15.2,
+        "n_players": 7
       }
     },
     "ARI": {
@@ -865,14 +930,14 @@
           "obs_yr0": 1.0,
           "obs_yr1": 2.0,
           "obs_yr2": 5.0,
-          "obs_yr3": 2.0,
-          "total_4yr_av": 10.0,
-          "total_4yr_av_above_replacement": 5.4,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 8.0,
+          "total_4yr_av_above_replacement": 3.4,
           "eavar": 2.734,
           "eavar_upper": 2.836,
           "eavar_lower": 2.631,
           "replacement_level": 4.586,
-          "surplus_av": 2.7
+          "surplus_av": 0.7
         },
         {
           "player": "John Skelton",
@@ -889,22 +954,6 @@
           "eavar_lower": 1.75,
           "replacement_level": 4.586,
           "surplus_av": -2.5
-        },
-        {
-          "player": "Jorrick Calvin",
-          "pos": "S",
-          "pick": 201,
-          "obs_yr0": 1.0,
-          "obs_yr1": 0.0,
-          "obs_yr2": 0.0,
-          "obs_yr3": 0.0,
-          "total_4yr_av": 1.0,
-          "total_4yr_av_above_replacement": -3.6,
-          "eavar": 0.949,
-          "eavar_upper": 1.091,
-          "eavar_lower": 0.807,
-          "replacement_level": 4.586,
-          "surplus_av": -4.5
         },
         {
           "player": "Jim Dray",
@@ -924,11 +973,11 @@
         }
       ],
       "class_summary": {
-        "total_4yr_av": 86.0,
-        "total_above_replacement": 53.8,
-        "total_eavar": 36.481,
-        "class_surplus": 17.4,
-        "n_players": 7
+        "total_4yr_av": 83.0,
+        "total_above_replacement": 55.4,
+        "total_eavar": 35.532,
+        "class_surplus": 19.9,
+        "n_players": 6
       }
     },
     "DAL": {
@@ -1005,31 +1054,15 @@
           "pick": 179,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
-          "obs_yr2": 3.0,
-          "obs_yr3": 1.0,
-          "total_4yr_av": 4.0,
-          "total_4yr_av_above_replacement": -0.6,
-          "eavar": 1.299,
-          "eavar_upper": 1.424,
-          "eavar_lower": 1.174,
-          "replacement_level": 4.586,
-          "surplus_av": -1.9
-        },
-        {
-          "player": "Jamar Wall",
-          "pos": "S",
-          "pick": 196,
-          "obs_yr0": 0.0,
-          "obs_yr1": 0.0,
           "obs_yr2": 0.0,
           "obs_yr3": 0.0,
           "total_4yr_av": 0.0,
           "total_4yr_av_above_replacement": -4.6,
-          "eavar": 1.018,
-          "eavar_upper": 1.156,
-          "eavar_lower": 0.88,
+          "eavar": 1.299,
+          "eavar_upper": 1.424,
+          "eavar_lower": 1.174,
           "replacement_level": 4.586,
-          "surplus_av": -5.6
+          "surplus_av": -5.9
         },
         {
           "player": "Sean Lissemore",
@@ -1038,22 +1071,22 @@
           "obs_yr0": 0.0,
           "obs_yr1": 2.0,
           "obs_yr2": 3.0,
-          "obs_yr3": 3.0,
-          "total_4yr_av": 8.0,
-          "total_4yr_av_above_replacement": 3.4,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 5.0,
+          "total_4yr_av_above_replacement": 0.4,
           "eavar": 0.614,
           "eavar_upper": 0.78,
           "eavar_lower": 0.449,
           "replacement_level": 4.586,
-          "surplus_av": 2.8
+          "surplus_av": -0.2
         }
       ],
       "class_summary": {
-        "total_4yr_av": 74.0,
-        "total_above_replacement": 41.8,
-        "total_eavar": 52.1,
-        "class_surplus": -10.3,
-        "n_players": 7
+        "total_4yr_av": 67.0,
+        "total_above_replacement": 39.4,
+        "total_eavar": 51.082,
+        "class_surplus": -11.7,
+        "n_players": 6
       }
     },
     "DEN": {
@@ -1082,15 +1115,15 @@
           "pick": 25,
           "obs_yr0": 3.0,
           "obs_yr1": 8.0,
-          "obs_yr2": 1.0,
+          "obs_yr2": 0.0,
           "obs_yr3": 0.0,
-          "total_4yr_av": 12.0,
-          "total_4yr_av_above_replacement": 7.4,
+          "total_4yr_av": 11.0,
+          "total_4yr_av_above_replacement": 6.4,
           "eavar": 14.863,
           "eavar_upper": 15.016,
           "eavar_lower": 14.71,
           "replacement_level": 4.586,
-          "surplus_av": -7.5
+          "surplus_av": -8.5
         },
         {
           "player": "Zane Beadles",
@@ -1142,19 +1175,19 @@
         },
         {
           "player": "Perrish Cox",
-          "pos": "S",
+          "pos": "CB",
           "pick": 137,
           "obs_yr0": 3.0,
           "obs_yr1": 0.0,
-          "obs_yr2": 1.0,
+          "obs_yr2": 0.0,
           "obs_yr3": 0.0,
-          "total_4yr_av": 4.0,
-          "total_4yr_av_above_replacement": -0.6,
+          "total_4yr_av": 3.0,
+          "total_4yr_av_above_replacement": -1.6,
           "eavar": 2.451,
           "eavar_upper": 2.553,
           "eavar_lower": 2.349,
           "replacement_level": 4.586,
-          "surplus_av": -3.1
+          "surplus_av": -4.1
         },
         {
           "player": "Eric Olsen",
@@ -1162,15 +1195,15 @@
           "pick": 183,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
-          "obs_yr2": 3.0,
+          "obs_yr2": 0.0,
           "obs_yr3": 0.0,
-          "total_4yr_av": 3.0,
-          "total_4yr_av_above_replacement": -1.6,
+          "total_4yr_av": 0.0,
+          "total_4yr_av_above_replacement": -4.6,
           "eavar": 1.226,
           "eavar_upper": 1.353,
           "eavar_lower": 1.098,
           "replacement_level": 4.586,
-          "surplus_av": -2.8
+          "surplus_av": -5.8
         },
         {
           "player": "Syd'Quan Thompson",
@@ -1190,10 +1223,10 @@
         }
       ],
       "class_summary": {
-        "total_4yr_av": 131.0,
-        "total_above_replacement": 94.2,
+        "total_4yr_av": 126.0,
+        "total_above_replacement": 89.2,
         "total_eavar": 57.031,
-        "class_surplus": 37.1,
+        "class_surplus": 32.1,
         "n_players": 8
       }
     },
@@ -1359,6 +1392,22 @@
           "surplus_av": -1.5
         },
         {
+          "player": "Marshall Newhouse",
+          "pos": "OT",
+          "pick": 169,
+          "obs_yr0": 0.0,
+          "obs_yr1": 10.0,
+          "obs_yr2": 9.0,
+          "obs_yr3": 2.0,
+          "total_4yr_av": 21.0,
+          "total_4yr_av_above_replacement": 16.4,
+          "eavar": 1.505,
+          "eavar_upper": 1.623,
+          "eavar_lower": 1.388,
+          "replacement_level": 4.586,
+          "surplus_av": 14.9
+        },
+        {
           "player": "James Starks",
           "pos": "RB",
           "pick": 193,
@@ -1392,11 +1441,11 @@
         }
       ],
       "class_summary": {
-        "total_4yr_av": 74.0,
-        "total_above_replacement": 46.4,
-        "total_eavar": 34.919,
-        "class_surplus": 11.4,
-        "n_players": 6
+        "total_4yr_av": 95.0,
+        "total_above_replacement": 62.8,
+        "total_eavar": 36.425,
+        "class_surplus": 26.3,
+        "n_players": 7
       }
     },
     "HOU": {
@@ -1418,6 +1467,22 @@
           "eavar_lower": 15.964,
           "replacement_level": 4.586,
           "surplus_av": 1.3
+        },
+        {
+          "player": "Ben Tate",
+          "pos": "RB",
+          "pick": 58,
+          "obs_yr0": 0.0,
+          "obs_yr1": 7.0,
+          "obs_yr2": 2.0,
+          "obs_yr3": 4.0,
+          "total_4yr_av": 13.0,
+          "total_4yr_av_above_replacement": 8.4,
+          "eavar": 8.665,
+          "eavar_upper": 8.807,
+          "eavar_lower": 8.522,
+          "replacement_level": 4.586,
+          "surplus_av": -0.3
         },
         {
           "player": "Earl Mitchell",
@@ -1473,15 +1538,31 @@
           "pick": 144,
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
-          "obs_yr2": 1.0,
-          "obs_yr3": 1.0,
-          "total_4yr_av": 4.0,
-          "total_4yr_av_above_replacement": -0.6,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 2.0,
+          "total_4yr_av_above_replacement": -2.6,
           "eavar": 2.199,
           "eavar_upper": 2.303,
           "eavar_lower": 2.096,
           "replacement_level": 4.586,
-          "surplus_av": -2.8
+          "surplus_av": -4.8
+        },
+        {
+          "player": "Trindon Holliday",
+          "pos": "WR",
+          "pick": 197,
+          "obs_yr0": 0.0,
+          "obs_yr1": 0.0,
+          "obs_yr2": 2.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 2.0,
+          "total_4yr_av_above_replacement": -2.6,
+          "eavar": 1.004,
+          "eavar_upper": 1.143,
+          "eavar_lower": 0.865,
+          "replacement_level": 4.586,
+          "surplus_av": -3.6
         },
         {
           "player": "Dorin Dickerson",
@@ -1489,23 +1570,23 @@
           "pick": 227,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
-          "obs_yr2": 1.0,
+          "obs_yr2": 0.0,
           "obs_yr3": 0.0,
-          "total_4yr_av": 1.0,
-          "total_4yr_av_above_replacement": -3.6,
+          "total_4yr_av": 0.0,
+          "total_4yr_av_above_replacement": -4.6,
           "eavar": 0.671,
           "eavar_upper": 0.832,
           "eavar_lower": 0.51,
           "replacement_level": 4.586,
-          "surplus_av": -4.3
+          "surplus_av": -5.3
         }
       ],
       "class_summary": {
-        "total_4yr_av": 54.0,
-        "total_above_replacement": 26.4,
-        "total_eavar": 32.529,
-        "class_surplus": -6.2,
-        "n_players": 6
+        "total_4yr_av": 66.0,
+        "total_above_replacement": 29.2,
+        "total_eavar": 42.198,
+        "class_surplus": -13.1,
+        "n_players": 8
       }
     },
     "JAX": {
@@ -1527,6 +1608,22 @@
           "eavar_lower": 18.778,
           "replacement_level": 4.586,
           "surplus_av": 2.4
+        },
+        {
+          "player": "D'Anthony Smith",
+          "pos": "DT",
+          "pick": 74,
+          "obs_yr0": 0.0,
+          "obs_yr1": 0.0,
+          "obs_yr2": 1.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 1.0,
+          "total_4yr_av_above_replacement": -3.6,
+          "eavar": 6.682,
+          "eavar_upper": 6.819,
+          "eavar_lower": 6.545,
+          "replacement_level": 4.586,
+          "surplus_av": -10.3
         },
         {
           "player": "Larry Hart",
@@ -1566,23 +1663,23 @@
           "pick": 180,
           "obs_yr0": 1.0,
           "obs_yr1": 2.0,
-          "obs_yr2": 1.0,
+          "obs_yr2": 0.0,
           "obs_yr3": 0.0,
-          "total_4yr_av": 4.0,
-          "total_4yr_av_above_replacement": -0.6,
+          "total_4yr_av": 3.0,
+          "total_4yr_av_above_replacement": -1.6,
           "eavar": 1.28,
           "eavar_upper": 1.406,
           "eavar_lower": 1.155,
           "replacement_level": 4.586,
-          "surplus_av": -1.9
+          "surplus_av": -2.9
         }
       ],
       "class_summary": {
         "total_4yr_av": 38.0,
-        "total_above_replacement": 19.6,
-        "total_eavar": 24.445,
-        "class_surplus": -4.8,
-        "n_players": 4
+        "total_above_replacement": 15.0,
+        "total_eavar": 31.127,
+        "class_surplus": -16.1,
+        "n_players": 5
       }
     },
     "KAN": {
@@ -1628,14 +1725,14 @@
           "obs_yr0": 2.0,
           "obs_yr1": 2.0,
           "obs_yr2": 4.0,
-          "obs_yr3": 1.0,
-          "total_4yr_av": 9.0,
-          "total_4yr_av_above_replacement": 4.4,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 8.0,
+          "total_4yr_av_above_replacement": 3.4,
           "eavar": 9.872,
           "eavar_upper": 10.013,
           "eavar_lower": 9.73,
           "replacement_level": 4.586,
-          "surplus_av": -5.5
+          "surplus_av": -6.5
         },
         {
           "player": "Jon Asamoah",
@@ -1684,14 +1781,30 @@
           "eavar_lower": 2.387,
           "replacement_level": 4.586,
           "surplus_av": 12.9
+        },
+        {
+          "player": "Cameron Sheffield",
+          "pos": "LB",
+          "pick": 142,
+          "obs_yr0": 0.0,
+          "obs_yr1": 1.0,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 1.0,
+          "total_4yr_av_above_replacement": -3.6,
+          "eavar": 2.268,
+          "eavar_upper": 2.371,
+          "eavar_lower": 2.165,
+          "replacement_level": 4.586,
+          "surplus_av": -5.9
         }
       ],
       "class_summary": {
         "total_4yr_av": 101.0,
-        "total_above_replacement": 73.4,
-        "total_eavar": 57.7,
-        "class_surplus": 15.7,
-        "n_players": 6
+        "total_above_replacement": 68.8,
+        "total_eavar": 59.968,
+        "class_surplus": 8.8,
+        "n_players": 7
       }
     },
     "MIA": {
@@ -1872,22 +1985,6 @@
           "surplus_av": -4.3
         },
         {
-          "player": "Nate Triplett",
-          "pos": "LB",
-          "pick": 167,
-          "obs_yr0": 0.0,
-          "obs_yr1": 0.0,
-          "obs_yr2": 0.0,
-          "obs_yr3": 0.0,
-          "total_4yr_av": 0.0,
-          "total_4yr_av_above_replacement": -4.6,
-          "eavar": 1.551,
-          "eavar_upper": 1.667,
-          "eavar_lower": 1.435,
-          "replacement_level": 4.586,
-          "surplus_av": -6.2
-        },
-        {
           "player": "Joe Webb",
           "pos": "QB",
           "pick": 199,
@@ -1904,28 +2001,28 @@
           "surplus_av": -1.6
         },
         {
-          "player": "Mickey Shuler",
-          "pos": "TE",
-          "pick": 214,
+          "player": "Ryan D'Imperio",
+          "pos": "LB",
+          "pick": 237,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
           "obs_yr2": 0.0,
           "obs_yr3": 0.0,
           "total_4yr_av": 0.0,
           "total_4yr_av_above_replacement": -4.6,
-          "eavar": 0.795,
-          "eavar_upper": 0.947,
-          "eavar_lower": 0.643,
+          "eavar": 0.592,
+          "eavar_upper": 0.759,
+          "eavar_lower": 0.425,
           "replacement_level": 4.586,
-          "surplus_av": -5.4
+          "surplus_av": -5.2
         }
       ],
       "class_summary": {
         "total_4yr_av": 39.0,
-        "total_above_replacement": 6.8,
-        "total_eavar": 31.951,
-        "class_surplus": -25.2,
-        "n_players": 7
+        "total_above_replacement": 11.4,
+        "total_eavar": 30.196,
+        "class_surplus": -18.8,
+        "n_players": 6
       }
     },
     "NOR": {
@@ -1981,44 +2078,28 @@
           "surplus_av": 25.6
         },
         {
-          "player": "Al Woods",
-          "pos": "DT",
-          "pick": 123,
-          "obs_yr0": 1.0,
-          "obs_yr1": 0.0,
-          "obs_yr2": 1.0,
-          "obs_yr3": 2.0,
-          "total_4yr_av": 4.0,
-          "total_4yr_av_above_replacement": -0.6,
-          "eavar": 3.051,
-          "eavar_upper": 3.155,
-          "eavar_lower": 2.947,
-          "replacement_level": 4.586,
-          "surplus_av": -3.7
-        },
-        {
           "player": "Matt Tennant",
           "pos": "OC",
           "pick": 158,
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
-          "obs_yr2": 1.0,
+          "obs_yr2": 0.0,
           "obs_yr3": 0.0,
-          "total_4yr_av": 3.0,
-          "total_4yr_av_above_replacement": -1.6,
+          "total_4yr_av": 2.0,
+          "total_4yr_av_above_replacement": -2.6,
           "eavar": 1.776,
           "eavar_upper": 1.886,
           "eavar_lower": 1.666,
           "replacement_level": 4.586,
-          "surplus_av": -3.4
+          "surplus_av": -4.4
         }
       ],
       "class_summary": {
-        "total_4yr_av": 69.0,
-        "total_above_replacement": 46.0,
-        "total_eavar": 30.699,
-        "class_surplus": 15.1,
-        "n_players": 5
+        "total_4yr_av": 64.0,
+        "total_above_replacement": 45.6,
+        "total_eavar": 27.648,
+        "class_surplus": 17.8,
+        "n_players": 4
       }
     },
     "NWE": {
@@ -2138,20 +2219,20 @@
           "surplus_av": -0.6
         },
         {
-          "player": "Ted Larsen",
-          "pos": "OG",
-          "pick": 205,
-          "obs_yr0": 6.0,
-          "obs_yr1": 2.0,
-          "obs_yr2": 7.0,
-          "obs_yr3": 2.0,
-          "total_4yr_av": 17.0,
-          "total_4yr_av_above_replacement": 12.4,
-          "eavar": 0.898,
-          "eavar_upper": 1.043,
-          "eavar_lower": 0.753,
+          "player": "Thomas Welch",
+          "pos": "OT",
+          "pick": 208,
+          "obs_yr0": 0.0,
+          "obs_yr1": 1.0,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 1.0,
+          "total_4yr_av_above_replacement": -3.6,
+          "eavar": 0.862,
+          "eavar_upper": 1.009,
+          "eavar_lower": 0.715,
           "replacement_level": 4.586,
-          "surplus_av": 11.5
+          "surplus_av": -4.5
         },
         {
           "player": "Brandon Deaderick",
@@ -2160,21 +2241,21 @@
           "obs_yr0": 2.0,
           "obs_yr1": 3.0,
           "obs_yr2": 3.0,
-          "obs_yr3": 1.0,
-          "total_4yr_av": 9.0,
-          "total_4yr_av_above_replacement": 4.4,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 8.0,
+          "total_4yr_av_above_replacement": 3.4,
           "eavar": 0.525,
           "eavar_upper": 0.698,
           "eavar_lower": 0.352,
           "replacement_level": 4.586,
-          "surplus_av": 3.9
+          "surplus_av": 2.9
         }
       ],
       "class_summary": {
-        "total_4yr_av": 150.0,
-        "total_above_replacement": 108.6,
-        "total_eavar": 55.315,
-        "class_surplus": 53.3,
+        "total_4yr_av": 133.0,
+        "total_above_replacement": 91.6,
+        "total_eavar": 55.279,
+        "class_surplus": 36.3,
         "n_players": 9
       }
     },
@@ -2247,6 +2328,22 @@
           "surplus_av": -2.7
         },
         {
+          "player": "Adrian Tracy",
+          "pos": "LB",
+          "pick": 184,
+          "obs_yr0": 0.0,
+          "obs_yr1": 0.0,
+          "obs_yr2": 1.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 1.0,
+          "total_4yr_av_above_replacement": -3.6,
+          "eavar": 1.208,
+          "eavar_upper": 1.337,
+          "eavar_lower": 1.079,
+          "replacement_level": 4.586,
+          "surplus_av": -4.8
+        },
+        {
           "player": "Matt Dodge",
           "pos": "P",
           "pick": 221,
@@ -2264,11 +2361,11 @@
         }
       ],
       "class_summary": {
-        "total_4yr_av": 59.0,
-        "total_above_replacement": 36.0,
-        "total_eavar": 34.34,
-        "class_surplus": 1.7,
-        "n_players": 5
+        "total_4yr_av": 60.0,
+        "total_above_replacement": 32.4,
+        "total_eavar": 35.548,
+        "class_surplus": -3.1,
+        "n_players": 6
       }
     },
     "NYJ": {
@@ -2417,6 +2514,22 @@
           "surplus_av": 18.3
         },
         {
+          "player": "Robert Johnson",
+          "pos": "S",
+          "pick": 148,
+          "obs_yr0": 0.0,
+          "obs_yr1": 0.0,
+          "obs_yr2": 2.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 2.0,
+          "total_4yr_av_above_replacement": -2.6,
+          "eavar": 2.068,
+          "eavar_upper": 2.173,
+          "eavar_lower": 1.963,
+          "replacement_level": 4.586,
+          "surplus_av": -4.7
+        },
+        {
           "player": "Rusty Smith",
           "pos": "QB",
           "pick": 176,
@@ -2450,11 +2563,11 @@
         }
       ],
       "class_summary": {
-        "total_4yr_av": 61.0,
-        "total_above_replacement": 33.4,
-        "total_eavar": 34.403,
-        "class_surplus": -1.0,
-        "n_players": 6
+        "total_4yr_av": 63.0,
+        "total_above_replacement": 30.8,
+        "total_eavar": 36.471,
+        "class_surplus": -5.7,
+        "n_players": 7
       }
     },
     "PHI": {
@@ -2499,15 +2612,15 @@
           "pick": 86,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
-          "obs_yr2": 7.0,
-          "obs_yr3": 4.0,
-          "total_4yr_av": 12.0,
-          "total_4yr_av_above_replacement": 7.4,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 1.0,
+          "total_4yr_av_above_replacement": -3.6,
           "eavar": 5.504,
           "eavar_upper": 5.633,
           "eavar_lower": 5.375,
           "replacement_level": 4.586,
-          "surplus_av": 1.9
+          "surplus_av": -9.1
         },
         {
           "player": "Trevard Lindley",
@@ -2531,15 +2644,31 @@
           "pick": 121,
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
-          "obs_yr2": 1.0,
+          "obs_yr2": 0.0,
           "obs_yr3": 0.0,
-          "total_4yr_av": 3.0,
-          "total_4yr_av_above_replacement": -1.6,
+          "total_4yr_av": 2.0,
+          "total_4yr_av_above_replacement": -2.6,
           "eavar": 3.149,
           "eavar_upper": 3.253,
           "eavar_lower": 3.044,
           "replacement_level": 4.586,
-          "surplus_av": -4.7
+          "surplus_av": -5.7
+        },
+        {
+          "player": "Mike Kafka",
+          "pos": "QB",
+          "pick": 122,
+          "obs_yr0": 0.0,
+          "obs_yr1": 0.0,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 0.0,
+          "total_4yr_av_above_replacement": -4.6,
+          "eavar": 3.099,
+          "eavar_upper": 3.203,
+          "eavar_lower": 2.995,
+          "replacement_level": 4.586,
+          "surplus_av": -7.7
         },
         {
           "player": "Clay Harbor",
@@ -2548,14 +2677,14 @@
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
           "obs_yr2": 1.0,
-          "obs_yr3": 2.0,
-          "total_4yr_av": 5.0,
-          "total_4yr_av_above_replacement": 0.4,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 3.0,
+          "total_4yr_av_above_replacement": -1.6,
           "eavar": 2.957,
           "eavar_upper": 3.06,
           "eavar_lower": 2.853,
           "replacement_level": 4.586,
-          "surplus_av": -2.6
+          "surplus_av": -4.6
         },
         {
           "player": "Riley Cooper",
@@ -2623,11 +2752,11 @@
         }
       ],
       "class_summary": {
-        "total_4yr_av": 89.0,
-        "total_above_replacement": 43.0,
-        "total_eavar": 49.555,
-        "class_surplus": -6.5,
-        "n_players": 10
+        "total_4yr_av": 75.0,
+        "total_above_replacement": 24.4,
+        "total_eavar": 52.655,
+        "class_surplus": -28.2,
+        "n_players": 11
       }
     },
     "PIT": {
@@ -2683,20 +2812,20 @@
           "surplus_av": 6.5
         },
         {
-          "player": "Thaddeus Gibson",
-          "pos": "LB",
-          "pick": 116,
+          "player": "Chris Scott",
+          "pos": "OG",
+          "pick": 151,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
           "obs_yr2": 0.0,
           "obs_yr3": 0.0,
           "total_4yr_av": 0.0,
           "total_4yr_av_above_replacement": -4.6,
-          "eavar": 3.408,
-          "eavar_upper": 3.514,
-          "eavar_lower": 3.301,
+          "eavar": 1.975,
+          "eavar_upper": 2.082,
+          "eavar_lower": 1.869,
           "replacement_level": 4.586,
-          "surplus_av": -8.0
+          "surplus_av": -6.6
         },
         {
           "player": "Crezdon Butler",
@@ -2705,14 +2834,14 @@
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
           "obs_yr2": 0.0,
-          "obs_yr3": 1.0,
-          "total_4yr_av": 1.0,
-          "total_4yr_av_above_replacement": -3.6,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 0.0,
+          "total_4yr_av_above_replacement": -4.6,
           "eavar": 1.622,
           "eavar_upper": 1.736,
           "eavar_lower": 1.509,
           "replacement_level": 4.586,
-          "surplus_av": -5.2
+          "surplus_av": -6.2
         },
         {
           "player": "Stevenson Sylvester",
@@ -2764,10 +2893,10 @@
         }
       ],
       "class_summary": {
-        "total_4yr_av": 116.0,
-        "total_above_replacement": 79.2,
-        "total_eavar": 40.875,
-        "class_surplus": 38.3,
+        "total_4yr_av": 115.0,
+        "total_above_replacement": 78.2,
+        "total_eavar": 39.443,
+        "class_surplus": 38.7,
         "n_players": 8
       }
     },
@@ -2909,22 +3038,22 @@
           "pick": 251,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
-          "obs_yr2": 6.0,
+          "obs_yr2": 0.0,
           "obs_yr3": 0.0,
-          "total_4yr_av": 7.0,
-          "total_4yr_av_above_replacement": 2.4,
+          "total_4yr_av": 1.0,
+          "total_4yr_av_above_replacement": -3.6,
           "eavar": 0.507,
           "eavar_upper": 0.682,
           "eavar_lower": 0.332,
           "replacement_level": 4.586,
-          "surplus_av": 1.9
+          "surplus_av": -4.1
         }
       ],
       "class_summary": {
-        "total_4yr_av": 88.0,
-        "total_above_replacement": 46.6,
+        "total_4yr_av": 82.0,
+        "total_above_replacement": 40.6,
         "total_eavar": 50.462,
-        "class_surplus": -3.9,
+        "class_surplus": -9.9,
         "n_players": 9
       }
     },
@@ -2971,14 +3100,14 @@
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
           "obs_yr2": 0.0,
-          "obs_yr3": 1.0,
-          "total_4yr_av": 3.0,
-          "total_4yr_av_above_replacement": -1.6,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 2.0,
+          "total_4yr_av_above_replacement": -2.6,
           "eavar": 7.732,
           "eavar_upper": 7.873,
           "eavar_lower": 7.591,
           "replacement_level": 4.586,
-          "surplus_av": -9.3
+          "surplus_av": -10.3
         },
         {
           "player": "Mardy Gilyard",
@@ -3002,31 +3131,15 @@
           "pick": 132,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
-          "obs_yr2": 1.0,
-          "obs_yr3": 1.0,
-          "total_4yr_av": 3.0,
-          "total_4yr_av_above_replacement": -1.6,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 1.0,
+          "total_4yr_av_above_replacement": -3.6,
           "eavar": 2.65,
           "eavar_upper": 2.752,
           "eavar_lower": 2.547,
           "replacement_level": 4.586,
-          "surplus_av": -4.2
-        },
-        {
-          "player": "Hall Davis",
-          "pos": "DE",
-          "pick": 149,
-          "obs_yr0": 0.0,
-          "obs_yr1": 0.0,
-          "obs_yr2": 0.0,
-          "obs_yr3": 0.0,
-          "total_4yr_av": 0.0,
-          "total_4yr_av_above_replacement": -4.6,
-          "eavar": 2.037,
-          "eavar_upper": 2.142,
-          "eavar_lower": 1.931,
-          "replacement_level": 4.586,
-          "surplus_av": -6.6
+          "surplus_av": -6.2
         },
         {
           "player": "Fendi Onobun",
@@ -3081,16 +3194,16 @@
           "pos": "DE",
           "pick": 226,
           "obs_yr0": 2.0,
-          "obs_yr1": 1.0,
-          "obs_yr2": 1.0,
-          "obs_yr3": 6.0,
-          "total_4yr_av": 10.0,
-          "total_4yr_av_above_replacement": 5.4,
+          "obs_yr1": 0.0,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 2.0,
+          "total_4yr_av_above_replacement": -2.6,
           "eavar": 0.679,
           "eavar_upper": 0.84,
           "eavar_lower": 0.519,
           "replacement_level": 4.586,
-          "surplus_av": 4.7
+          "surplus_av": -3.3
         },
         {
           "player": "Josh Hull",
@@ -3099,28 +3212,44 @@
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
           "obs_yr2": 1.0,
-          "obs_yr3": 1.0,
-          "total_4yr_av": 3.0,
-          "total_4yr_av_above_replacement": -1.6,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 2.0,
+          "total_4yr_av_above_replacement": -2.6,
           "eavar": 0.507,
           "eavar_upper": 0.682,
           "eavar_lower": 0.332,
           "replacement_level": 4.586,
-          "surplus_av": -2.1
+          "surplus_av": -3.1
         }
       ],
       "class_summary": {
-        "total_4yr_av": 71.0,
-        "total_above_replacement": 20.4,
-        "total_eavar": 56.593,
-        "class_surplus": -36.1,
-        "n_players": 11
+        "total_4yr_av": 59.0,
+        "total_above_replacement": 13.0,
+        "total_eavar": 54.557,
+        "class_surplus": -41.5,
+        "n_players": 10
       }
     },
     "BAL": {
       "gm": "Ozzie Newsome",
       "fully_observed": true,
       "players": [
+        {
+          "player": "Sergio Kindle",
+          "pos": "LB",
+          "pick": 43,
+          "obs_yr0": 0.0,
+          "obs_yr1": 0.0,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 0.0,
+          "total_4yr_av_above_replacement": -4.6,
+          "eavar": 11.068,
+          "eavar_upper": 11.208,
+          "eavar_lower": 10.928,
+          "replacement_level": 4.586,
+          "surplus_av": -15.7
+        },
         {
           "player": "Terrence Cody",
           "pos": "DT",
@@ -3200,14 +3329,30 @@
           "eavar_lower": 1.693,
           "replacement_level": 4.586,
           "surplus_av": 7.6
+        },
+        {
+          "player": "Ramon Harewood",
+          "pos": "OG",
+          "pick": 194,
+          "obs_yr0": 0.0,
+          "obs_yr1": 0.0,
+          "obs_yr2": 2.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 2.0,
+          "total_4yr_av_above_replacement": -2.6,
+          "eavar": 1.047,
+          "eavar_upper": 1.183,
+          "eavar_lower": 0.91,
+          "replacement_level": 4.586,
+          "surplus_av": -3.6
         }
       ],
       "class_summary": {
-        "total_4yr_av": 51.0,
-        "total_above_replacement": 28.0,
-        "total_eavar": 23.087,
-        "class_surplus": 5.0,
-        "n_players": 5
+        "total_4yr_av": 53.0,
+        "total_above_replacement": 20.8,
+        "total_eavar": 35.201,
+        "class_surplus": -14.3,
+        "n_players": 7
       }
     },
     "SDG": {
@@ -3229,6 +3374,22 @@
           "eavar_lower": 18.18,
           "replacement_level": 4.586,
           "surplus_av": 14.0
+        },
+        {
+          "player": "Donald Butler",
+          "pos": "LB",
+          "pick": 79,
+          "obs_yr0": 0.0,
+          "obs_yr1": 7.0,
+          "obs_yr2": 6.0,
+          "obs_yr3": 6.0,
+          "total_4yr_av": 19.0,
+          "total_4yr_av_above_replacement": 14.4,
+          "eavar": 6.162,
+          "eavar_upper": 6.296,
+          "eavar_lower": 6.029,
+          "replacement_level": 4.586,
+          "surplus_av": 8.2
         },
         {
           "player": "Darrell Stuckey",
@@ -3261,29 +3422,13 @@
           "eavar_lower": 2.028,
           "replacement_level": 4.586,
           "surplus_av": 3.3
-        },
-        {
-          "player": "Dedrick Epps",
-          "pos": "TE",
-          "pick": 235,
-          "obs_yr0": 0.0,
-          "obs_yr1": 0.0,
-          "obs_yr2": 0.0,
-          "obs_yr3": 0.0,
-          "total_4yr_av": 0.0,
-          "total_4yr_av_above_replacement": -4.6,
-          "eavar": 0.607,
-          "eavar_upper": 0.773,
-          "eavar_lower": 0.441,
-          "replacement_level": 4.586,
-          "surplus_av": -5.2
         }
       ],
       "class_summary": {
-        "total_4yr_av": 50.0,
-        "total_above_replacement": 31.6,
-        "total_eavar": 24.888,
-        "class_surplus": 6.8,
+        "total_4yr_av": 69.0,
+        "total_above_replacement": 50.6,
+        "total_eavar": 30.443,
+        "class_surplus": 20.2,
         "n_players": 4
       }
     },
@@ -3418,14 +3563,30 @@
           "eavar_lower": 0.432,
           "replacement_level": 4.586,
           "surplus_av": -4.2
+        },
+        {
+          "player": "Jameson Konz",
+          "pos": "RB",
+          "pick": 245,
+          "obs_yr0": 0.0,
+          "obs_yr1": 0.0,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 0.0,
+          "total_4yr_av_above_replacement": -4.6,
+          "eavar": 0.538,
+          "eavar_upper": 0.71,
+          "eavar_lower": 0.365,
+          "replacement_level": 4.586,
+          "surplus_av": -5.1
         }
       ],
       "class_summary": {
         "total_4yr_av": 135.0,
-        "total_above_replacement": 98.2,
-        "total_eavar": 57.454,
-        "class_surplus": 40.7,
-        "n_players": 8
+        "total_above_replacement": 93.6,
+        "total_eavar": 57.991,
+        "class_surplus": 35.6,
+        "n_players": 9
       }
     },
     "SFO": {
@@ -3469,16 +3630,16 @@
           "pos": "S",
           "pick": 49,
           "obs_yr0": 3.0,
-          "obs_yr1": 1.0,
-          "obs_yr2": 2.0,
-          "obs_yr3": 1.0,
-          "total_4yr_av": 7.0,
-          "total_4yr_av_above_replacement": 2.4,
+          "obs_yr1": 0.0,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 3.0,
+          "total_4yr_av_above_replacement": -1.6,
           "eavar": 10.034,
           "eavar_upper": 10.175,
           "eavar_lower": 9.893,
           "replacement_level": 4.586,
-          "surplus_av": -7.6
+          "surplus_av": -11.6
         },
         {
           "player": "NaVorro Bowman",
@@ -3549,23 +3710,23 @@
           "pos": "S",
           "pick": 224,
           "obs_yr0": 1.0,
-          "obs_yr1": 1.0,
-          "obs_yr2": 2.0,
-          "obs_yr3": 2.0,
-          "total_4yr_av": 6.0,
-          "total_4yr_av_above_replacement": 1.4,
+          "obs_yr1": 0.0,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 1.0,
+          "total_4yr_av_above_replacement": -3.6,
           "eavar": 0.697,
           "eavar_upper": 0.856,
           "eavar_lower": 0.538,
           "replacement_level": 4.586,
-          "surplus_av": 0.7
+          "surplus_av": -4.3
         }
       ],
       "class_summary": {
-        "total_4yr_av": 146.0,
-        "total_above_replacement": 109.2,
+        "total_4yr_av": 137.0,
+        "total_above_replacement": 100.2,
         "total_eavar": 55.012,
-        "class_surplus": 54.3,
+        "class_surplus": 45.3,
         "n_players": 8
       }
     },
@@ -3761,14 +3922,30 @@
           "eavar_lower": 0.589,
           "replacement_level": 4.586,
           "surplus_av": -4.3
+        },
+        {
+          "player": "Erik Cook",
+          "pos": "OC",
+          "pick": 229,
+          "obs_yr0": 0.0,
+          "obs_yr1": 1.0,
+          "obs_yr2": 0.0,
+          "obs_yr3": 0.0,
+          "total_4yr_av": 1.0,
+          "total_4yr_av_above_replacement": -3.6,
+          "eavar": 0.654,
+          "eavar_upper": 0.816,
+          "eavar_lower": 0.492,
+          "replacement_level": 4.586,
+          "surplus_av": -4.3
         }
       ],
       "class_summary": {
-        "total_4yr_av": 52.0,
-        "total_above_replacement": 38.2,
-        "total_eavar": 25.923,
-        "class_surplus": 12.3,
-        "n_players": 3
+        "total_4yr_av": 53.0,
+        "total_above_replacement": 34.6,
+        "total_eavar": 26.577,
+        "class_surplus": 8.0,
+        "n_players": 4
       }
     }
   }
