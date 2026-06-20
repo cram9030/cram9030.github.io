@@ -11,7 +11,13 @@
         <div class="container">
             <nav class="main-nav">
                 <a href="/" class="site-title">Home</a>
-                <div class="nav-links">
+                <button class="nav-toggle" aria-label="Toggle navigation menu"
+                        aria-expanded="false" aria-controls="nav-links">
+                    <span class="nav-toggle-bar"></span>
+                    <span class="nav-toggle-bar"></span>
+                    <span class="nav-toggle-bar"></span>
+                </button>
+                <div class="nav-links" id="nav-links">
                     <a href="/projects">Projects</a>
                     <a href="/volunteering">Volunteering & Professional Activities</a>
                     <a href="/blog">Blog</a>
@@ -70,7 +76,24 @@
             },
             securityLevel: 'loose'
         });
-        
+
+        // Mobile navigation toggle (hamburger dropdown)
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.getElementById('nav-links');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', () => {
+                const isOpen = navLinks.classList.toggle('open');
+                navToggle.setAttribute('aria-expanded', isOpen);
+            });
+            // Collapse the menu after a link is tapped
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('open');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
+
         // Image lightbox
         document.querySelectorAll('img[data-lightbox]').forEach(img => {
             img.style.cursor = 'zoom-in';
