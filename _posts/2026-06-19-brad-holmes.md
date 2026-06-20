@@ -77,18 +77,18 @@ Finally, we have Malcom Rodriguez, probably one of my favorite picks, not just b
 |  Parameter       |                   |
 | ---------------- | ----------------- |
 | Most Projected Surplus AV  | [Jahmyr Gibbs](https://www.pro-football-reference.com/players/G/GibbJa01.htm)      |
-| Least Projected Surplus AV | [Brodric Martin](https://www.pro-football-reference.com/players/M/MartBr00.htm)    |
-| Hit Rate         | 57.1 %            |
+| Least Projected Surplus AV | [Hendon Hooker](https://www.pro-football-reference.com/players/H/HookHe00.htm)    |
+| Hit Rate         | 50 %            |
 
 Here’s the gem of a draft where the first four picks were all significant contributors and hits. It is also the draft that gets held up as proof that positional value doesn’t matter. I don’t think that is the case, but that is for another post. For the sake of assessing Brad Holmes ' drafting performance, there is no question that it was a good draft. It would probably suprise some people that by cumlative Expected Approximate Value Above Replacement, this projected total is still less than the 2021 draft, even when accounting for the trade value between the two drafts. That is driven primarily by a few factors:
 
 1. Sewell is otherworldly.
 2. Getting an All-Pro in the fourth round is wild value.
-3. The last three picks contributed almost nothing.
+3. The last four picks contributed almost nothing.
 
 It’s worth touching on the projections for the next year for each of the first four picks. Generally, they seem pretty reasonable with a lot more optimisim for Sam LaPorta than Branch, which does seem to make sense. The type or time of the injuries are not taken into account; it is primarily driven by LaPorta’s stand out performance in his first two years compared to Branch only having a single season as a high-impact starter. Well, that and because the Lions' defense has been bad, so that gets held against Branch in this assessment. Gibbs is still projected to have an impactful year, but it’s hard to be as good as Gibbs has been for the past two years, both from a likelihood to stay on the field perspective as well as just generally being that efficient is hard. Campbell is in a similar boat; it’s just rare that players stay performing at an All-Pro level for multiple consecutive years.
 
-Now let’s talk about the bad. Brodric Martin was a head-scratching trade at the time. He came from a small school and wasn’t [particularly athletic](https://ras.football/ras-information/?PlayerID=23147&ovl=Lions). In a lot of ways, Martin is the worst of Brad Holmes' picks because, unlike Josh Paschal and Levi Onwuzurike, there were no serious injuries, and he still couldn’t make it on the field even when healthy. [concussion ended his career](https://lionswire.usatoday.com/story/sports/nfl/lions/2025/04/30/antoine-green-lions-concussion-injury-waiver/83366518007/).
+Now let’s talk about the bad. Brodric Martin was a head-scratching trade at the time. He came from a small school and wasn’t [particularly athletic](https://ras.football/ras-information/?PlayerID=23147&ovl=Lions). In a lot of ways, Martin is the worst of Brad Holmes' picks because, unlike Josh Paschal and Levi Onwuzurike, there were no serious injuries, and he still couldn’t make it on the field even when healthy. Antoine Green, on the other hand, seemed to have been coming on when a [concussion ended his career](https://lionswire.usatoday.com/story/sports/nfl/lions/2025/04/30/antoine-green-lions-concussion-injury-waiver/83366518007/). That leaves us with Hendon Hooker, who was recieved fairly well, but there was this question hanging over him of why he was drafted so high. As of today, only Ennis Rakestraw has the opportunity to give Hooker a run for Holmes' least valuable pick.
 
 ## 2024 Draft
 
@@ -107,9 +107,9 @@ Now let’s talk about the bad. Brodric Martin was a head-scratching trade at th
 | ---------------- | ----------------- |
 | Most Projected Surplus AV  | [Christian Mahogany](https://www.pro-football-reference.com/players/M/MahoCh00.htm)      |
 | Least Projected Surplus AV | [ Ennis Rakestraw](https://www.pro-football-reference.com/players/R/RakeEn00.htm)    |
-| Hit Rate         | 20 %            |
+| Hit Rate         | 16.7 %            |
 
-Here is the draft that takes the cake for Brad Holmes' worst draft. It has his worst pick in Ennis Rakestraw, who hasn't seen the field in two years. Given that Ennis would have to be a full-time starter for the next two years in order to be worth the pick that was expended on him. Even the most optimistic projections have him being a bust. It is neck and neck with Brodric Martin for Brad Holmes' worst pick, but for different reasons. Martin was clearly overdrafted with no real upside whereas Rakestraw had never played a full season in college so he represented a serious injury risk. Of the rest of the draft picks, Terrion Arnold feels like a bust to a lot of people, but he is on track to meet expectations, which is really a good reminder of how we are biased by the high performers in the first round being the expectation as opposed to the reality. 
+Here is the draft that takes the cake for Brad Holmes' worst draft. It has his worst pick in Ennis Rakestraw, who hasn't seen the field in two years. Given that Ennis would have to be a full-time starter for the next two years in order to be worth the pick that was expended on him. Even the most optimistic projections have him being a bust. It is neck and neck with Brodric Martin and Hendon Hooker for Brad Holmes' worst pick, but for different reasons. Martin was clearly overdrafted with no real upside whereas Rakestraw had never played a full season in college so he represented a serious injury risk. Of the rest of the draft picks, Terrion Arnold feels like a bust to a lot of people, but he is on track to meet expectations, which is really a good reminder of how we are biased by the high performers in the first round being the expectation as opposed to the reality. 
 
 That being said, while the player of Terrion Arnold isn't performing like a bust quite yet but the pick is clearly a bust when you take into account the value lost in the trade, which was the equivilant of a low third round pick. If Arnold would be able to become a full time starter and the defense were above average, he might be able to compensate for that, but as of the writing of this article, he is still injured, so both prospects of the player and the defense meeting those targets seems pretty unlikely. The trade for Giovanni Manu gets a lot of hate from fans (correctly so), but the trade for a special teams only player in Vaki was nearly as bad cumulating in the loss of the equivilant of the 24th pick in the second round of the draft. 
 

@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_at": "2026-06-20T00:51:13.801570+00:00",
+    "generated_at": "2026-06-20T01:08:49.611044+00:00",
     "year": 2018,
     "models": {
       "parametric": [
@@ -19,6 +19,7 @@
         {
           "player": "Calvin Ridley",
           "pos": "WR",
+          "round": 1,
           "pick": 26,
           "obs_yr0": 7.0,
           "obs_yr1": 7.0,
@@ -35,6 +36,7 @@
         {
           "player": "Isaiah Oliver",
           "pos": "S",
+          "round": 2,
           "pick": 58,
           "obs_yr0": 1.0,
           "obs_yr1": 5.0,
@@ -51,6 +53,7 @@
         {
           "player": "Deadrin Senat",
           "pos": "DT",
+          "round": 3,
           "pick": 90,
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
@@ -67,6 +70,7 @@
         {
           "player": "Ito Smith",
           "pos": "RB",
+          "round": 4,
           "pick": 126,
           "obs_yr0": 3.0,
           "obs_yr1": 1.0,
@@ -83,6 +87,7 @@
         {
           "player": "Russell Gage",
           "pos": "WR",
+          "round": 6,
           "pick": 194,
           "obs_yr0": 1.0,
           "obs_yr1": 4.0,
@@ -99,6 +104,7 @@
         {
           "player": "Foyesade Oluokun",
           "pos": "LB",
+          "round": 6,
           "pick": 200,
           "obs_yr0": 3.0,
           "obs_yr1": 3.0,
@@ -128,6 +134,7 @@
         {
           "player": "Josh Allen",
           "pos": "QB",
+          "round": 1,
           "pick": 7,
           "obs_yr0": 6.0,
           "obs_yr1": 11.0,
@@ -144,6 +151,7 @@
         {
           "player": "Tremaine Edmunds",
           "pos": "LB",
+          "round": 1,
           "pick": 16,
           "obs_yr0": 9.0,
           "obs_yr1": 14.0,
@@ -160,6 +168,7 @@
         {
           "player": "Harrison Phillips",
           "pos": "DT",
+          "round": 3,
           "pick": 96,
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
@@ -176,6 +185,7 @@
         {
           "player": "Taron Johnson",
           "pos": "S",
+          "round": 4,
           "pick": 121,
           "obs_yr0": 2.0,
           "obs_yr1": 3.0,
@@ -192,6 +202,7 @@
         {
           "player": "Siran Neal",
           "pos": "S",
+          "round": 5,
           "pick": 154,
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
@@ -208,6 +219,7 @@
         {
           "player": "Wyatt Teller",
           "pos": "OG",
+          "round": 5,
           "pick": 166,
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
@@ -224,6 +236,7 @@
         {
           "player": "Ray-Ray McCloud",
           "pos": "WR",
+          "round": 6,
           "pick": 187,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -253,6 +266,7 @@
         {
           "player": "D.J. Moore",
           "pos": "WR",
+          "round": 1,
           "pick": 24,
           "obs_yr0": 8.0,
           "obs_yr1": 8.0,
@@ -269,6 +283,7 @@
         {
           "player": "Donte Jackson",
           "pos": "CB",
+          "round": 2,
           "pick": 55,
           "obs_yr0": 6.0,
           "obs_yr1": 4.0,
@@ -285,6 +300,7 @@
         {
           "player": "Rashaan Gaulden",
           "pos": "S",
+          "round": 3,
           "pick": 85,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -301,6 +317,7 @@
         {
           "player": "Ian Thomas",
           "pos": "TE",
+          "round": 4,
           "pick": 101,
           "obs_yr0": 3.0,
           "obs_yr1": 1.0,
@@ -317,6 +334,7 @@
         {
           "player": "Marquis Haynes",
           "pos": "LB",
+          "round": 4,
           "pick": 136,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -333,6 +351,7 @@
         {
           "player": "Jermaine Carter Jr.",
           "pos": "LB",
+          "round": 5,
           "pick": 161,
           "obs_yr0": 1.0,
           "obs_yr1": 3.0,
@@ -349,6 +368,7 @@
         {
           "player": "Andre Smith",
           "pos": "LB",
+          "round": 7,
           "pick": 234,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -378,6 +398,7 @@
         {
           "player": "Roquan Smith",
           "pos": "LB",
+          "round": 1,
           "pick": 8,
           "obs_yr0": 9.0,
           "obs_yr1": 7.0,
@@ -394,6 +415,7 @@
         {
           "player": "James Daniels",
           "pos": "OG",
+          "round": 2,
           "pick": 39,
           "obs_yr0": 5.0,
           "obs_yr1": 6.0,
@@ -410,6 +432,7 @@
         {
           "player": "Anthony Miller",
           "pos": "WR",
+          "round": 2,
           "pick": 51,
           "obs_yr0": 4.0,
           "obs_yr1": 5.0,
@@ -426,6 +449,7 @@
         {
           "player": "Joel Iyiegbuniwe",
           "pos": "LB",
+          "round": 4,
           "pick": 115,
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
@@ -442,6 +466,7 @@
         {
           "player": "Bilal Nichols",
           "pos": "DE",
+          "round": 5,
           "pick": 145,
           "obs_yr0": 5.0,
           "obs_yr1": 6.0,
@@ -458,6 +483,7 @@
         {
           "player": "Kylie Fitts",
           "pos": "LB",
+          "round": 6,
           "pick": 181,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -474,6 +500,7 @@
         {
           "player": "Javon Wims",
           "pos": "WR",
+          "round": 7,
           "pick": 224,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -503,6 +530,7 @@
         {
           "player": "Billy Price",
           "pos": "OC",
+          "round": 1,
           "pick": 21,
           "obs_yr0": 5.0,
           "obs_yr1": 4.0,
@@ -519,6 +547,7 @@
         {
           "player": "Jessie Bates III",
           "pos": "S",
+          "round": 2,
           "pick": 54,
           "obs_yr0": 5.0,
           "obs_yr1": 6.0,
@@ -535,6 +564,7 @@
         {
           "player": "Sam Hubbard",
           "pos": "DE",
+          "round": 3,
           "pick": 77,
           "obs_yr0": 2.0,
           "obs_yr1": 7.0,
@@ -551,6 +581,7 @@
         {
           "player": "Malik Jefferson",
           "pos": "LB",
+          "round": 3,
           "pick": 78,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -567,6 +598,7 @@
         {
           "player": "Mark Walton",
           "pos": "RB",
+          "round": 4,
           "pick": 112,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -583,6 +615,7 @@
         {
           "player": "Davontae Harris",
           "pos": "S",
+          "round": 5,
           "pick": 151,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -599,6 +632,7 @@
         {
           "player": "Andrew Brown",
           "pos": "DT",
+          "round": 5,
           "pick": 158,
           "obs_yr0": 0.0,
           "obs_yr1": 2.0,
@@ -615,6 +649,7 @@
         {
           "player": "Darius Phillips",
           "pos": "S",
+          "round": 5,
           "pick": 170,
           "obs_yr0": 1.0,
           "obs_yr1": 2.0,
@@ -631,6 +666,7 @@
         {
           "player": "Auden Tate",
           "pos": "WR",
+          "round": 7,
           "pick": 253,
           "obs_yr0": 0.0,
           "obs_yr1": 4.0,
@@ -660,6 +696,7 @@
         {
           "player": "Baker Mayfield",
           "pos": "QB",
+          "round": 1,
           "pick": 1,
           "obs_yr0": 10.0,
           "obs_yr1": 11.0,
@@ -676,6 +713,7 @@
         {
           "player": "Denzel Ward",
           "pos": "CB",
+          "round": 1,
           "pick": 4,
           "obs_yr0": 8.0,
           "obs_yr1": 5.0,
@@ -692,6 +730,7 @@
         {
           "player": "Austin Corbett",
           "pos": "OG",
+          "round": 2,
           "pick": 33,
           "obs_yr0": 1.0,
           "obs_yr1": 4.0,
@@ -708,6 +747,7 @@
         {
           "player": "Nick Chubb",
           "pos": "RB",
+          "round": 2,
           "pick": 35,
           "obs_yr0": 6.0,
           "obs_yr1": 12.0,
@@ -724,6 +764,7 @@
         {
           "player": "Chad Thomas",
           "pos": "DE",
+          "round": 3,
           "pick": 67,
           "obs_yr0": 0.0,
           "obs_yr1": 5.0,
@@ -740,6 +781,7 @@
         {
           "player": "Antonio Callaway",
           "pos": "WR",
+          "round": 4,
           "pick": 105,
           "obs_yr0": 4.0,
           "obs_yr1": 1.0,
@@ -756,6 +798,7 @@
         {
           "player": "Genard Avery",
           "pos": "LB",
+          "round": 5,
           "pick": 150,
           "obs_yr0": 4.0,
           "obs_yr1": 1.0,
@@ -772,6 +815,7 @@
         {
           "player": "Damion Ratley",
           "pos": "WR",
+          "round": 6,
           "pick": 175,
           "obs_yr0": 1.0,
           "obs_yr1": 2.0,
@@ -801,6 +845,7 @@
         {
           "player": "Quenton Nelson",
           "pos": "OG",
+          "round": 1,
           "pick": 6,
           "obs_yr0": 15.0,
           "obs_yr1": 15.0,
@@ -817,6 +862,7 @@
         {
           "player": "Shaquille Leonard",
           "pos": "LB",
+          "round": 2,
           "pick": 36,
           "obs_yr0": 18.0,
           "obs_yr1": 12.0,
@@ -833,6 +879,7 @@
         {
           "player": "Braden Smith",
           "pos": "OT",
+          "round": 2,
           "pick": 37,
           "obs_yr0": 7.0,
           "obs_yr1": 8.0,
@@ -849,6 +896,7 @@
         {
           "player": "Kemoko Turay",
           "pos": "LB",
+          "round": 2,
           "pick": 52,
           "obs_yr0": 3.0,
           "obs_yr1": 0.0,
@@ -865,6 +913,7 @@
         {
           "player": "Tyquan Lewis",
           "pos": "DE",
+          "round": 2,
           "pick": 64,
           "obs_yr0": 3.0,
           "obs_yr1": 1.0,
@@ -881,6 +930,7 @@
         {
           "player": "Nyheim Hines",
           "pos": "RB",
+          "round": 4,
           "pick": 104,
           "obs_yr0": 6.0,
           "obs_yr1": 6.0,
@@ -897,6 +947,7 @@
         {
           "player": "Daurice Fountain",
           "pos": "WR",
+          "round": 5,
           "pick": 159,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -913,6 +964,7 @@
         {
           "player": "Jordan Wilkins",
           "pos": "RB",
+          "round": 5,
           "pick": 169,
           "obs_yr0": 3.0,
           "obs_yr1": 2.0,
@@ -929,6 +981,7 @@
         {
           "player": "Deon Cain",
           "pos": "WR",
+          "round": 6,
           "pick": 185,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -945,6 +998,7 @@
         {
           "player": "Matthew Adams",
           "pos": "LB",
+          "round": 7,
           "pick": 221,
           "obs_yr0": 6.0,
           "obs_yr1": 2.0,
@@ -961,6 +1015,7 @@
         {
           "player": "Zaire Franklin",
           "pos": "LB",
+          "round": 7,
           "pick": 235,
           "obs_yr0": 2.0,
           "obs_yr1": 1.0,
@@ -990,6 +1045,7 @@
         {
           "player": "Josh Rosen",
           "pos": "QB",
+          "round": 1,
           "pick": 10,
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
@@ -1006,6 +1062,7 @@
         {
           "player": "Christian Kirk",
           "pos": "WR",
+          "round": 2,
           "pick": 47,
           "obs_yr0": 4.0,
           "obs_yr1": 7.0,
@@ -1022,6 +1079,7 @@
         {
           "player": "Mason Cole",
           "pos": "OC",
+          "round": 3,
           "pick": 97,
           "obs_yr0": 4.0,
           "obs_yr1": 2.0,
@@ -1038,6 +1096,7 @@
         {
           "player": "Chase Edmonds",
           "pos": "RB",
+          "round": 4,
           "pick": 134,
           "obs_yr0": 2.0,
           "obs_yr1": 3.0,
@@ -1054,6 +1113,7 @@
         {
           "player": "Korey Cunningham",
           "pos": "OT",
+          "round": 7,
           "pick": 254,
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
@@ -1083,6 +1143,7 @@
         {
           "player": "Leighton Vander Esch",
           "pos": "LB",
+          "round": 1,
           "pick": 19,
           "obs_yr0": 11.0,
           "obs_yr1": 5.0,
@@ -1099,6 +1160,7 @@
         {
           "player": "Connor Williams",
           "pos": "OG",
+          "round": 2,
           "pick": 50,
           "obs_yr0": 4.0,
           "obs_yr1": 6.0,
@@ -1115,6 +1177,7 @@
         {
           "player": "Michael Gallup",
           "pos": "WR",
+          "round": 3,
           "pick": 81,
           "obs_yr0": 4.0,
           "obs_yr1": 9.0,
@@ -1131,6 +1194,7 @@
         {
           "player": "Dorance Armstrong Jr.",
           "pos": "DE",
+          "round": 4,
           "pick": 116,
           "obs_yr0": 2.0,
           "obs_yr1": 2.0,
@@ -1147,6 +1211,7 @@
         {
           "player": "Dalton Schultz",
           "pos": "TE",
+          "round": 4,
           "pick": 137,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -1163,6 +1228,7 @@
         {
           "player": "Chris Covington",
           "pos": "LB",
+          "round": 6,
           "pick": 193,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -1179,6 +1245,7 @@
         {
           "player": "Cedrick Wilson Jr.",
           "pos": "WR",
+          "round": 6,
           "pick": 208,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -1208,6 +1275,7 @@
         {
           "player": "Bradley Chubb",
           "pos": "LB",
+          "round": 1,
           "pick": 5,
           "obs_yr0": 8.0,
           "obs_yr1": 2.0,
@@ -1224,6 +1292,7 @@
         {
           "player": "Courtland Sutton",
           "pos": "WR",
+          "round": 2,
           "pick": 40,
           "obs_yr0": 5.0,
           "obs_yr1": 9.0,
@@ -1240,6 +1309,7 @@
         {
           "player": "Royce Freeman",
           "pos": "RB",
+          "round": 3,
           "pick": 71,
           "obs_yr0": 3.0,
           "obs_yr1": 5.0,
@@ -1256,6 +1326,7 @@
         {
           "player": "Isaac Yiadom",
           "pos": "S",
+          "round": 3,
           "pick": 99,
           "obs_yr0": 1.0,
           "obs_yr1": 4.0,
@@ -1272,6 +1343,7 @@
         {
           "player": "Josey Jewell",
           "pos": "LB",
+          "round": 4,
           "pick": 106,
           "obs_yr0": 5.0,
           "obs_yr1": 3.0,
@@ -1288,6 +1360,7 @@
         {
           "player": "DaeSean Hamilton",
           "pos": "WR",
+          "round": 4,
           "pick": 113,
           "obs_yr0": 2.0,
           "obs_yr1": 2.0,
@@ -1304,6 +1377,7 @@
         {
           "player": "Troy Fumagalli",
           "pos": "TE",
+          "round": 5,
           "pick": 156,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -1320,6 +1394,7 @@
         {
           "player": "Sam Jones",
           "pos": "OG",
+          "round": 6,
           "pick": 183,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -1336,6 +1411,7 @@
         {
           "player": "Keishawn Bierria",
           "pos": "LB",
+          "round": 6,
           "pick": 217,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -1365,6 +1441,7 @@
         {
           "player": "Frank Ragnow",
           "pos": "OC",
+          "round": 1,
           "pick": 20,
           "obs_yr0": 7.0,
           "obs_yr1": 6.0,
@@ -1381,6 +1458,7 @@
         {
           "player": "Kerryon Johnson",
           "pos": "RB",
+          "round": 2,
           "pick": 43,
           "obs_yr0": 5.0,
           "obs_yr1": 3.0,
@@ -1397,6 +1475,7 @@
         {
           "player": "Tracy Walker",
           "pos": "S",
+          "round": 3,
           "pick": 82,
           "obs_yr0": 1.0,
           "obs_yr1": 4.0,
@@ -1413,6 +1492,7 @@
         {
           "player": "Da'Shawn Hand",
           "pos": "DE",
+          "round": 4,
           "pick": 114,
           "obs_yr0": 5.0,
           "obs_yr1": 1.0,
@@ -1429,6 +1509,7 @@
         {
           "player": "Tyrell Crosby",
           "pos": "OT",
+          "round": 5,
           "pick": 153,
           "obs_yr0": 2.0,
           "obs_yr1": 3.0,
@@ -1445,6 +1526,7 @@
         {
           "player": "Nick Bawden",
           "pos": "RB",
+          "round": 7,
           "pick": 237,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -1474,6 +1556,7 @@
         {
           "player": "Jaire Alexander",
           "pos": "CB",
+          "round": 1,
           "pick": 18,
           "obs_yr0": 5.0,
           "obs_yr1": 6.0,
@@ -1490,6 +1573,7 @@
         {
           "player": "Josh Jackson",
           "pos": "CB",
+          "round": 2,
           "pick": 45,
           "obs_yr0": 4.0,
           "obs_yr1": 1.0,
@@ -1506,6 +1590,7 @@
         {
           "player": "Oren Burks",
           "pos": "LB",
+          "round": 3,
           "pick": 88,
           "obs_yr0": 3.0,
           "obs_yr1": 1.0,
@@ -1522,6 +1607,7 @@
         {
           "player": "J'Mon Moore",
           "pos": "WR",
+          "round": 4,
           "pick": 133,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -1538,6 +1624,7 @@
         {
           "player": "JK Scott",
           "pos": "P",
+          "round": 5,
           "pick": 172,
           "obs_yr0": 2.0,
           "obs_yr1": 2.0,
@@ -1554,6 +1641,7 @@
         {
           "player": "Marquez Valdes-Scantling",
           "pos": "WR",
+          "round": 5,
           "pick": 174,
           "obs_yr0": 4.0,
           "obs_yr1": 4.0,
@@ -1570,6 +1658,7 @@
         {
           "player": "Equanimeous St. Brown",
           "pos": "WR",
+          "round": 6,
           "pick": 207,
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
@@ -1586,6 +1675,7 @@
         {
           "player": "James Looney",
           "pos": "DT",
+          "round": 7,
           "pick": 232,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -1602,6 +1692,7 @@
         {
           "player": "Hunter Bradley",
           "pos": "LS",
+          "round": 7,
           "pick": 239,
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
@@ -1631,6 +1722,7 @@
         {
           "player": "Justin Reid",
           "pos": "S",
+          "round": 3,
           "pick": 68,
           "obs_yr0": 5.0,
           "obs_yr1": 5.0,
@@ -1647,6 +1739,7 @@
         {
           "player": "Martinas Rankin",
           "pos": "OT",
+          "round": 3,
           "pick": 80,
           "obs_yr0": 3.0,
           "obs_yr1": 0.0,
@@ -1663,6 +1756,7 @@
         {
           "player": "Jordan Akins",
           "pos": "TE",
+          "round": 3,
           "pick": 98,
           "obs_yr0": 2.0,
           "obs_yr1": 4.0,
@@ -1679,6 +1773,7 @@
         {
           "player": "Keke Coutee",
           "pos": "WR",
+          "round": 4,
           "pick": 103,
           "obs_yr0": 2.0,
           "obs_yr1": 2.0,
@@ -1695,6 +1790,7 @@
         {
           "player": "Duke Ejiofor",
           "pos": "DE",
+          "round": 6,
           "pick": 177,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -1711,6 +1807,7 @@
         {
           "player": "Jordan Thomas",
           "pos": "TE",
+          "round": 6,
           "pick": 211,
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
@@ -1727,6 +1824,7 @@
         {
           "player": "Peter Kalambayi",
           "pos": "LB",
+          "round": 6,
           "pick": 214,
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
@@ -1756,6 +1854,7 @@
         {
           "player": "Taven Bryan",
           "pos": "DT",
+          "round": 1,
           "pick": 29,
           "obs_yr0": 2.0,
           "obs_yr1": 4.0,
@@ -1772,6 +1871,7 @@
         {
           "player": "DJ Chark",
           "pos": "WR",
+          "round": 2,
           "pick": 61,
           "obs_yr0": 1.0,
           "obs_yr1": 7.0,
@@ -1788,6 +1888,7 @@
         {
           "player": "Ronnie Harrison",
           "pos": "S",
+          "round": 3,
           "pick": 93,
           "obs_yr0": 4.0,
           "obs_yr1": 6.0,
@@ -1804,6 +1905,7 @@
         {
           "player": "Will Richardson",
           "pos": "OT",
+          "round": 4,
           "pick": 129,
           "obs_yr0": 0.0,
           "obs_yr1": 2.0,
@@ -1820,6 +1922,7 @@
         {
           "player": "Leon Jacobs",
           "pos": "LB",
+          "round": 7,
           "pick": 230,
           "obs_yr0": 2.0,
           "obs_yr1": 4.0,
@@ -1836,6 +1939,7 @@
         {
           "player": "Logan Cooke",
           "pos": "P",
+          "round": 7,
           "pick": 247,
           "obs_yr0": 2.0,
           "obs_yr1": 3.0,
@@ -1865,6 +1969,7 @@
         {
           "player": "Breeland Speaks",
           "pos": "DT",
+          "round": 2,
           "pick": 46,
           "obs_yr0": 3.0,
           "obs_yr1": 0.0,
@@ -1881,6 +1986,7 @@
         {
           "player": "Derrick Nnadi",
           "pos": "DT",
+          "round": 3,
           "pick": 75,
           "obs_yr0": 4.0,
           "obs_yr1": 7.0,
@@ -1897,6 +2003,7 @@
         {
           "player": "Dorian O'Daniel",
           "pos": "LB",
+          "round": 3,
           "pick": 100,
           "obs_yr0": 2.0,
           "obs_yr1": 1.0,
@@ -1913,6 +2020,7 @@
         {
           "player": "Armani Watts",
           "pos": "S",
+          "round": 4,
           "pick": 124,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -1929,6 +2037,7 @@
         {
           "player": "Tremon Smith",
           "pos": "S",
+          "round": 6,
           "pick": 196,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -1958,6 +2067,7 @@
         {
           "player": "Minkah Fitzpatrick",
           "pos": "S",
+          "round": 1,
           "pick": 11,
           "obs_yr0": 4.0,
           "obs_yr1": 16.0,
@@ -1974,6 +2084,7 @@
         {
           "player": "Mike Gesicki",
           "pos": "TE",
+          "round": 2,
           "pick": 42,
           "obs_yr0": 2.0,
           "obs_yr1": 4.0,
@@ -1990,6 +2101,7 @@
         {
           "player": "Jerome Baker",
           "pos": "LB",
+          "round": 3,
           "pick": 73,
           "obs_yr0": 5.0,
           "obs_yr1": 5.0,
@@ -2006,6 +2118,7 @@
         {
           "player": "Durham Smythe",
           "pos": "TE",
+          "round": 4,
           "pick": 123,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -2022,6 +2135,7 @@
         {
           "player": "Kalen Ballage",
           "pos": "RB",
+          "round": 4,
           "pick": 131,
           "obs_yr0": 2.0,
           "obs_yr1": 1.0,
@@ -2038,6 +2152,7 @@
         {
           "player": "Cornell Armstrong",
           "pos": "S",
+          "round": 6,
           "pick": 209,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -2054,6 +2169,7 @@
         {
           "player": "Jason Sanders",
           "pos": "K",
+          "round": 7,
           "pick": 229,
           "obs_yr0": 4.0,
           "obs_yr1": 2.0,
@@ -2083,6 +2199,7 @@
         {
           "player": "Mike Hughes",
           "pos": "S",
+          "round": 1,
           "pick": 30,
           "obs_yr0": 2.0,
           "obs_yr1": 2.0,
@@ -2099,6 +2216,7 @@
         {
           "player": "Brian O'Neill",
           "pos": "OT",
+          "round": 2,
           "pick": 62,
           "obs_yr0": 5.0,
           "obs_yr1": 8.0,
@@ -2115,6 +2233,7 @@
         {
           "player": "Jalyn Holmes",
           "pos": "DE",
+          "round": 4,
           "pick": 102,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -2131,6 +2250,7 @@
         {
           "player": "Tyler Conklin",
           "pos": "TE",
+          "round": 5,
           "pick": 157,
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
@@ -2147,6 +2267,7 @@
         {
           "player": "Daniel Carlson",
           "pos": "K",
+          "round": 5,
           "pick": 167,
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
@@ -2163,6 +2284,7 @@
         {
           "player": "Devante Downs",
           "pos": "LB",
+          "round": 7,
           "pick": 225,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -2192,6 +2314,7 @@
         {
           "player": "Marcus Davenport",
           "pos": "DE",
+          "round": 1,
           "pick": 14,
           "obs_yr0": 1.0,
           "obs_yr1": 6.0,
@@ -2208,6 +2331,7 @@
         {
           "player": "Tre'Quan Smith",
           "pos": "WR",
+          "round": 3,
           "pick": 91,
           "obs_yr0": 5.0,
           "obs_yr1": 2.0,
@@ -2224,6 +2348,7 @@
         {
           "player": "Will Clapp",
           "pos": "OC",
+          "round": 7,
           "pick": 245,
           "obs_yr0": 1.0,
           "obs_yr1": 2.0,
@@ -2253,6 +2378,7 @@
         {
           "player": "Isaiah Wynn",
           "pos": "OT",
+          "round": 1,
           "pick": 23,
           "obs_yr0": 0.0,
           "obs_yr1": 4.0,
@@ -2269,6 +2395,7 @@
         {
           "player": "Sony Michel",
           "pos": "RB",
+          "round": 1,
           "pick": 31,
           "obs_yr0": 7.0,
           "obs_yr1": 5.0,
@@ -2285,6 +2412,7 @@
         {
           "player": "Ja'Whaun Bentley",
           "pos": "LB",
+          "round": 5,
           "pick": 143,
           "obs_yr0": 1.0,
           "obs_yr1": 4.0,
@@ -2301,6 +2429,7 @@
         {
           "player": "Keion Crossen",
           "pos": "S",
+          "round": 7,
           "pick": 243,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -2317,6 +2446,7 @@
         {
           "player": "Ryan Izzo",
           "pos": "TE",
+          "round": 7,
           "pick": 250,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -2346,6 +2476,7 @@
         {
           "player": "Sam Beal",
           "pos": "S",
+          "round": 3,
           "pick": 1,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -2362,6 +2493,7 @@
         {
           "player": "Saquon Barkley",
           "pos": "RB",
+          "round": 1,
           "pick": 2,
           "obs_yr0": 14.0,
           "obs_yr1": 9.0,
@@ -2378,6 +2510,7 @@
         {
           "player": "Will Hernandez",
           "pos": "OG",
+          "round": 2,
           "pick": 34,
           "obs_yr0": 8.0,
           "obs_yr1": 8.0,
@@ -2394,6 +2527,7 @@
         {
           "player": "Lorenzo Carter",
           "pos": "LB",
+          "round": 3,
           "pick": 66,
           "obs_yr0": 2.0,
           "obs_yr1": 5.0,
@@ -2410,6 +2544,7 @@
         {
           "player": "B.J. Hill",
           "pos": "DE",
+          "round": 3,
           "pick": 69,
           "obs_yr0": 5.0,
           "obs_yr1": 3.0,
@@ -2426,6 +2561,7 @@
         {
           "player": "Kyle Lauletta",
           "pos": "QB",
+          "round": 4,
           "pick": 108,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -2442,6 +2578,7 @@
         {
           "player": "R.J. McIntosh",
           "pos": "DT",
+          "round": 5,
           "pick": 139,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -2471,6 +2608,7 @@
         {
           "player": "Sam Darnold",
           "pos": "QB",
+          "round": 1,
           "pick": 3,
           "obs_yr0": 7.0,
           "obs_yr1": 6.0,
@@ -2487,6 +2625,7 @@
         {
           "player": "Nathan Shepherd",
           "pos": "DT",
+          "round": 3,
           "pick": 72,
           "obs_yr0": 3.0,
           "obs_yr1": 1.0,
@@ -2503,6 +2642,7 @@
         {
           "player": "Chris Herndon",
           "pos": "TE",
+          "round": 4,
           "pick": 107,
           "obs_yr0": 4.0,
           "obs_yr1": 0.0,
@@ -2519,6 +2659,7 @@
         {
           "player": "Parry Nickerson",
           "pos": "S",
+          "round": 6,
           "pick": 179,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -2535,6 +2676,7 @@
         {
           "player": "Folorunso Fatukasi",
           "pos": "DT",
+          "round": 6,
           "pick": 180,
           "obs_yr0": 0.0,
           "obs_yr1": 2.0,
@@ -2551,6 +2693,7 @@
         {
           "player": "Trenton Cannon",
           "pos": "RB",
+          "round": 6,
           "pick": 204,
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
@@ -2580,6 +2723,7 @@
         {
           "player": "Rashaan Evans",
           "pos": "LB",
+          "round": 1,
           "pick": 22,
           "obs_yr0": 5.0,
           "obs_yr1": 9.0,
@@ -2596,6 +2740,7 @@
         {
           "player": "Harold Landry",
           "pos": "LB",
+          "round": 2,
           "pick": 41,
           "obs_yr0": 3.0,
           "obs_yr1": 9.0,
@@ -2612,6 +2757,7 @@
         {
           "player": "Dane Cruikshank",
           "pos": "S",
+          "round": 5,
           "pick": 152,
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
@@ -2641,6 +2787,7 @@
         {
           "player": "Dallas Goedert",
           "pos": "TE",
+          "round": 2,
           "pick": 49,
           "obs_yr0": 2.0,
           "obs_yr1": 5.0,
@@ -2657,6 +2804,7 @@
         {
           "player": "Avonte Maddox",
           "pos": "CB",
+          "round": 4,
           "pick": 125,
           "obs_yr0": 4.0,
           "obs_yr1": 3.0,
@@ -2673,6 +2821,7 @@
         {
           "player": "Josh Sweat",
           "pos": "DE",
+          "round": 4,
           "pick": 130,
           "obs_yr0": 1.0,
           "obs_yr1": 2.0,
@@ -2689,6 +2838,7 @@
         {
           "player": "Matt Pryor",
           "pos": "OG",
+          "round": 6,
           "pick": 206,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -2705,6 +2855,7 @@
         {
           "player": "Jordan Mailata",
           "pos": "OT",
+          "round": 7,
           "pick": 233,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -2734,6 +2885,7 @@
         {
           "player": "Terrell Edmunds",
           "pos": "S",
+          "round": 1,
           "pick": 28,
           "obs_yr0": 6.0,
           "obs_yr1": 6.0,
@@ -2750,6 +2902,7 @@
         {
           "player": "James Washington",
           "pos": "WR",
+          "round": 2,
           "pick": 60,
           "obs_yr0": 2.0,
           "obs_yr1": 5.0,
@@ -2766,6 +2919,7 @@
         {
           "player": "Mason Rudolph",
           "pos": "QB",
+          "round": 3,
           "pick": 76,
           "obs_yr0": 0.0,
           "obs_yr1": 3.0,
@@ -2782,6 +2936,7 @@
         {
           "player": "Chukwuma Okorafor",
           "pos": "OT",
+          "round": 3,
           "pick": 92,
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
@@ -2798,6 +2953,7 @@
         {
           "player": "Marcus Allen",
           "pos": "S",
+          "round": 5,
           "pick": 148,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -2814,6 +2970,7 @@
         {
           "player": "Jaylen Samuels",
           "pos": "RB",
+          "round": 5,
           "pick": 165,
           "obs_yr0": 3.0,
           "obs_yr1": 3.0,
@@ -2843,6 +3000,7 @@
         {
           "player": "Kolton Miller",
           "pos": "OT",
+          "round": 1,
           "pick": 15,
           "obs_yr0": 6.0,
           "obs_yr1": 7.0,
@@ -2859,6 +3017,7 @@
         {
           "player": "P.J. Hall",
           "pos": "DT",
+          "round": 2,
           "pick": 57,
           "obs_yr0": 3.0,
           "obs_yr1": 5.0,
@@ -2875,6 +3034,7 @@
         {
           "player": "Brandon Parker",
           "pos": "OT",
+          "round": 3,
           "pick": 65,
           "obs_yr0": 4.0,
           "obs_yr1": 2.0,
@@ -2891,6 +3051,7 @@
         {
           "player": "Arden Key",
           "pos": "DE",
+          "round": 3,
           "pick": 87,
           "obs_yr0": 4.0,
           "obs_yr1": 1.0,
@@ -2907,6 +3068,7 @@
         {
           "player": "Nick Nelson",
           "pos": "S",
+          "round": 4,
           "pick": 110,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -2923,6 +3085,7 @@
         {
           "player": "Maurice Hurst Jr.",
           "pos": "DT",
+          "round": 5,
           "pick": 140,
           "obs_yr0": 4.0,
           "obs_yr1": 3.0,
@@ -2939,6 +3102,7 @@
         {
           "player": "Johnny Townsend",
           "pos": "P",
+          "round": 5,
           "pick": 173,
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
@@ -2955,6 +3119,7 @@
         {
           "player": "Marcell Ateman",
           "pos": "WR",
+          "round": 7,
           "pick": 228,
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
@@ -2984,6 +3149,7 @@
         {
           "player": "Joseph Noteboom",
           "pos": "OT",
+          "round": 3,
           "pick": 89,
           "obs_yr0": 2.0,
           "obs_yr1": 3.0,
@@ -3000,6 +3166,7 @@
         {
           "player": "Brian Allen",
           "pos": "OC",
+          "round": 4,
           "pick": 111,
           "obs_yr0": 1.0,
           "obs_yr1": 5.0,
@@ -3016,6 +3183,7 @@
         {
           "player": "John Franklin-Myers",
           "pos": "DT",
+          "round": 4,
           "pick": 135,
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
@@ -3032,6 +3200,7 @@
         {
           "player": "Micah Kiser",
           "pos": "LB",
+          "round": 5,
           "pick": 147,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -3048,6 +3217,7 @@
         {
           "player": "Ogbonnia Okoronkwo",
           "pos": "LB",
+          "round": 5,
           "pick": 160,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -3064,6 +3234,7 @@
         {
           "player": "John Kelly",
           "pos": "RB",
+          "round": 6,
           "pick": 176,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -3080,6 +3251,7 @@
         {
           "player": "Jamil Demby",
           "pos": "OT",
+          "round": 6,
           "pick": 192,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -3096,6 +3268,7 @@
         {
           "player": "Sebastian Joseph-Day",
           "pos": "DT",
+          "round": 6,
           "pick": 195,
           "obs_yr0": 0.0,
           "obs_yr1": 6.0,
@@ -3112,6 +3285,7 @@
         {
           "player": "Trevon Young",
           "pos": "DT",
+          "round": 6,
           "pick": 205,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -3128,6 +3302,7 @@
         {
           "player": "Travin Howard",
           "pos": "LB",
+          "round": 7,
           "pick": 231,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -3144,6 +3319,7 @@
         {
           "player": "Justin Lawler",
           "pos": "DE",
+          "round": 7,
           "pick": 244,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -3173,6 +3349,7 @@
         {
           "player": "Hayden Hurst",
           "pos": "TE",
+          "round": 1,
           "pick": 25,
           "obs_yr0": 1.0,
           "obs_yr1": 5.0,
@@ -3189,6 +3366,7 @@
         {
           "player": "Lamar Jackson",
           "pos": "QB",
+          "round": 1,
           "pick": 32,
           "obs_yr0": 8.0,
           "obs_yr1": 25.0,
@@ -3205,6 +3383,7 @@
         {
           "player": "Orlando Brown Jr.",
           "pos": "OT",
+          "round": 3,
           "pick": 83,
           "obs_yr0": 6.0,
           "obs_yr1": 13.0,
@@ -3221,6 +3400,7 @@
         {
           "player": "Mark Andrews",
           "pos": "TE",
+          "round": 3,
           "pick": 86,
           "obs_yr0": 5.0,
           "obs_yr1": 11.0,
@@ -3237,6 +3417,7 @@
         {
           "player": "Anthony Averett",
           "pos": "S",
+          "round": 4,
           "pick": 118,
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
@@ -3253,6 +3434,7 @@
         {
           "player": "Kenny Young",
           "pos": "LB",
+          "round": 4,
           "pick": 122,
           "obs_yr0": 4.0,
           "obs_yr1": 3.0,
@@ -3269,6 +3451,7 @@
         {
           "player": "Jaleel Scott",
           "pos": "WR",
+          "round": 4,
           "pick": 132,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -3285,6 +3468,7 @@
         {
           "player": "DeShon Elliott",
           "pos": "S",
+          "round": 6,
           "pick": 190,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -3301,6 +3485,7 @@
         {
           "player": "Bradley Bozeman",
           "pos": "OC",
+          "round": 6,
           "pick": 215,
           "obs_yr0": 2.0,
           "obs_yr1": 10.0,
@@ -3317,6 +3502,7 @@
         {
           "player": "Zach Sieler",
           "pos": "DE",
+          "round": 7,
           "pick": 238,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -3346,6 +3532,7 @@
         {
           "player": "Derwin James",
           "pos": "S",
+          "round": 1,
           "pick": 17,
           "obs_yr0": 10.0,
           "obs_yr1": 2.0,
@@ -3362,6 +3549,7 @@
         {
           "player": "Uchenna Nwosu",
           "pos": "LB",
+          "round": 2,
           "pick": 48,
           "obs_yr0": 3.0,
           "obs_yr1": 3.0,
@@ -3378,6 +3566,7 @@
         {
           "player": "Justin Jones",
           "pos": "DT",
+          "round": 3,
           "pick": 84,
           "obs_yr0": 1.0,
           "obs_yr1": 5.0,
@@ -3394,6 +3583,7 @@
         {
           "player": "Kyzir White",
           "pos": "LB",
+          "round": 4,
           "pick": 119,
           "obs_yr0": 3.0,
           "obs_yr1": 4.0,
@@ -3410,6 +3600,7 @@
         {
           "player": "Scott Quessenberry",
           "pos": "OG",
+          "round": 5,
           "pick": 155,
           "obs_yr0": 1.0,
           "obs_yr1": 5.0,
@@ -3426,6 +3617,7 @@
         {
           "player": "Justin Jackson",
           "pos": "RB",
+          "round": 7,
           "pick": 251,
           "obs_yr0": 3.0,
           "obs_yr1": 1.0,
@@ -3455,6 +3647,7 @@
         {
           "player": "Rashaad Penny",
           "pos": "RB",
+          "round": 1,
           "pick": 27,
           "obs_yr0": 4.0,
           "obs_yr1": 3.0,
@@ -3471,6 +3664,7 @@
         {
           "player": "Rasheem Green",
           "pos": "DE",
+          "round": 3,
           "pick": 79,
           "obs_yr0": 1.0,
           "obs_yr1": 4.0,
@@ -3487,6 +3681,7 @@
         {
           "player": "Will Dissly",
           "pos": "TE",
+          "round": 4,
           "pick": 120,
           "obs_yr0": 1.0,
           "obs_yr1": 2.0,
@@ -3503,6 +3698,7 @@
         {
           "player": "Shaquem Griffin",
           "pos": "LB",
+          "round": 5,
           "pick": 141,
           "obs_yr0": 2.0,
           "obs_yr1": 1.0,
@@ -3519,6 +3715,7 @@
         {
           "player": "Tre Flowers",
           "pos": "CB",
+          "round": 5,
           "pick": 146,
           "obs_yr0": 6.0,
           "obs_yr1": 6.0,
@@ -3535,6 +3732,7 @@
         {
           "player": "Michael Dickson",
           "pos": "P",
+          "round": 5,
           "pick": 149,
           "obs_yr0": 3.0,
           "obs_yr1": 2.0,
@@ -3551,6 +3749,7 @@
         {
           "player": "Jamarco Jones",
           "pos": "OT",
+          "round": 5,
           "pick": 168,
           "obs_yr0": 0.0,
           "obs_yr1": 3.0,
@@ -3567,6 +3766,7 @@
         {
           "player": "Jacob Martin",
           "pos": "DE",
+          "round": 6,
           "pick": 186,
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
@@ -3596,6 +3796,7 @@
         {
           "player": "Mike McGlinchey",
           "pos": "OT",
+          "round": 1,
           "pick": 9,
           "obs_yr0": 7.0,
           "obs_yr1": 7.0,
@@ -3612,6 +3813,7 @@
         {
           "player": "Dante Pettis",
           "pos": "WR",
+          "round": 2,
           "pick": 44,
           "obs_yr0": 4.0,
           "obs_yr1": 1.0,
@@ -3628,6 +3830,7 @@
         {
           "player": "Fred Warner",
           "pos": "LB",
+          "round": 3,
           "pick": 70,
           "obs_yr0": 7.0,
           "obs_yr1": 9.0,
@@ -3644,6 +3847,7 @@
         {
           "player": "Tarvarius Moore",
           "pos": "S",
+          "round": 3,
           "pick": 95,
           "obs_yr0": 1.0,
           "obs_yr1": 2.0,
@@ -3660,6 +3864,7 @@
         {
           "player": "Kentavius Street",
           "pos": "DE",
+          "round": 4,
           "pick": 128,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -3676,6 +3881,7 @@
         {
           "player": "D.J. Reed",
           "pos": "S",
+          "round": 5,
           "pick": 142,
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
@@ -3692,6 +3898,7 @@
         {
           "player": "Marcell Harris",
           "pos": "S",
+          "round": 6,
           "pick": 184,
           "obs_yr0": 2.0,
           "obs_yr1": 2.0,
@@ -3708,6 +3915,7 @@
         {
           "player": "Jullian Taylor",
           "pos": "DT",
+          "round": 7,
           "pick": 223,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -3724,6 +3932,7 @@
         {
           "player": "Richie James",
           "pos": "WR",
+          "round": 7,
           "pick": 240,
           "obs_yr0": 2.0,
           "obs_yr1": 2.0,
@@ -3753,6 +3962,7 @@
         {
           "player": "Vita Vea",
           "pos": "DT",
+          "round": 1,
           "pick": 12,
           "obs_yr0": 4.0,
           "obs_yr1": 7.0,
@@ -3769,6 +3979,7 @@
         {
           "player": "Ronald Jones II",
           "pos": "RB",
+          "round": 2,
           "pick": 38,
           "obs_yr0": 0.0,
           "obs_yr1": 7.0,
@@ -3785,6 +3996,7 @@
         {
           "player": "M.J. Stewart",
           "pos": "S",
+          "round": 2,
           "pick": 53,
           "obs_yr0": 2.0,
           "obs_yr1": 1.0,
@@ -3801,6 +4013,7 @@
         {
           "player": "Carlton Davis",
           "pos": "CB",
+          "round": 2,
           "pick": 63,
           "obs_yr0": 4.0,
           "obs_yr1": 5.0,
@@ -3817,6 +4030,7 @@
         {
           "player": "Alex Cappa",
           "pos": "OG",
+          "round": 3,
           "pick": 94,
           "obs_yr0": 1.0,
           "obs_yr1": 7.0,
@@ -3833,6 +4047,7 @@
         {
           "player": "Jordan Whitehead",
           "pos": "S",
+          "round": 4,
           "pick": 117,
           "obs_yr0": 4.0,
           "obs_yr1": 5.0,
@@ -3849,6 +4064,7 @@
         {
           "player": "Justin Watson",
           "pos": "WR",
+          "round": 5,
           "pick": 144,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -3865,6 +4081,7 @@
         {
           "player": "Jack Cichy",
           "pos": "LB",
+          "round": 6,
           "pick": 202,
           "obs_yr0": 0.0,
           "obs_yr1": 0.0,
@@ -3894,6 +4111,7 @@
         {
           "player": "Adonis Alexander",
           "pos": "S",
+          "round": 6,
           "pick": 1,
           "obs_yr0": 1.0,
           "obs_yr1": 0.0,
@@ -3910,6 +4128,7 @@
         {
           "player": "Daron Payne",
           "pos": "DT",
+          "round": 1,
           "pick": 13,
           "obs_yr0": 8.0,
           "obs_yr1": 4.0,
@@ -3926,6 +4145,7 @@
         {
           "player": "Derrius Guice",
           "pos": "RB",
+          "round": 2,
           "pick": 59,
           "obs_yr0": 0.0,
           "obs_yr1": 2.0,
@@ -3942,6 +4162,7 @@
         {
           "player": "Geron Christian",
           "pos": "OT",
+          "round": 3,
           "pick": 74,
           "obs_yr0": 0.0,
           "obs_yr1": 2.0,
@@ -3958,6 +4179,7 @@
         {
           "player": "Troy Apke",
           "pos": "S",
+          "round": 4,
           "pick": 109,
           "obs_yr0": 0.0,
           "obs_yr1": 1.0,
@@ -3974,6 +4196,7 @@
         {
           "player": "Tim Settle",
           "pos": "DT",
+          "round": 5,
           "pick": 163,
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
@@ -3990,6 +4213,7 @@
         {
           "player": "Shaun Dion Hamilton",
           "pos": "LB",
+          "round": 6,
           "pick": 197,
           "obs_yr0": 3.0,
           "obs_yr1": 2.0,
@@ -4006,6 +4230,7 @@
         {
           "player": "Greg Stroman",
           "pos": "S",
+          "round": 7,
           "pick": 241,
           "obs_yr0": 2.0,
           "obs_yr1": 0.0,
@@ -4022,6 +4247,7 @@
         {
           "player": "Trey Quinn",
           "pos": "WR",
+          "round": 7,
           "pick": 256,
           "obs_yr0": 1.0,
           "obs_yr1": 1.0,
