@@ -84,7 +84,7 @@ Here’s the gem of a draft where the first four picks were all significant cont
 
 1. Sewell is otherworldly.
 2. Getting an All-Pro in the fourth round is wild value.
-3. The last four picks contributed almost nothing.
+3. The last three picks contributed almost nothing.
 
 It’s worth touching on the projections for the next year for each of the first four picks. Generally, they seem pretty reasonable with a lot more optimisim for Sam LaPorta than Branch, which does seem to make sense. The type or time of the injuries are not taken into account; it is primarily driven by LaPorta’s stand out performance in his first two years compared to Branch only having a single season as a high-impact starter. Well, that and because the Lions' defense has been bad, so that gets held against Branch in this assessment. Gibbs is still projected to have an impactful year, but it’s hard to be as good as Gibbs has been for the past two years, both from a likelihood to stay on the field perspective as well as just generally being that efficient is hard. Campbell is in a similar boat; it’s just rare that players stay performing at an All-Pro level for multiple consecutive years.
 
