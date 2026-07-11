@@ -40,12 +40,12 @@ thumbnail: "/assets/images/NFL_Draft_Board.svg"
 
 ## Overview
 
-The NFL Team Trade History Analyzer reviews every draft pick trade a team made in a given NFL Draft, scored across up to five independent value frameworks. Data spans 2010 to the present and is refreshed automatically each week.
+The NFL Team Trade History Analyzer reviews every draft pick trade a team made in a given NFL Draft, scored across up to six independent value frameworks, including Ben Baldwin's [Open Source Football surplus-value chart](https://opensourcefootball.com/posts/2023-02-23-nfl-draft-value-chart/#part-4-the-full-table)[^1]. Data spans 2010 to the present and is refreshed automatically each week.
 
 ## Features
 
 - **All 32 teams, 2010–present** — select any team and year from the logo dropdown and year selector.
-- **Multiple value charts** — choose from five frameworks: Rich Hill, Fitzgerald-Spielberger, Expected AV Above Replacement (EAVAR), Jimmy Johnson, and PFF WAR, or use a preset combination.
+- **Multiple value charts** — choose from six frameworks: Rich Hill, Fitzgerald-Spielberger, Expected AV Above Replacement (EAVAR), Ben Baldwin (OSF Surplus Value), Jimmy Johnson, and PFF WAR, or use a preset combination.
 - **Trade-by-trade breakdown** — each row shows the trading partner (with logo), picks received, picks given, and net value under each selected chart.
 - **Color-coded net values** — green shading for trades that favored the selected team; red for trades that cost them, with intensity scaled to the magnitude of the surplus or deficit.
 - **Equivalent picks** — each net value is translated into the nearest draft pick or pick combination of equivalent worth on that chart.
@@ -56,8 +56,12 @@ The NFL Team Trade History Analyzer reviews every draft pick trade a team made i
 
 1. Select a team from the logo dropdown.
 2. Choose the draft year from the year selector (defaults to the most recent available year).
-3. Pick a value chart preset — **Default** uses Rich Hill, Fitzgerald-Spielberger, and EAVAR; **All 5 Charts** adds Jimmy Johnson and PFF WAR.
+3. Pick a value chart preset — **Default** uses Rich Hill, Fitzgerald-Spielberger, EAVAR, and Ben Baldwin (OSF); **All 6 Charts** adds Jimmy Johnson and PFF WAR.
 4. Click **Analyze**.
 5. Read the results table: green cells indicate trades where the team came out ahead on that chart; red cells indicate trades where the team gave away more value.
 6. The **Total** row at the bottom of the table shows the cumulative net value across all trades for the season, along with the equivalent pick value of that total.
 7. Click **Export PNG** to save the full results table as an image.
+
+## References
+
+[^1]: Baldwin, Ben. ["NFL Draft Value Chart."](https://opensourcefootball.com/posts/2023-02-23-nfl-draft-value-chart/#part-4-the-full-table) *Open Source Football*, Feb. 23, 2023. Surplus-value points (0–100 scale) from the "Points" column of the full table are used as the trade value for each pick.

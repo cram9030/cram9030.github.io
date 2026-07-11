@@ -47,6 +47,12 @@ _CHART_REGISTRY: dict[str, tuple[str, str, str, bool]] = {
         "FP Val",
         False,
     ),
+    "baldwin": (
+        "osf_draft_chart.csv",
+        "draft_overall",
+        "osf_surplus",
+        False,
+    ),
 }
 
 
@@ -216,6 +222,7 @@ _TRADE_CHARTS: list[tuple[str, str]] = [
     ("pff", "pff_war"),
     ("rich_hill", "rich_hill"),
     ("eaar", "eavar"),
+    ("baldwin", "baldwin"),
 ]
 
 

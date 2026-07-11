@@ -54,14 +54,16 @@
     eavar:                  { label: 'Expected AV\nAbove Replacement\n(EAVAR)', file: 'eavar' },
     jimmy_johnson:          { label: 'Jimmy Johnson',          file: 'jimmy_johnson' },
     pff_war:                { label: 'PFF WAR',                file: 'pff_war' },
+    baldwin:                { label: 'Ben Baldwin\n(OSF Surplus Value)', file: 'baldwin' },
   };
 
   const CHART_PRESETS = {
-    default:        { label: 'Default (RH + FS + eAVAR)',     charts: ['rich_hill', 'fitzgerald_spielberger', 'eavar'] },
-    advanced:       { label: 'All 5 Charts',                  charts: ['rich_hill', 'fitzgerald_spielberger', 'eavar', 'jimmy_johnson', 'pff_war'] },
+    default:        { label: 'Default (RH + FS + eAVAR + BB)', charts: ['rich_hill', 'fitzgerald_spielberger', 'eavar', 'baldwin'] },
+    advanced:       { label: 'All 6 Charts',                  charts: ['rich_hill', 'fitzgerald_spielberger', 'eavar', 'jimmy_johnson', 'pff_war', 'baldwin'] },
     rich_hill_only: { label: 'Rich Hill Only',                charts: ['rich_hill'] },
     fitz_only:      { label: 'Fitzgerald-Spielberger Only',   charts: ['fitzgerald_spielberger'] },
     eavar_only:     { label: 'eAVAR Only',                    charts: ['eavar'] },
+    baldwin_only:   { label: 'Ben Baldwin (OSF) Only',        charts: ['baldwin'] },
   };
 
   // ---------------------------------------------------------------------------
