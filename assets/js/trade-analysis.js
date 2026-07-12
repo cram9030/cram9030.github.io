@@ -83,7 +83,7 @@ function TeamSelector({ value, onChange }) {
 // ---------------------------------------------------------------------------
 
 function TradeAnalysisApp() {
-  const { CHART_PRESETS, CHART_CONFIGS } = TradeUtils;
+  const { CHART_PRESETS, CHART_CONFIGS, BALDWIN_LEGEND } = TradeUtils;
 
   const [selectedTeam, setSelectedTeam] = React.useState('');
   const [selectedYear, setSelectedYear] = React.useState(new Date().getFullYear() - 1);
@@ -187,6 +187,16 @@ function TradeAnalysisApp() {
     );
   }
 
+  // Sub-line for the Baldwin cell's stacked APY*/OFV metrics.
+  function BaldwinSubLine({ label, cv, suffix }) {
+    if (!cv) return null;
+    return (
+      <div style={{ fontSize: 11, marginTop: 3, opacity: 0.85, borderTop: '1px solid currentColor', paddingTop: 2 }}>
+        {label}: {cv.net > 0 ? '+' : ''}{cv.net.toFixed(2)}{suffix}
+      </div>
+    );
+  }
+
   // Chart value cell — pick objects for actual picks, plain ints for equiv/excess
   function ChartCell({ chartKey, tradeData }) {
     const cv = tradeData.chart_values[chartKey];
@@ -214,8 +224,23 @@ function TradeAnalysisApp() {
             excess: {excess_picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
           </div>
         )}
+        {chartKey === 'baldwin' && (
+          <React.Fragment>
+            <BaldwinSubLine label="APY*" cv={tradeData.chart_values.baldwin_apy} suffix="%" />
+            <BaldwinSubLine label="OFV" cv={tradeData.chart_values.baldwin_ofv} suffix="" />
+          </React.Fragment>
+        )}
       </td>
     );
+  }
+
+  // Sum a chart_values key across trades (used for the Baldwin APY*/OFV sub-lines, which
+  // aren't independently selectable charts and so have no combo/equivalent-pick lookup).
+  function sumChartKey(trades, key) {
+    return trades.reduce((acc, trade) => {
+      const cv = trade.chart_values[key];
+      return acc + (cv ? cv.net : 0);
+    }, 0);
   }
 
   // Totals row — sum net values + equivalent picks across all trades
@@ -233,6 +258,8 @@ function TradeAnalysisApp() {
         : null;
       totals[chartKey] = { sum, scale, combo };
     }
+    const baldwinApySum = activeChartKeys.includes('baldwin') ? sumChartKey(trades, 'baldwin_apy') : null;
+    const baldwinOfvSum = activeChartKeys.includes('baldwin') ? sumChartKey(trades, 'baldwin_ofv') : null;
 
     return (
       <tr style={{ background: '#edf2f7', fontWeight: 700, borderTop: '2px solid #cbd5e0' }}>
@@ -260,6 +287,16 @@ function TradeAnalysisApp() {
                 <div style={{ fontSize: 11, fontWeight: 400, marginTop: 1, opacity: 0.8 }}>
                   excess: {combo.excessResult.picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
                 </div>
+              )}
+              {k === 'baldwin' && (
+                <React.Fragment>
+                  <div style={{ fontSize: 11, fontWeight: 400, marginTop: 3, opacity: 0.85, borderTop: '1px solid currentColor', paddingTop: 2 }}>
+                    APY*: {baldwinApySum > 0 ? '+' : ''}{baldwinApySum.toFixed(2)}%
+                  </div>
+                  <div style={{ fontSize: 11, fontWeight: 400, marginTop: 1, opacity: 0.85 }}>
+                    OFV: {baldwinOfvSum > 0 ? '+' : ''}{baldwinOfvSum.toFixed(2)}
+                  </div>
+                </React.Fragment>
               )}
             </td>
           );
@@ -324,6 +361,11 @@ function TradeAnalysisApp() {
             <TotalsRow trades={trades} activeChartKeys={activeChartKeys} />
           </tbody>
         </table>
+        {activeChartKeys.includes('baldwin') && (
+          <div style={{ fontSize: 12, color: '#718096', marginTop: 8, fontStyle: 'italic' }}>
+            {BALDWIN_LEGEND}
+          </div>
+        )}
       </div>
     );
   }
@@ -407,6 +449,20 @@ function TradeAnalysisApp() {
                             ≈ {cv.equiv_picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
                           </div>
                         )}
+                        {k === 'baldwin' && (
+                          <React.Fragment>
+                            {trade.chart_values.baldwin_apy && (
+                              <div style={{ fontSize: 10, fontWeight: 400, marginTop: 2, borderTop: '1px solid currentColor', paddingTop: 1 }}>
+                                APY*: {trade.chart_values.baldwin_apy.net > 0 ? '+' : ''}{trade.chart_values.baldwin_apy.net.toFixed(2)}%
+                              </div>
+                            )}
+                            {trade.chart_values.baldwin_ofv && (
+                              <div style={{ fontSize: 10, fontWeight: 400 }}>
+                                OFV: {trade.chart_values.baldwin_ofv.net > 0 ? '+' : ''}{trade.chart_values.baldwin_ofv.net.toFixed(2)}
+                              </div>
+                            )}
+                          </React.Fragment>
+                        )}
                       </td>
                     );
                   })}
@@ -439,12 +495,28 @@ function TradeAnalysisApp() {
                         excess: {combo.excessResult.picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
                       </div>
                     )}
+                    {k === 'baldwin' && (
+                      <React.Fragment>
+                        <div style={{ fontSize: 10, fontWeight: 400, marginTop: 2, borderTop: '1px solid currentColor', paddingTop: 1 }}>
+                          APY*: {(() => { const s = sumChartKey(trades, 'baldwin_apy'); return `${s > 0 ? '+' : ''}${s.toFixed(2)}%`; })()}
+                        </div>
+                        <div style={{ fontSize: 10, fontWeight: 400 }}>
+                          OFV: {(() => { const s = sumChartKey(trades, 'baldwin_ofv'); return `${s > 0 ? '+' : ''}${s.toFixed(2)}`; })()}
+                        </div>
+                      </React.Fragment>
+                    )}
                   </td>
                 );
               })}
             </tr>
           </tbody>
         </table>
+
+        {activeChartKeys.includes('baldwin') && (
+          <div style={{ fontSize: 11, color: '#718096', marginTop: 8, fontStyle: 'italic' }}>
+            {BALDWIN_LEGEND}
+          </div>
+        )}
 
         <div style={{ textAlign: 'right', marginTop: 16, color: '#a0aec0', fontSize: 12 }}>
           cram9030.github.io

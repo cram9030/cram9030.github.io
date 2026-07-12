@@ -54,7 +54,7 @@
     eavar:                  { label: 'Expected AV\nAbove Replacement\n(EAVAR)', file: 'eavar' },
     jimmy_johnson:          { label: 'Jimmy Johnson',          file: 'jimmy_johnson' },
     pff_war:                { label: 'PFF WAR',                file: 'pff_war' },
-    baldwin:                { label: 'Ben Baldwin\n(OSF Surplus Value)', file: 'baldwin' },
+    baldwin:                { label: 'Ben Baldwin (BB)\nPoints / APY* / OFV', file: 'baldwin' },
   };
 
   const CHART_PRESETS = {
@@ -65,6 +65,9 @@
     eavar_only:     { label: 'eAVAR Only',                    charts: ['eavar'] },
     baldwin_only:   { label: 'Ben Baldwin (OSF) Only',        charts: ['baldwin'] },
   };
+
+  // Legend text for the Ben Baldwin column's split-metric abbreviations.
+  const BALDWIN_LEGEND = '*APY = Average Per Year as a percent of salary cap. OFV = On-Field Value.';
 
   // ---------------------------------------------------------------------------
   // Pick number utilities
@@ -297,7 +300,7 @@
   // ---------------------------------------------------------------------------
 
   window.TradeUtils = {
-    NFL_TEAMS, CHART_CONFIGS, CHART_PRESETS,
+    NFL_TEAMS, CHART_CONFIGS, CHART_PRESETS, BALDWIN_LEGEND,
     overallPickFromRound, roundFromOverall, pickLabel, pickLabelShort, pickLabelWithOverall,
     pickLabelFromData, pickLabelWithOverallFromData, formatPickList,
     teamLogoUrl, getTeamByAbbrev,
