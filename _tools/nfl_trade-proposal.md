@@ -40,14 +40,15 @@ thumbnail: "/assets/images/NFL_Draft_Scales.svg"
 
 ## Overview
 
-The NFL Draft Trade Evaluator lets you design a hypothetical draft pick swap and instantly see which side receives more value — scored across up to five different trade value charts simultaneously. Useful for evaluating real or speculative trades before or during the NFL Draft.
+The NFL Draft Trade Evaluator lets you design a hypothetical draft pick swap and instantly see which side receives more value — scored across up to six different trade value charts simultaneously, including Ben Baldwin's [Open Source Football surplus-value chart](https://opensourcefootball.com/posts/2023-02-23-nfl-draft-value-chart/#part-4-the-full-table)[^1]. Useful for evaluating real or speculative trades before or during the NFL Draft.
 
 ## Features
 
 - **Flexible pick entry** — add any number of picks per side, each specified by round (1–7) and pick number within the round (1–32).
 - **Live pick preview** — a running summary above each side's pick list shows the picks in readable format as you build the trade.
-- **Multiple value charts** — choose from five frameworks: Rich Hill, Fitzgerald-Spielberger, Expected AV Above Replacement (EAVAR), Jimmy Johnson, and PFF WAR, or use a preset combination.
+- **Multiple value charts** — choose from six frameworks: Rich Hill, Fitzgerald-Spielberger, Expected AV Above Replacement (EAVAR), Ben Baldwin (OSF Surplus Value), Jimmy Johnson, and PFF WAR, or use a preset combination.
 - **Results per chart** — each chart card shows total value received by Side A and Side B, plus the net value advantage for Side A.
+- **Ben Baldwin (BB) split metrics** — the Baldwin card adds two extra rows below the primary surplus-value **Points** result: **APY\*** (net surplus expressed as a percent of salary cap) and **OFV** (net on-field value ignoring contract cost). See the legend under the card for what APY\* and OFV mean.
 - **Color-coded net value** — green for Side A's advantage, red for Side B's, with intensity proportional to the margin.
 - **Equivalent picks** — the net advantage is translated into the nearest pick or pick combination of equivalent worth on that chart.
 - **Excess breakdown** — when the equivalent pick combination overshoots the net value, the remaining excess is also shown in pick terms.
@@ -56,7 +57,7 @@ The NFL Draft Trade Evaluator lets you design a hypothetical draft pick swap and
 
 ## Usage
 
-1. Select a value chart preset — **Default** uses Rich Hill, Fitzgerald-Spielberger, and EAVAR; **All 5 Charts** adds Jimmy Johnson and PFF WAR.
+1. Select a value chart preset — **Default** uses Rich Hill, Fitzgerald-Spielberger, EAVAR, and Ben Baldwin (OSF); **All 6 Charts** adds Jimmy Johnson and PFF WAR.
 2. Under **Side A Sends**, enter the picks Side A is giving up: choose round and pick number, then click **＋ Add Pick** to add more picks as needed.
 3. Under **Side B Sends**, enter the picks Side B is giving up in the same way.
 4. Click **Calculate**.
@@ -64,3 +65,7 @@ The NFL Draft Trade Evaluator lets you design a hypothetical draft pick swap and
 6. The **Equivalent Picks** row translates that net advantage into concrete picks, so you can understand the margin in familiar draft-pick terms.
 7. The consensus banner at the bottom of the results summarizes how many charts favor each side.
 8. Click **Export PNG** to save the summary as an image.
+
+## References
+
+[^1]: Baldwin, Ben. ["NFL Draft Value Chart."](https://opensourcefootball.com/posts/2023-02-23-nfl-draft-value-chart/#part-4-the-full-table) *Open Source Football*, Feb. 23, 2023. The Points, APY, and OFV columns of the full table are used as-is: Points (surplus-value, 0–100 scale) drives the primary net value and color coding; APY (surplus as a percent of salary cap) and OFV (on-field value ignoring contract cost) are shown as supplementary net values beneath it.

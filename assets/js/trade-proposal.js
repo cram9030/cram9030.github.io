@@ -2,7 +2,7 @@
 // The onError fallback (showing team abbreviation text) is the graceful degradation.
 
 function TradeProposalApp() {
-  const { CHART_PRESETS, CHART_CONFIGS } = TradeUtils;
+  const { CHART_PRESETS, CHART_CONFIGS, BALDWIN_LEGEND, BALDWIN_SUBMETRIC_KEYS } = TradeUtils;
 
   const [leftPicks, setLeftPicks] = React.useState([{ round: 1, pickInRound: 1 }]);
   const [rightPicks, setRightPicks] = React.useState([{ round: 1, pickInRound: 1 }]);
@@ -53,42 +53,48 @@ function TradeProposalApp() {
   // Net for Side A = value(B sends) - value(A sends)
   // ---------------------------------------------------------------------------
 
+  function computeChartResult(data, aSendsOverall, bSendsOverall) {
+    const scale = TradeUtils.getChartScale(data);
+
+    function pickVal(overall) {
+      const entry = data.find(d => d.pick === overall);
+      return entry ? entry.value : 0;
+    }
+
+    // Side A sends these picks (= Side B receives)
+    const aSendsTotal = aSendsOverall.reduce((s, p) => s + pickVal(p), 0);
+    // Side B sends these picks (= Side A receives)
+    const bSendsTotal = bSendsOverall.reduce((s, p) => s + pickVal(p), 0);
+
+    // Net from Side A's perspective: positive = A got the better deal
+    const net = bSendsTotal - aSendsTotal;
+
+    return {
+      sideAReceivesTotal: bSendsTotal,
+      sideBReceivesTotal: aSendsTotal,
+      net,
+      netCombo: TradeUtils.findPickComboWithExcess(Math.abs(net), data),
+      scale,
+    };
+  }
+
   async function handleCalculate() {
     setIsCalculating(true);
     setCalcError(null);
     try {
       const preset = CHART_PRESETS[chartPreset].charts;
-      const chartDataMap = await TradeUtils.loadAllCharts(preset);
+      // Baldwin's APY*/OFV sub-metrics aren't independently selectable, but ride
+      // along whenever 'baldwin' is part of the active preset.
+      const subKeys = preset.includes('baldwin') ? BALDWIN_SUBMETRIC_KEYS : [];
+      const chartDataMap = await TradeUtils.loadAllCharts([...preset, ...subKeys]);
 
       // What each side gives away
       const aSendsOverall  = picksToOverall(leftPicks);
       const bSendsOverall  = picksToOverall(rightPicks);
 
       const computed = {};
-      for (const chartKey of preset) {
-        const data  = chartDataMap[chartKey];
-        const scale = TradeUtils.getChartScale(data);
-
-        function pickVal(overall) {
-          const entry = data.find(d => d.pick === overall);
-          return entry ? entry.value : 0;
-        }
-
-        // Side A sends these picks (= Side B receives)
-        const aSendsTotal = aSendsOverall.reduce((s, p) => s + pickVal(p), 0);
-        // Side B sends these picks (= Side A receives)
-        const bSendsTotal = bSendsOverall.reduce((s, p) => s + pickVal(p), 0);
-
-        // Net from Side A's perspective: positive = A got the better deal
-        const net = bSendsTotal - aSendsTotal;
-
-        computed[chartKey] = {
-          sideAReceivesTotal: bSendsTotal,
-          sideBReceivesTotal: aSendsTotal,
-          net,
-          netCombo: TradeUtils.findPickComboWithExcess(Math.abs(net), data),
-          scale,
-        };
+      for (const chartKey of [...preset, ...subKeys]) {
+        computed[chartKey] = computeChartResult(chartDataMap[chartKey], aSendsOverall, bSendsOverall);
       }
 
       setResults(computed);
@@ -220,7 +226,27 @@ function TradeProposalApp() {
     );
   }
 
-  function ChartResultCard({ chartKey, data }) {
+  // Extra sub-metric row for the Baldwin card (APY* / OFV) — no color coding or
+  // equivalent-pick lookup, just the raw totals and net.
+  function BaldwinSubMetricRow({ rowLabel, subData, suffix }) {
+    if (!subData) return null;
+    return (
+      <tr>
+        <td style={{ padding: '6px 12px', fontWeight: 600, color: '#4a5568', fontSize: 12, borderTop: '1px solid #e2e8f0' }}>{rowLabel}</td>
+        <td style={{ padding: '6px 12px', textAlign: 'center', fontSize: 12, borderTop: '1px solid #e2e8f0' }}>
+          {subData.sideAReceivesTotal.toFixed(2)}{suffix}
+        </td>
+        <td style={{ padding: '6px 12px', textAlign: 'center', fontSize: 12, borderTop: '1px solid #e2e8f0' }}>
+          {subData.sideBReceivesTotal.toFixed(2)}{suffix}
+        </td>
+        <td style={{ padding: '6px 12px', textAlign: 'center', fontSize: 12, fontWeight: 600, borderTop: '1px solid #e2e8f0' }}>
+          {subData.net > 0 ? '+' : ''}{subData.net.toFixed(2)}{suffix}
+        </td>
+      </tr>
+    );
+  }
+
+  function ChartResultCard({ chartKey, data, baldwinSubData }) {
     const { sideAReceivesTotal, sideBReceivesTotal, net, netCombo, scale } = data;
     const netColor = TradeUtils.tradeColor(net, scale.vMax, scale.vMin);
     const label = CHART_CONFIGS[chartKey].label;
@@ -277,9 +303,20 @@ function TradeProposalApp() {
                   </td>
                 </tr>
               )}
+              {baldwinSubData && (
+                <React.Fragment>
+                  <BaldwinSubMetricRow rowLabel="APY*" subData={baldwinSubData.apy} suffix="%" />
+                  <BaldwinSubMetricRow rowLabel="OFV" subData={baldwinSubData.ofv} suffix="" />
+                </React.Fragment>
+              )}
             </tbody>
           </table>
         </div>
+        {baldwinSubData && (
+          <div style={{ fontSize: 11, color: '#718096', fontStyle: 'italic', padding: '6px 14px', background: '#f7fafc', borderTop: '1px solid #e2e8f0' }}>
+            {BALDWIN_LEGEND}
+          </div>
+        )}
       </div>
     );
   }
@@ -307,7 +344,12 @@ function TradeProposalApp() {
     return (
       <div>
         {presetCharts.map(k => (
-          <ChartResultCard key={k} chartKey={k} data={results[k]} />
+          <ChartResultCard
+            key={k}
+            chartKey={k}
+            data={results[k]}
+            baldwinSubData={k === 'baldwin' ? { apy: results.baldwin_apy, ofv: results.baldwin_ofv } : null}
+          />
         ))}
         <div style={{
           padding: '12px 16px', borderRadius: 8, marginTop: 8,
@@ -394,8 +436,33 @@ function TradeProposalApp() {
                       }
                     </td>
                   </tr>
+                  {chartKey === 'baldwin' && results.baldwin_apy && (
+                    <tr>
+                      <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', fontWeight: 600, fontSize: 12 }}>APY*</td>
+                      <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12 }}>{results.baldwin_apy.sideAReceivesTotal.toFixed(2)}%</td>
+                      <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12 }}>{results.baldwin_apy.sideBReceivesTotal.toFixed(2)}%</td>
+                      <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12, fontWeight: 600 }}>
+                        {results.baldwin_apy.net > 0 ? '+' : ''}{results.baldwin_apy.net.toFixed(2)}%
+                      </td>
+                    </tr>
+                  )}
+                  {chartKey === 'baldwin' && results.baldwin_ofv && (
+                    <tr>
+                      <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', fontWeight: 600, fontSize: 12 }}>OFV</td>
+                      <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12 }}>{results.baldwin_ofv.sideAReceivesTotal.toFixed(2)}</td>
+                      <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12 }}>{results.baldwin_ofv.sideBReceivesTotal.toFixed(2)}</td>
+                      <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12, fontWeight: 600 }}>
+                        {results.baldwin_ofv.net > 0 ? '+' : ''}{results.baldwin_ofv.net.toFixed(2)}
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
+              {chartKey === 'baldwin' && (
+                <div style={{ fontSize: 11, color: '#718096', fontStyle: 'italic', marginTop: 4 }}>
+                  {BALDWIN_LEGEND}
+                </div>
+              )}
             </div>
           );
         })}
