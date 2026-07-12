@@ -15,6 +15,7 @@ _CHART_REGISTRY = {
     "pff_war": ("pff_war_draft_chart.csv", "Pick", "PFF_WAR_Normalized", False),
     "eavar": ("expected_av_above_replacement.csv", "pick", "eavar", False),
     "5_year_av": ("5_year_av_chart.csv", "Pk", "FP Val", False),
+    "baldwin": ("osf_draft_chart.csv", "draft_overall", "osf_surplus", False),
 }
 
 

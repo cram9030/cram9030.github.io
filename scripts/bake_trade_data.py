@@ -24,6 +24,7 @@ PREFIX_TO_CHART = {
     'pff':        'pff_war',
     'rich_hill':  'rich_hill',
     'eaar':       'eavar',
+    'baldwin':    'baldwin',
 }
 
 ABBREV_NORMALIZE = {
