@@ -54,8 +54,15 @@
     eavar:                  { label: 'Expected AV\nAbove Replacement\n(EAVAR)', file: 'eavar' },
     jimmy_johnson:          { label: 'Jimmy Johnson',          file: 'jimmy_johnson' },
     pff_war:                { label: 'PFF WAR',                file: 'pff_war' },
-    baldwin:                { label: 'Ben Baldwin\n(OSF Surplus Value)', file: 'baldwin' },
+    baldwin:                { label: 'Ben Baldwin (BB)\nPoints / APY* / OFV', file: 'baldwin' },
+    // Hidden sub-metrics of the Baldwin chart — loadable by key, but never listed in
+    // CHART_PRESETS, so they aren't independently selectable in the UI.
+    baldwin_apy:            { label: 'Ben Baldwin (BB) — APY*', file: 'baldwin_apy' },
+    baldwin_ofv:            { label: 'Ben Baldwin (BB) — OFV',  file: 'baldwin_ofv' },
   };
+
+  // Hidden Baldwin sub-metric chart keys, loaded alongside 'baldwin' whenever it's active.
+  const BALDWIN_SUBMETRIC_KEYS = ['baldwin_apy', 'baldwin_ofv'];
 
   const CHART_PRESETS = {
     default:        { label: 'Default (RH + FS + eAVAR + BB)', charts: ['rich_hill', 'fitzgerald_spielberger', 'eavar', 'baldwin'] },
@@ -65,6 +72,9 @@
     eavar_only:     { label: 'eAVAR Only',                    charts: ['eavar'] },
     baldwin_only:   { label: 'Ben Baldwin (OSF) Only',        charts: ['baldwin'] },
   };
+
+  // Legend text for the Ben Baldwin column's split-metric abbreviations.
+  const BALDWIN_LEGEND = '*APY = Average Per Year as a percent of salary cap. OFV = On-Field Value.';
 
   // ---------------------------------------------------------------------------
   // Pick number utilities
@@ -297,7 +307,7 @@
   // ---------------------------------------------------------------------------
 
   window.TradeUtils = {
-    NFL_TEAMS, CHART_CONFIGS, CHART_PRESETS,
+    NFL_TEAMS, CHART_CONFIGS, CHART_PRESETS, BALDWIN_LEGEND, BALDWIN_SUBMETRIC_KEYS,
     overallPickFromRound, roundFromOverall, pickLabel, pickLabelShort, pickLabelWithOverall,
     pickLabelFromData, pickLabelWithOverallFromData, formatPickList,
     teamLogoUrl, getTeamByAbbrev,

@@ -16,6 +16,8 @@ _CHART_REGISTRY = {
     "eavar": ("expected_av_above_replacement.csv", "pick", "eavar", False),
     "5_year_av": ("5_year_av_chart.csv", "Pk", "FP Val", False),
     "baldwin": ("osf_draft_chart.csv", "draft_overall", "osf_surplus", False),
+    "baldwin_apy": ("osf_draft_chart.csv", "draft_overall", "surplus", False),
+    "baldwin_ofv": ("osf_draft_chart.csv", "draft_overall", "osf_fit", False),
 }
 
 

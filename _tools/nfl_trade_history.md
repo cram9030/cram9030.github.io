@@ -47,6 +47,7 @@ The NFL Team Trade History Analyzer reviews every draft pick trade a team made i
 - **All 32 teams, 2010–present** — select any team and year from the logo dropdown and year selector.
 - **Multiple value charts** — choose from six frameworks: Rich Hill, Fitzgerald-Spielberger, Expected AV Above Replacement (EAVAR), Ben Baldwin (OSF Surplus Value), Jimmy Johnson, and PFF WAR, or use a preset combination.
 - **Trade-by-trade breakdown** — each row shows the trading partner (with logo), picks received, picks given, and net value under each selected chart.
+- **Ben Baldwin (BB) split metrics** — the Baldwin column stacks all three values from the source table: the primary surplus-value **Points** net (0–100 scale, colored like the other charts), plus **APY\*** (net surplus expressed as a percent of salary cap) and **OFV** (net on-field value ignoring contract cost) below it. See the legend under the table for what APY\* and OFV mean.
 - **Color-coded net values** — green shading for trades that favored the selected team; red for trades that cost them, with intensity scaled to the magnitude of the surplus or deficit.
 - **Equivalent picks** — each net value is translated into the nearest draft pick or pick combination of equivalent worth on that chart.
 - **Season totals row** — aggregate net value across all trades in the year, with equivalent picks for the combined surplus or deficit.
@@ -64,4 +65,4 @@ The NFL Team Trade History Analyzer reviews every draft pick trade a team made i
 
 ## References
 
-[^1]: Baldwin, Ben. ["NFL Draft Value Chart."](https://opensourcefootball.com/posts/2023-02-23-nfl-draft-value-chart/#part-4-the-full-table) *Open Source Football*, Feb. 23, 2023. Surplus-value points (0–100 scale) from the "Points" column of the full table are used as the trade value for each pick.
+[^1]: Baldwin, Ben. ["NFL Draft Value Chart."](https://opensourcefootball.com/posts/2023-02-23-nfl-draft-value-chart/#part-4-the-full-table) *Open Source Football*, Feb. 23, 2023. The Points, APY, and OFV columns of the full table are used as-is: Points (surplus-value, 0–100 scale) drives the primary net value and color coding; APY (surplus as a percent of salary cap) and OFV (on-field value ignoring contract cost) are shown as supplementary net values beneath it.

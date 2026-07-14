@@ -25,6 +25,8 @@ PREFIX_TO_CHART = {
     'rich_hill':  'rich_hill',
     'eaar':       'eavar',
     'baldwin':    'baldwin',
+    'baldwin_apy': 'baldwin_apy',
+    'baldwin_ofv': 'baldwin_ofv',
 }
 
 ABBREV_NORMALIZE = {
