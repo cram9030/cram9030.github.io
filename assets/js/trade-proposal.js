@@ -226,8 +226,8 @@ function TradeProposalApp() {
     );
   }
 
-  // Extra sub-metric row for the Baldwin card (APY* / OFV) — no color coding or
-  // equivalent-pick lookup, just the raw totals and net.
+  // Extra sub-metric row for the Baldwin card (APY* / OFV) — no color coding, but
+  // includes the equivalent-pick lookup (already computed alongside the main charts).
   function BaldwinSubMetricRow({ rowLabel, subData, suffix }) {
     if (!subData) return null;
     return (
@@ -241,6 +241,11 @@ function TradeProposalApp() {
         </td>
         <td style={{ padding: '6px 12px', textAlign: 'center', fontSize: 12, fontWeight: 600, borderTop: '1px solid #e2e8f0' }}>
           {subData.net > 0 ? '+' : ''}{subData.net.toFixed(2)}{suffix}
+          {subData.net !== 0 && subData.netCombo && subData.netCombo.picks.length > 0 && (
+            <div style={{ fontWeight: 400, marginTop: 1 }}>
+              ≈ <EquivPicksDisplay picks={subData.netCombo.picks} />
+            </div>
+          )}
         </td>
       </tr>
     );
@@ -443,6 +448,11 @@ function TradeProposalApp() {
                       <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12 }}>{results.baldwin_apy.sideBReceivesTotal.toFixed(2)}%</td>
                       <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12, fontWeight: 600 }}>
                         {results.baldwin_apy.net > 0 ? '+' : ''}{results.baldwin_apy.net.toFixed(2)}%
+                        {results.baldwin_apy.net !== 0 && results.baldwin_apy.netCombo && results.baldwin_apy.netCombo.picks.length > 0 && (
+                          <div style={{ fontWeight: 400 }}>
+                            ≈ {results.baldwin_apy.netCombo.picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
+                          </div>
+                        )}
                       </td>
                     </tr>
                   )}
@@ -453,6 +463,11 @@ function TradeProposalApp() {
                       <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12 }}>{results.baldwin_ofv.sideBReceivesTotal.toFixed(2)}</td>
                       <td style={{ padding: '6px 10px', border: '1px solid #e2e8f0', textAlign: 'center', fontSize: 12, fontWeight: 600 }}>
                         {results.baldwin_ofv.net > 0 ? '+' : ''}{results.baldwin_ofv.net.toFixed(2)}
+                        {results.baldwin_ofv.net !== 0 && results.baldwin_ofv.netCombo && results.baldwin_ofv.netCombo.picks.length > 0 && (
+                          <div style={{ fontWeight: 400 }}>
+                            ≈ {results.baldwin_ofv.netCombo.picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
+                          </div>
+                        )}
                       </td>
                     </tr>
                   )}

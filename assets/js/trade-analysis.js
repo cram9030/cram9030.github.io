@@ -83,7 +83,7 @@ function TeamSelector({ value, onChange }) {
 // ---------------------------------------------------------------------------
 
 function TradeAnalysisApp() {
-  const { CHART_PRESETS, CHART_CONFIGS, BALDWIN_LEGEND } = TradeUtils;
+  const { CHART_PRESETS, CHART_CONFIGS, BALDWIN_LEGEND, BALDWIN_SUBMETRIC_KEYS } = TradeUtils;
 
   const [selectedTeam, setSelectedTeam] = React.useState('');
   const [selectedYear, setSelectedYear] = React.useState(new Date().getFullYear() - 1);
@@ -132,7 +132,11 @@ function TradeAnalysisApp() {
         return;
       }
 
-      const chartDataMap = await TradeUtils.loadAllCharts(preset);
+      // Baldwin's APY*/OFV sub-metrics aren't independently selectable, but ride
+      // along whenever 'baldwin' is part of the active preset (needed so the
+      // totals row can look up equivalent picks for their summed net values).
+      const subKeys = preset.includes('baldwin') ? BALDWIN_SUBMETRIC_KEYS : [];
+      const chartDataMap = await TradeUtils.loadAllCharts([...preset, ...subKeys]);
       chartDataRef.current = chartDataMap;
 
       setActiveChartKeys(preset);
@@ -193,6 +197,11 @@ function TradeAnalysisApp() {
     return (
       <div style={{ fontSize: 11, marginTop: 3, opacity: 0.85, borderTop: '1px solid currentColor', paddingTop: 2 }}>
         {label}: {cv.net > 0 ? '+' : ''}{cv.net.toFixed(2)}{suffix}
+        {cv.equiv_picks && cv.equiv_picks.length > 0 && (
+          <div style={{ marginTop: 1 }}>
+            ≈ {cv.equiv_picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
+          </div>
+        )}
       </div>
     );
   }
@@ -243,6 +252,25 @@ function TradeAnalysisApp() {
     }, 0);
   }
 
+  // Sub-line for the Baldwin totals cell's stacked APY*/OFV sums (with equivalent picks).
+  function BaldwinTotalSubLine({ label, total, suffix, first }) {
+    if (!total) return null;
+    const { sum, combo } = total;
+    return (
+      <div style={first
+        ? { fontSize: 11, fontWeight: 400, marginTop: 3, opacity: 0.85, borderTop: '1px solid currentColor', paddingTop: 2 }
+        : { fontSize: 11, fontWeight: 400, marginTop: 1, opacity: 0.85 }
+      }>
+        {label}: {sum > 0 ? '+' : ''}{sum.toFixed(2)}{suffix}
+        {combo && combo.picks.length > 0 && (
+          <div style={{ marginTop: 1 }}>
+            ≈ {combo.picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   // Totals row — sum net values + equivalent picks across all trades
   function TotalsRow({ trades, activeChartKeys }) {
     const totals = {};
@@ -258,8 +286,17 @@ function TradeAnalysisApp() {
         : null;
       totals[chartKey] = { sum, scale, combo };
     }
-    const baldwinApySum = activeChartKeys.includes('baldwin') ? sumChartKey(trades, 'baldwin_apy') : null;
-    const baldwinOfvSum = activeChartKeys.includes('baldwin') ? sumChartKey(trades, 'baldwin_ofv') : null;
+    function baldwinSubTotal(key) {
+      if (!activeChartKeys.includes('baldwin')) return null;
+      const sum = sumChartKey(trades, key);
+      const chartData = chartDataRef.current[key];
+      const combo = chartData && Math.abs(sum) > 0
+        ? TradeUtils.findPickComboWithExcess(Math.abs(sum), chartData)
+        : null;
+      return { sum, combo };
+    }
+    const baldwinApyTotal = baldwinSubTotal('baldwin_apy');
+    const baldwinOfvTotal = baldwinSubTotal('baldwin_ofv');
 
     return (
       <tr style={{ background: '#edf2f7', fontWeight: 700, borderTop: '2px solid #cbd5e0' }}>
@@ -290,12 +327,8 @@ function TradeAnalysisApp() {
               )}
               {k === 'baldwin' && (
                 <React.Fragment>
-                  <div style={{ fontSize: 11, fontWeight: 400, marginTop: 3, opacity: 0.85, borderTop: '1px solid currentColor', paddingTop: 2 }}>
-                    APY*: {baldwinApySum > 0 ? '+' : ''}{baldwinApySum.toFixed(2)}%
-                  </div>
-                  <div style={{ fontSize: 11, fontWeight: 400, marginTop: 1, opacity: 0.85 }}>
-                    OFV: {baldwinOfvSum > 0 ? '+' : ''}{baldwinOfvSum.toFixed(2)}
-                  </div>
+                  <BaldwinTotalSubLine label="APY*" total={baldwinApyTotal} suffix="%" first />
+                  <BaldwinTotalSubLine label="OFV" total={baldwinOfvTotal} suffix="" />
                 </React.Fragment>
               )}
             </td>
@@ -454,11 +487,17 @@ function TradeAnalysisApp() {
                             {trade.chart_values.baldwin_apy && (
                               <div style={{ fontSize: 10, fontWeight: 400, marginTop: 2, borderTop: '1px solid currentColor', paddingTop: 1 }}>
                                 APY*: {trade.chart_values.baldwin_apy.net > 0 ? '+' : ''}{trade.chart_values.baldwin_apy.net.toFixed(2)}%
+                                {trade.chart_values.baldwin_apy.equiv_picks && trade.chart_values.baldwin_apy.equiv_picks.length > 0 && (
+                                  <div>≈ {trade.chart_values.baldwin_apy.equiv_picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}</div>
+                                )}
                               </div>
                             )}
                             {trade.chart_values.baldwin_ofv && (
                               <div style={{ fontSize: 10, fontWeight: 400 }}>
                                 OFV: {trade.chart_values.baldwin_ofv.net > 0 ? '+' : ''}{trade.chart_values.baldwin_ofv.net.toFixed(2)}
+                                {trade.chart_values.baldwin_ofv.equiv_picks && trade.chart_values.baldwin_ofv.equiv_picks.length > 0 && (
+                                  <div>≈ {trade.chart_values.baldwin_ofv.equiv_picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}</div>
+                                )}
                               </div>
                             )}
                           </React.Fragment>
@@ -495,16 +534,32 @@ function TradeAnalysisApp() {
                         excess: {combo.excessResult.picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}
                       </div>
                     )}
-                    {k === 'baldwin' && (
-                      <React.Fragment>
-                        <div style={{ fontSize: 10, fontWeight: 400, marginTop: 2, borderTop: '1px solid currentColor', paddingTop: 1 }}>
-                          APY*: {(() => { const s = sumChartKey(trades, 'baldwin_apy'); return `${s > 0 ? '+' : ''}${s.toFixed(2)}%`; })()}
-                        </div>
-                        <div style={{ fontSize: 10, fontWeight: 400 }}>
-                          OFV: {(() => { const s = sumChartKey(trades, 'baldwin_ofv'); return `${s > 0 ? '+' : ''}${s.toFixed(2)}`; })()}
-                        </div>
-                      </React.Fragment>
-                    )}
+                    {k === 'baldwin' && (() => {
+                      const apySum = sumChartKey(trades, 'baldwin_apy');
+                      const ofvSum = sumChartKey(trades, 'baldwin_ofv');
+                      const apyData = chartDataRef.current.baldwin_apy;
+                      const ofvData = chartDataRef.current.baldwin_ofv;
+                      const apyCombo = apyData && Math.abs(apySum) > 0
+                        ? TradeUtils.findPickComboWithExcess(Math.abs(apySum), apyData) : null;
+                      const ofvCombo = ofvData && Math.abs(ofvSum) > 0
+                        ? TradeUtils.findPickComboWithExcess(Math.abs(ofvSum), ofvData) : null;
+                      return (
+                        <React.Fragment>
+                          <div style={{ fontSize: 10, fontWeight: 400, marginTop: 2, borderTop: '1px solid currentColor', paddingTop: 1 }}>
+                            APY*: {apySum > 0 ? '+' : ''}{apySum.toFixed(2)}%
+                            {apyCombo && apyCombo.picks.length > 0 && (
+                              <div>≈ {apyCombo.picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}</div>
+                            )}
+                          </div>
+                          <div style={{ fontSize: 10, fontWeight: 400 }}>
+                            OFV: {ofvSum > 0 ? '+' : ''}{ofvSum.toFixed(2)}
+                            {ofvCombo && ofvCombo.picks.length > 0 && (
+                              <div>≈ {ofvCombo.picks.map(TradeUtils.pickLabelWithOverall).join(' + ')}</div>
+                            )}
+                          </div>
+                        </React.Fragment>
+                      );
+                    })()}
                   </td>
                 );
               })}
