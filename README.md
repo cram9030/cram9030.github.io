@@ -65,6 +65,7 @@ Blog posts are stored in `_posts/` with the naming convention: `YYYY-MM-DD-title
    ---
    layout: default
    title: "Your Post Title"
+   subtitle: "An optional subtitle shown under the title"
    show_title: true
    date: 2025-10-30
    ---
@@ -78,6 +79,7 @@ Blog posts are stored in `_posts/` with the naming convention: `YYYY-MM-DD-title
 |-------|----------|-------------|---------|
 | `layout` | Yes | Page layout template | `default` |
 | `title` | Yes | Post title | `"TIL: Converting sympy to Latex"` |
+| `subtitle` | No | Optional subtitle shown under the title, on the post page and in the blog list | `"A quick trick for LaTeX exports"` |
 | `show_title` | No | Display title on page | `true` |
 | `date` | Yes | Publication date | `2025-10-30` |
 

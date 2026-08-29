@@ -9,6 +9,9 @@ permalink: /blog/
         {% for post in site.posts %}
         <article class="post">
             <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+            {% if post.subtitle %}
+                <p class="post-subtitle">{{ post.subtitle }}</p>
+            {% endif %}
             <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
             {{ post.excerpt }}
         </article>

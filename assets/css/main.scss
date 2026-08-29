@@ -365,6 +365,24 @@ h1.project-title {
     font-size: 2.5rem;
 }
 
+h1.project-title + .post-subtitle {
+    margin-top: -1.5rem;
+}
+
+.post-subtitle {
+    color: lighten($black, 35%);
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: normal;
+    margin: 0 0 2rem 0;
+}
+
+.post .post-subtitle {
+    text-align: left;
+    font-size: 1rem;
+    margin: -0.25rem 0 0.5rem 0;
+}
+
 /* Volunteering page styles */
 .volunteering-section h1 {
     margin-bottom: 1.5rem;
