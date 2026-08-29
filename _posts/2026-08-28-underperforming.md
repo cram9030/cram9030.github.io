@@ -9,7 +9,7 @@ As we head into the start of the 2026 season, I wanted to revisit the previous d
 
 ## 2023 Draft
 
-Going into their final year of the cost controlled rookie contract it should be no surprise that the 2023 draft class has already seperated the wheat from the chaff with all the players either clearly exceeding their draft position or are no longer on the team. All except one, step on down Colby Sorsdal!
+Going into their final year of the cost-controlled rookie contract, it should be no surprise that the 2023 draft class has already separated the wheat from the chaff, with all the players either clearly exceeding their draft position or no longer on the team. All except one, step on down, Colby Sorsdal!
 
 <iframe src="/assets/plots/DET_2023_colby_sorsdal_pace_comparison.html"
         width="100%"
@@ -37,7 +37,7 @@ In an incredibly predictable fashion, Rakestraw has been injured in his first tw
         frameborder="0">
 </iframe>
 
-Next up is Geo who is rapidly following the Sorsdal path of making it to another year by virtue of being on IR. We can ignore this year knowing it he will have zero contribution and go ahead and say that next year would require him to look like Taylor Deckor which given two bookends under contract everyone hopes the oppertunity doesn't even present itself.
+Next up is Geo, who is rapidly following the Sorsdal path of making it to another year by virtue of being on IR. We can ignore this year, knowing he will have zero contribution, and go ahead and say that next year would require him to look like Taylor Decker, which, given two bookends under contract, everyone hopes the opportunity doesn't even present itself.
 
 <iframe src="/assets/plots/DET_2024_sione_vaki_pace_comparison.html"
         width="100%"
@@ -53,7 +53,7 @@ Next up is Geo, who is rapidly following the Sorsdal path of making it to anothe
         frameborder="0">
 </iframe>
 
-If Wingo can make the team, his primary requirement will be just getting on the field. If he plays in at least 12 games and makes a few tackles, he'd be on his way to keeping pace with where he needs to be. Right now, as DT 5 or 6, it's hard to see that happening though.
+If Wingo can make the team, his primary requirement will be just getting on the field. If he plays in at least 12 games and makes a few tackles, he'd be on his way to keeping pace with where he needs to be. Right now, as DT 5 or 6, it's hard to see that happening, though.
 
 We didn't bother with Mahogany because even though he wasn't as good as we'd hoped last year as a 6th-round pick, he could not play another snap and have been a good pick.
 
@@ -91,7 +91,7 @@ Frazier seems like a player destined to end up on pace. He's going to play every
         frameborder="0">
 </iframe>
 
-Hassanein is yet another player from this draft that feels nearly guaranteed to do what needs to be done to make his pick worth it. Much like Frazier, he's going to play every game on special teams. Unlike Frazier, I'm not sure he starts, but he'll get some snaps, and the idea he may get a sack or two and a dozen tackles seems reasonable. It's weird to think of Austin Bryant as having a good career trajectory for Hassanein, but after being cut last year, that'd be a huge step and a hell of a return for a 6th-round pick.
+Hassanein is yet another player from this draft that feels nearly guaranteed to do what needs to be done to make his pick worth it. Much like Frazier, he's going to play every game on special teams. Unlike Frazier, I'm confident he doesn’t start this season, but he'll get some snaps, and the idea he may get a sack or two and a dozen tackles seems reasonable. It's weird to think of Austin Bryant as having a good career trajectory for Hassanein, but after being cut last year, that'd be a huge step and a hell of a return for a 6th-round pick.
 
 And that ends the run of positivity. Dan Jackson and Dominic Lovett seem destined for the practice squad, with an opportunity for call-ups at best.
 
