@@ -3,6 +3,7 @@ layout: default
 title: "Does draft and trade value relate to winning?"
 show_title: true
 date: 2026-06-06
+tags: [sports-analytics]
 ---
 
 In previous posts, we proposed the [Expected Approximate Value Above Replacement]({% post_url 2026-05-09-eaar %}) and explored different [methods to project a player's growth]({% post_url 2026-05-24-project-model %}), all with the objective of being able to create a tool to assess a draft class. We used those techniques we developed in the first two posts to create an [NFL Team Trade History Analyzer](https://cram9030.github.io/tools/nfl_trade_history/) and [NFL Draft Class Analyzer](https://cram9030.github.io/tools/nfl_draft_class/). Each of these tools serves a slightly different purpose and can hopefully be used to provide a more objective assessment of a general manager's performance for a given draft.

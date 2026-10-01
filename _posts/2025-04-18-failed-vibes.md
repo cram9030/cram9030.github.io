@@ -2,6 +2,7 @@
 layout: default
 title: "Failed vibes and and beam lines"
 date: 2025-04-18
+tags: [ai]
 youtubeId: _zPU7vsjgZI
 ---
 

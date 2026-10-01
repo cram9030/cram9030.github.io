@@ -3,6 +3,7 @@ layout: default
 title: "Projecting a Players Value"
 show_title: true
 date: 2026-05-24
+tags: [sports-analytics]
 ---
 
 It is a common refrain that a draft class cannot be judged until at least three years after the draft, with some people (Jeff Risdon comes to mind) insisting it shouldn’t be judged until the full rookie contract is complete. I do agree that closing the book after one year is probably a little too short, especially for picks that are not in the first round, and things like injuries can knock a course, but three years is much too long. The reason is pretty simple: a rookie contract is only 4 years long, and a significant amount of value will happen during the first few years. I don’t include the 5th year option for first round players because while they are controlled, it is essentially at market rate or higher, which is why so many of them are declined.

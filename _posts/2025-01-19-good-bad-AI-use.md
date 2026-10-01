@@ -2,6 +2,7 @@
 layout: default
 title: "Is Asking an LLM Worth The Time?"
 date: 2025-01-19
+tags: [ai]
 ---
 
 Like everyone else, over the past few years, I've been playing around with some of the more prolific Large Language Models(LLM), trying to work them into a general workflow to figure out what works the best for me. Some of it is figuring out useful prompts, but a lot of it is figuring out what other existing tools are just faster, given my current knowledge and skill level. I remember the XKCD comic below of the "Is It Worth The Time?" chart, which inspired me to try and set up a running comparison of things that were not worth the time.

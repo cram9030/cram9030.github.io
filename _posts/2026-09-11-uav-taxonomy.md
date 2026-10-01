@@ -3,6 +3,7 @@ layout: default
 title: "UAV Taxonomy and Observations"
 show_title: true
 date: 2026-09-11
+tags: [aerospace, robotics]
 ---
 
 I remember when I first started at NASA, spending a lot of time arguing about Taxonomy while trying to put together proposals or discussing different strengths and weaknesses within a problem domain. It always left a little bit of a sour taste in my mouth because it felt like arguing over semantics instead of content, and it often was. Still, I remember finding Hassanalian et al.'s representation of UAV taxonomy helpful in providing a framework to categorize different types of UAVs. Providing that framework is the goal of a taxonomy in the first place, rather than using it in an argument. The primary graphic of their paper is shown below.

@@ -3,6 +3,7 @@ layout: default
 title: "How do engineering roles in aerospace relate?"
 show_title: true
 date: 2026-08-15
+tags: [aerospace, engineering-practice]
 ---
 
 I’ve been a reader of the [Pragmatic Engineer](https://newsletter.pragmaticengineer.com/) for a few years now and really appreciate the clear articulation of what can be very confusing roles and expectations that come with them, mostly in Big Tech and scale-ups. I found the posts like [Engineering Career Paths](https://newsletter.pragmaticengineer.com/p/engineering-career-paths), [Engineering Leadership Skill Set Overlaps](https://newsletter.pragmaticengineer.com/p/engineering-leadership-skillset-overlaps), and [What TPMs Do and What Software Engineers Can Learn from Them](https://newsletter.pragmaticengineer.com/p/what-tpms-do?utm_source=publication-search) really helpful in framing and explaining those roles and, often, the pitfalls associated with them, without the corporate language or histrionics of Reddit. It inspired me to search for the same sort of things in aerospace. While I am sure it exists somewhere, I wasn’t able to find an analog that was sufficiently motivating for me to create one myself.

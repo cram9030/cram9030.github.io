@@ -3,6 +3,7 @@ layout: default
 title: "How well has Brad Holmes been drafting?"
 show_title: true
 date: 2026-06-19
+tags: [sports-analytics]
 ---
 
 Just before the 2026 draft, I was watching Michael MacKelvie’s YouTube video, "[The Safest Pick is the Most Dangerous in the NFL](https://youtu.be/H8rolEibsPg?si=XbAZVcvb3mMwx9_R)," and it really got me thinking about how Brad Holmes has been doing. That set me down the path of creating some tools to assess draft picks in the form of [Expected Approximate Value Above Replacement]({% post_url 2026-05-09-eaar %}), [methods to project a player’s growth]({% post_url 2026-05-24-project-model %}), and then looking to see [how well they correlate with winning]({% post_url 2026-06-06-draft-correlation %}). All of that was building up to this post assessing Brad Holmes' draft record.

@@ -3,6 +3,7 @@ layout: default
 title: "Engineering disagreements at low probabilities"
 show_title: true
 date: 2025-06-21
+tags: [engineering-practice]
 ---
 
 A few months ago, I encountered an interesting situation where a component failed during testing, prompting a technical leader to request a design change. This isn't especially surprising, especially during early development cycles. What was interesting about the situation was the disagreement between the leader and the rank-and-file engineers. I ended up going on a minor socialization campaign of listening to the concerns of the engineers and explaining the decision in multiple different ways. What struck me at the time and has stayed with me over these months was that both groups were operating with nearly the same information; not only that, but they had also had numerous exchanges to try to establish baseline facts and arrive at a shared understanding. They should be on the same page! So why did they have a disagreement?

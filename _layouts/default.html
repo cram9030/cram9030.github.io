@@ -36,6 +36,7 @@
                 {% if page.subtitle %}
                     <p class="post-subtitle">{{ page.subtitle }}</p>
                 {% endif %}
+                {% include post-tags.html tags=page.tags %}
             {% endif %}
 
             {{ content }}

@@ -3,6 +3,7 @@ layout: default
 title: "What do the underperforming players on rookie deals need to do to get back on pace?"
 show_title: true
 date: 2026-08-28
+tags: [sports-analytics]
 ---
 
 As we head into the start of the 2026 season, I wanted to revisit the previous draft classes and take a moment to assess what the on-track or underachieving draft picks from the last few years would need to do to keep pace with their draft status as defined by [Expected AV Above Replacement]({% post_url 2026-05-09-eaar %}). In the previous posts, we looked at it from [Brad Holmes]({% post_url 2026-06-19-brad-holmes %})'s side but haven’t looked at it from the individual players' side. We’re going to skip over the players who are already clearly overachieving their draft position or are no longer on the team.
