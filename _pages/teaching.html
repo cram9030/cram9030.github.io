@@ -1,0 +1,44 @@
+---
+layout: default
+title: Teaching
+permalink: /teaching/
+---
+{% assign all_items = site.teaching %}
+{% assign course_items = all_items | where_exp: "i", "i.course" %}
+{% assign solo_items = all_items | where_exp: "i", "i.course == nil" %}
+
+<div class="teaching-index">
+    <p class="teaching-intro">Slides, videos and notes from lectures and one-off explainers.</p>
+
+    {% if course_items.size > 0 %}
+    <h2>Courses</h2>
+    {% assign course_keys = course_items | map: "course" | uniq %}
+    {% for key in course_keys %}
+    {% assign course = site.data.courses[key] %}
+    <section class="teaching-group">
+        <h3>{{ course.title | default: key }}</h3>
+        {% if course.description %}<p class="teaching-group-desc">{{ course.description }}</p>{% endif %}
+        <div class="teaching-cards">
+            {% assign lectures = course_items | where: "course", key | sort: "order" %}
+            {% for item in lectures %}{% include teaching-card.html item=item %}{% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+    {% endif %}
+
+    {% if solo_items.size > 0 %}
+    {% if course_items.size > 0 %}<h2>Individual topics</h2>{% endif %}
+    {% assign topic_keys = solo_items | map: "topic" | uniq | sort %}
+    {% for key in topic_keys %}
+    <section class="teaching-group">
+        <h3>{{ site.data.topics[key] | default: key | default: "Other" }}</h3>
+        <div class="teaching-cards">
+            {% assign group = solo_items | where: "topic", key | sort: "title" %}
+            {% for item in group %}{% include teaching-card.html item=item %}{% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+    {% endif %}
+
+    {% if all_items.size == 0 %}<p>Nothing here yet.</p>{% endif %}
+</div>
