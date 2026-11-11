@@ -23,6 +23,9 @@ collections:
   tools:
     output: true
     permalink: /tools/:path/
+  teaching:
+    output: true
+    permalink: /teaching/:path/
 
 # Include directories
 include: ['_pages']
@@ -39,6 +42,12 @@ defaults:
       type: "projects"
     values:
       layout: "project"
+  - scope:
+      path: ""
+      type: "teaching"
+    values:
+      layout: "teaching"
+      show_title: false
   - scope:
       path: ""
       type: "tools"

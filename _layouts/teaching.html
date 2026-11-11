@@ -1,0 +1,98 @@
+---
+layout: default
+---
+{% comment %}
+  Page for one teaching item. Resources (all optional): slides, youtube, and the
+  Markdown body as notes. With two or more, they render as tabs (see script below);
+  with one, it is shown directly. Without JavaScript every resource is shown in order.
+{% endcomment %}
+{% assign has_slides = false %}{% if page.slides %}{% assign has_slides = true %}{% endif %}
+{% assign has_video = false %}{% if page.youtube %}{% assign has_video = true %}{% endif %}
+{% assign has_notes = false %}{% assign trimmed = content | strip %}{% if trimmed != "" %}{% assign has_notes = true %}{% endif %}
+
+<article class="teaching-item">
+    <p class="teaching-back"><a href="/teaching/">&larr; All teaching</a></p>
+    <h1 class="project-title">{{ page.title }}</h1>
+    {% if page.topic %}<p class="teaching-topic">{{ site.data.topics[page.topic] | default: page.topic }}</p>{% endif %}
+    {% if page.summary %}<p class="teaching-summary">{{ page.summary }}</p>{% endif %}
+
+    <div class="teaching-tabs" role="tablist" aria-label="Lecture resources" hidden></div>
+
+    {% if has_slides %}
+    <section class="teaching-panel" id="slides" data-label="Slides">
+        <div class="slides-frame">
+            <iframe src="{{ page.slides }}" title="{{ page.title }} slides" loading="lazy" allowfullscreen></iframe>
+        </div>
+        <p class="slides-actions"><a href="{{ page.slides }}" target="_blank" rel="noopener">Open slides full screen &#8599;</a></p>
+    </section>
+    {% endif %}
+
+    {% if has_video %}
+    <section class="teaching-panel" id="video" data-label="Video">
+        <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/{{ page.youtube }}" title="{{ page.title }} video"
+                    loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </section>
+    {% endif %}
+
+    {% if has_notes %}
+    <section class="teaching-panel teaching-notes" id="notes" data-label="Notes">
+        {{ content }}
+    </section>
+    {% endif %}
+
+    {% if page.course %}
+    {% assign lectures = site.teaching | where: "course", page.course | sort: "order" %}
+    {% for l in lectures %}
+        {% if l.url == page.url %}
+            {% assign idx = forloop.index0 %}
+        {% endif %}
+    {% endfor %}
+    {% assign prev_i = idx | minus: 1 %}
+    {% assign next_i = idx | plus: 1 %}
+    <nav class="teaching-pager" aria-label="Course navigation">
+        <span>{% if idx > 0 %}<a href="{{ lectures[prev_i].url }}">&larr; {{ lectures[prev_i].title }}</a>{% endif %}</span>
+        <span>{% if next_i < lectures.size %}<a href="{{ lectures[next_i].url }}">{{ lectures[next_i].title }} &rarr;</a>{% endif %}</span>
+    </nav>
+    {% endif %}
+</article>
+
+<script>
+(function () {
+    var panels = Array.prototype.slice.call(document.querySelectorAll('.teaching-panel'));
+    var bar = document.querySelector('.teaching-tabs');
+    if (panels.length < 2 || !bar) return;
+
+    var buttons = {};
+    function show(id, pushHash) {
+        panels.forEach(function (p) { p.hidden = p.id !== id; });
+        Object.keys(buttons).forEach(function (k) {
+            var on = k === id;
+            buttons[k].setAttribute('aria-selected', on);
+            buttons[k].tabIndex = on ? 0 : -1;
+        });
+        if (pushHash) { try { history.replaceState(null, '', '#' + id); } catch (e) {} }
+    }
+    panels.forEach(function (p) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('role', 'tab');
+        b.setAttribute('aria-controls', p.id);
+        b.textContent = p.dataset.label;
+        b.addEventListener('click', function () { show(p.id, true); });
+        b.addEventListener('keydown', function (e) {
+            var i = panels.indexOf(p), n = null;
+            if (e.key === 'ArrowRight') n = panels[(i + 1) % panels.length];
+            if (e.key === 'ArrowLeft') n = panels[(i - 1 + panels.length) % panels.length];
+            if (n) { show(n.id, true); buttons[n.id].focus(); }
+        });
+        buttons[p.id] = b;
+        bar.appendChild(b);
+    });
+    bar.hidden = false;
+    var start = location.hash.slice(1);
+    show(buttons[start] ? start : panels[0].id, false);
+})();
+</script>

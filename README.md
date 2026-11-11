@@ -181,6 +181,25 @@ Interactive tools are stored in `_tools/` and typically include React-based visu
 4. **Test edge cases**: Try invalid inputs, edge values
 5. **Verify responsive**: Test on different screen sizes
 
+### Teaching Content
+
+Slides, videos and notes live in the `_teaching/` collection, one Markdown file per item, served at `/teaching/<file-name>/`. Every field except `title` is optional.
+
+```yaml
+---
+title: "Euler-Bernoulli Beam"
+topic: structures            # groups the item on /teaching/ (display name in _data/topics.yml)
+summary: "One-line description shown on the card."
+youtube: _zPU7vsjgZI         # YouTube video ID
+slides: /assets/teaching/<name>/index.html   # a self-contained HTML deck (e.g. Quarto/reveal.js)
+---
+Notes go here as normal Markdown (MathJax works).
+```
+
+- An item with two or more of slides / video / notes gets tabs (`#slides`, `#video`, `#notes` deep-link); with one, it is shown directly.
+- **Slide decks:** put the whole export folder in `assets/teaching/<name>/`, including any `media/` folder the deck loads.
+- **Standalone vs. course:** items with no `course` appear under "Individual topics". To make a series, define the course in `_data/courses.yml` and add `course: <key>` and `order: <n>` to each lecture. The URL does not change, and lectures get prev/next links.
+
 ### Static Pages
 
 Static pages are stored in `_pages/` and include main site sections.

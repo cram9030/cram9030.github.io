@@ -1,0 +1,9 @@
+<a class="teaching-card" href="{{ include.item.url }}">
+    <span class="teaching-card-title">{{ include.item.title }}</span>
+    {% if include.item.summary %}<span class="teaching-card-summary">{{ include.item.summary }}</span>{% endif %}
+    <span class="teaching-badges">
+        {% if include.item.slides %}<span class="badge">Slides</span>{% endif %}
+        {% if include.item.youtube %}<span class="badge">Video</span>{% endif %}
+        {% assign n = include.item.content | strip %}{% if n != "" %}<span class="badge">Notes</span>{% endif %}
+    </span>
+</a>

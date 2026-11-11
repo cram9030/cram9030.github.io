@@ -1,0 +1,8 @@
+# Optional. Define a course here, then give each lecture
+#   course: <key>
+#   order: <number>
+# in its front matter. Courses with no items are not shown.
+# Example:
+# flight-dynamics-101:
+#   title: Flight Dynamics 101
+#   description: Static and dynamic stability of aircraft.
