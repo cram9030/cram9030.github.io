@@ -442,7 +442,7 @@
   <meta name="generator" content="quarto-1.6.42">
 
   <meta name="author" content="Dr. Nick Cramer">
-  <meta name="dcterms.date" content="2026-11-11">
+  <meta name="dcterms.date" content="2026-11-16">
   <title>Longitudinal Static Stability</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1167,7 +1167,7 @@ Dr. Nick Cramer
 </div>
 </div>
 
-  <p class="date">2026-11-11</p>
+  <p class="date">2026-11-16</p>
 </section>
 <section id="introduction" class="slide level2 smaller">
 <h2>Introduction</h2>
@@ -1251,6 +1251,21 @@ display:block!important;
 </section>
 <section id="wing-contribution-to-longitudinal-forces" class="slide level2 smaller">
 <h2>Wing Contribution to Longitudinal Forces</h2>
+<aside class="notes">
+<ul>
+<li>Why the HondaJet? Origionally proposed in 1997 and was certified in 2015. Had it’s first profitable year in 2023 still not consistently profitable.</li>
+</ul>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
 <div class="anim-frame" style="--anim-height: 330px;">
 <iframe data-anim data-external="1" src="media/interactive/wing-buildup.html" title="Wing force build-up" tabindex="-1">
 </iframe>
@@ -1317,7 +1332,7 @@ display:block!important;
 <p><span class="fragment" data-fragment-index="1"><span class="math inline">\(L_t\)</span>: tail lift vector; <span class="math inline">\(d_{c.g.,L_t}\)</span>: orthogonal distance between the tail lift vector and the c.g.</span> <span class="fragment" data-fragment-index="2"><span class="math inline">\(D_t\)</span>: tail drag vector; <span class="math inline">\(d_{c.g.,D_t}\)</span>: orthogonal distance between the tail drag vector and the c.g.</span> <span class="fragment" data-fragment-index="3"><span class="math inline">\(\delta_e\)</span>: elevator deflection</span></p>
 </div>
 <div class="discussion-callout fragment" style="--dc-left: 3%; --dc-bottom: 4%; --dc-width: 42%;">
-<p>What are some changes that could be made to the tail mode? Is there anything missing?</p>
+<p>What are some changes that could be made to the tail model? Is there anything missing?</p>
 </div>
 <div class="slide-source">
 <p>Aircraft geometry after Fujino (2005), Fig. 2</p>
@@ -1498,7 +1513,7 @@ display:block!important;
 <p>An equilibrium point will be at any <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\delta_f\)</span>, <span class="math inline">\(\delta_e\)</span> combination where</p>
 </div>
 <div class="fragment">
-<p><span class="math display">\[M(\alpha, \delta_f, \delta_e) = 0\]</span></p>
+<p><span class="math display">\[\frac{M(\alpha, \delta_f, \delta_e)}{d \alpha} = 0\]</span></p>
 </div>
 <div class="fragment">
 <p>While we’ve defined everything there by the pitching moment <span class="math inline">\(M\)</span> it is more commonly defined as the pitching moment coefficient <span class="math inline">\(C_M\)</span></p>
@@ -1572,13 +1587,8 @@ overflow: hidden!important;
 display:block!important;
 }</style></aside>
 <p>Let us start by assuming that <span class="math inline">\(\delta_{f_0}=0\)</span> and that <span class="math inline">\(\delta_{e_0} = 0\)</span> and that we are not going to add any control surface deflection.</p>
-<div class="discussion-callout fragment fade-in-then-out" data-fragment-index="1">
-<p>Why would/should we assume the deflections are zero and that we aren’t going to add any control surface deflection?</p>
-</div>
-<div class="fragment">
 <div class="discussion-callout fragment fade-in-then-out">
 <p>What does that imply about our design objectives?</p>
-</div>
 </div>
 <div class="fragment">
 <p>We then can take the derivative with respect to <span class="math inline">\(\alpha\)</span></p>
@@ -1616,24 +1626,24 @@ display:block!important;
 </div>
 </div>
 <div class="fragment" data-fragment-index="2">
-<p><span class="math display">\[L(\alpha_0,\delta_{f_0}) = W = mg = 44.1\ \text{kN} \;\Rightarrow\; \alpha_0 \approx 7.5^\circ\]</span></p>
+<p><span class="math display">\[L(\alpha_0,\delta_{f_0}) = W = mg = 47.2\ \text{kN} \;\Rightarrow\; \alpha_0 \approx 8.3^\circ\]</span></p>
 <div class="eq-note">
-<p><span class="math inline">\(m = 4500\)</span> kg, <span class="math inline">\(g = 9.81\)</span> m/s²</p>
+<p><span class="math inline">\(m = 4808\)</span> kg (HondaJet MTOW), <span class="math inline">\(g = 9.81\)</span> m/s²</p>
 </div>
 </div>
 <div class="fragment" data-fragment-index="3">
-<p><span class="math display">\[\frac{\partial L(\alpha_0,\delta_{f_0})}{\partial \alpha} \approx \frac{\Delta L}{\Delta \alpha} \approx 202\ \text{kN/rad}\]</span></p>
+<p><span class="math display">\[\frac{\partial L(\alpha_0,\delta_{f_0})}{\partial \alpha} \approx \frac{\Delta L}{\Delta \alpha} \approx 197\ \text{kN/rad}\]</span></p>
 </div>
 </div>
 <div class="fragment fade-in" data-fragment-index="4">
 <p>Multiply by the moment arm (c.g. at 55% MAC):</p>
-<p><span class="math display">\[\begin{aligned} d_{c.g.,L}\,\frac{\partial L(\alpha_0,\delta_{f_0})}{\partial \alpha} &amp;\approx (0.52\ \text{m})(202\ \text{kN/rad}) \\ &amp;\approx 105\ \text{kN·m/rad} \end{aligned}\]</span></p>
+<p><span class="math display">\[\begin{aligned} d_{c.g.,L}\,\frac{\partial L(\alpha_0,\delta_{f_0})}{\partial \alpha} &amp;\approx (0.53\ \text{m})(197\ \text{kN/rad}) \\ &amp;\approx 104\ \text{kN·m/rad} \end{aligned}\]</span></p>
 <div class="eq-note">
 <p><span class="math inline">\(d_{c.g.,L}\)</span> is signed: positive here because the wing a.c. is ahead of the c.g., so more lift pitches the nose up</p>
 </div>
 <div class="fragment" data-fragment-index="5">
 <p>Normalise by <span class="math inline">\(\tfrac{1}{2}\rho V^{2} S\,\bar{c} \approx 61.9\)</span> kN·m:</p>
-<p><span class="math display">\[\begin{aligned} \frac{\partial C_{M,L}}{\partial \alpha} &amp;= \frac{d_{c.g.,L}}{\bar{c}}\,\frac{\partial C_L}{\partial \alpha} \\ &amp;\approx (0.36)(4.74) \approx 1.70\ \text{rad}^{-1} \end{aligned}\]</span></p>
+<p><span class="math display">\[\begin{aligned} \frac{\partial C_{M,L}}{\partial \alpha} &amp;= \frac{d_{c.g.,L}}{\bar{c}}\,\frac{\partial C_L}{\partial \alpha} \\ &amp;\approx (0.36)(4.63) \approx 1.69\ \text{rad}^{-1} \end{aligned}\]</span></p>
 <div class="eq-note">
 <p>Positive: on its own, the wing is destabilizing about this c.g.</p>
 </div>
@@ -1670,24 +1680,24 @@ display:block!important;
 </div>
 </div>
 <div class="fragment" data-fragment-index="2">
-<p><span class="math display">\[\alpha_0 \approx 7.5^\circ \;\Rightarrow\; D(\alpha_0,\delta_{f_0}) \approx 2.2\ \text{kN}\]</span></p>
+<p><span class="math display">\[\alpha_0 \approx 8.3^\circ \;\Rightarrow\; D(\alpha_0,\delta_{f_0}) \approx 2.5\ \text{kN}\]</span></p>
 <div class="eq-note">
 <p><span class="math inline">\(\alpha_0\)</span> carried over from the lift slide (<span class="math inline">\(L = W\)</span>)</p>
 </div>
 </div>
 <div class="fragment" data-fragment-index="3">
-<p><span class="math display">\[\frac{\partial D(\alpha_0,\delta_{f_0})}{\partial \alpha} \approx \frac{\Delta D}{\Delta \alpha} \approx 19.6\ \text{kN/rad}\]</span></p>
+<p><span class="math display">\[\frac{\partial D(\alpha_0,\delta_{f_0})}{\partial \alpha} \approx \frac{\Delta D}{\Delta \alpha} \approx 20.8\ \text{kN/rad}\]</span></p>
 </div>
 </div>
 <div class="fragment fade-in" data-fragment-index="4">
 <p>Multiply by the moment arm (c.g. at 55% MAC):</p>
-<p><span class="math display">\[\begin{aligned} d_{c.g.,D}\,\frac{\partial D(\alpha_0,\delta_{f_0})}{\partial \alpha} &amp;\approx (-0.62\ \text{m})(19.6\ \text{kN/rad}) \\ &amp;\approx -12.1\ \text{kN·m/rad} \end{aligned}\]</span></p>
+<p><span class="math display">\[\begin{aligned} d_{c.g.,D}\,\frac{\partial D(\alpha_0,\delta_{f_0})}{\partial \alpha} &amp;\approx (-0.61\ \text{m})(20.8\ \text{kN/rad}) \\ &amp;\approx -12.7\ \text{kN·m/rad} \end{aligned}\]</span></p>
 <div class="eq-note">
 <p><span class="math inline">\(d_{c.g.,D}\)</span> is signed: negative because the wing a.c. sits below the c.g., so more drag pitches the nose down</p>
 </div>
 <div class="fragment" data-fragment-index="5">
 <p>Normalise by <span class="math inline">\(\tfrac{1}{2}\rho V^{2} S\,\bar{c} \approx 61.9\)</span> kN·m:</p>
-<p><span class="math display">\[\begin{aligned} \frac{\partial C_{M,D}}{\partial \alpha} &amp;= \frac{d_{c.g.,D}}{\bar{c}}\,\frac{\partial C_D}{\partial \alpha} \\ &amp;\approx (-0.43)(0.46) \approx -0.20\ \text{rad}^{-1} \end{aligned}\]</span></p>
+<p><span class="math display">\[\begin{aligned} \frac{\partial C_{M,D}}{\partial \alpha} &amp;= \frac{d_{c.g.,D}}{\bar{c}}\,\frac{\partial C_D}{\partial \alpha} \\ &amp;\approx (-0.42)(0.49) \approx -0.21\ \text{rad}^{-1} \end{aligned}\]</span></p>
 <div class="eq-note">
 <p>Small and stabilizing: drag adds a little nose-down moment as <span class="math inline">\(\alpha\)</span> grows</p>
 </div>
@@ -1720,13 +1730,13 @@ display:block!important;
 </div>
 </div>
 <div class="fragment" data-fragment-index="2">
-<p><span class="math display">\[M_{ac}(\alpha_0,\delta_{f_0}) \approx -6.5\ \text{kN·m}\]</span></p>
+<p><span class="math display">\[M_{ac}(\alpha_0,\delta_{f_0}) \approx -6.4\ \text{kN·m}\]</span></p>
 <div class="eq-note">
 <p>Negative: nose-down, as expected for a cambered section</p>
 </div>
 </div>
 <div class="fragment" data-fragment-index="3">
-<p><span class="math display">\[\frac{\partial M_{ac}(\alpha_0,\delta_{f_0})}{\partial \alpha} \approx \frac{\Delta M_{ac}}{\Delta \alpha} \approx 3.5\ \text{kN·m/rad}\]</span></p>
+<p><span class="math display">\[\frac{\partial M_{ac}(\alpha_0,\delta_{f_0})}{\partial \alpha} \approx \frac{\Delta M_{ac}}{\Delta \alpha} \approx 5.3\ \text{kN·m/rad}\]</span></p>
 <div class="eq-note">
 <p>Small: about the aerodynamic center the moment barely changes with <span class="math inline">\(\alpha\)</span> (the simulators hold it constant)</p>
 </div>
@@ -1734,12 +1744,12 @@ display:block!important;
 </div>
 <div class="fragment fade-in" data-fragment-index="4">
 <p>No moment arm needed: <span class="math inline">\(M_{ac}\)</span> is already a pure moment, and a pure moment is the same about the a.c. and the c.g.</p>
-<p><span class="math display">\[\frac{\partial M_{ac}(\alpha_0,\delta_{f_0})}{\partial \alpha} \approx 3.5\ \text{kN·m/rad}\]</span></p>
+<p><span class="math display">\[\frac{\partial M_{ac}(\alpha_0,\delta_{f_0})}{\partial \alpha} \approx 5.3\ \text{kN·m/rad}\]</span></p>
 <div class="fragment" data-fragment-index="5">
 <p>Normalise by <span class="math inline">\(\tfrac{1}{2}\rho V^{2} S\,\bar{c} \approx 61.9\)</span> kN·m:</p>
-<p><span class="math display">\[\frac{\partial C_{M,ac}}{\partial \alpha} = \frac{\partial c_{m,ac}}{\partial \alpha} \approx 0.06\ \text{rad}^{-1}\]</span></p>
+<p><span class="math display">\[\frac{\partial C_{M,ac}}{\partial \alpha} = \frac{\partial c_{m,ac}}{\partial \alpha} \approx 0.08\ \text{rad}^{-1}\]</span></p>
 <div class="eq-note">
-<p>Close to zero, next to <span class="math inline">\(+1.70\)</span> from lift and <span class="math inline">\(-0.20\)</span> from drag</p>
+<p>Close to zero, next to <span class="math inline">\(+1.69\)</span> from lift and <span class="math inline">\(-0.21\)</span> from drag</p>
 </div>
 </div>
 </div>
@@ -1772,9 +1782,9 @@ display:block!important;
 </div>
 </div>
 <div class="fragment" data-fragment-index="2">
-<p><span class="math display">\[\alpha_0 \approx 7.5^\circ \;\Rightarrow\; \alpha_t \approx 3.2^\circ,\;\; L_t(\alpha_0,\delta_{e_0}) \approx 2.3\ \text{kN}\]</span></p>
+<p><span class="math display">\[\alpha_0 \approx 8.3^\circ \;\Rightarrow\; \alpha_t \approx 3.7^\circ,\;\; L_t(\alpha_0,\delta_{e_0}) \approx 2.7\ \text{kN}\]</span></p>
 <div class="eq-note">
-<p>Downwash takes about <span class="math inline">\(4^\circ\)</span> off the tail’s angle of attack</p>
+<p>Downwash takes about <span class="math inline">\(4.6^\circ\)</span> off the tail’s angle of attack</p>
 </div>
 </div>
 <div class="fragment" data-fragment-index="3">
@@ -1786,13 +1796,13 @@ display:block!important;
 </div>
 <div class="fragment fade-in" data-fragment-index="4">
 <p>Multiply by the moment arm (c.g. at 55% MAC):</p>
-<p><span class="math display">\[\begin{aligned} d_{c.g.,L_t}\,\frac{\partial L_t(\alpha_0,\delta_{e_0})}{\partial \alpha} &amp;\approx (-5.53\ \text{m})(26.3\ \text{kN/rad}) \\ &amp;\approx -146\ \text{kN·m/rad} \end{aligned}\]</span></p>
+<p><span class="math display">\[\begin{aligned} d_{c.g.,L_t}\,\frac{\partial L_t(\alpha_0,\delta_{e_0})}{\partial \alpha} &amp;\approx (-5.55\ \text{m})(26.3\ \text{kN/rad}) \\ &amp;\approx -146\ \text{kN·m/rad} \end{aligned}\]</span></p>
 <div class="eq-note">
 <p><span class="math inline">\(d_{c.g.,L_t}\)</span> is signed: negative because the tail is far behind the c.g., so more tail lift pitches the nose down</p>
 </div>
 <div class="fragment" data-fragment-index="5">
 <p>Normalise by the wing’s <span class="math inline">\(\tfrac{1}{2}\rho V^{2} S\,\bar{c} \approx 61.9\)</span> kN·m:</p>
-<p><span class="math display">\[\begin{aligned} \frac{\partial C_{M,L_t}}{\partial \alpha} &amp;= \frac{d_{c.g.,L_t}}{\tfrac{1}{2}\rho V^{2} S\,\bar{c}}\,\frac{\partial L_t}{\partial \alpha} \\ &amp;\approx \frac{-146}{61.9} \approx -2.35\ \text{rad}^{-1} \end{aligned}\]</span></p>
+<p><span class="math display">\[\begin{aligned} \frac{\partial C_{M,L_t}}{\partial \alpha} &amp;= \frac{d_{c.g.,L_t}}{\tfrac{1}{2}\rho V^{2} S\,\bar{c}}\,\frac{\partial L_t}{\partial \alpha} \\ &amp;\approx \frac{-146}{61.9} \approx -2.36\ \text{rad}^{-1} \end{aligned}\]</span></p>
 <div class="eq-note">
 <p>Normalised with the wing’s <span class="math inline">\(S\)</span> and <span class="math inline">\(\bar{c}\)</span>, so it adds directly to the wing terms: strongly stabilizing, more than cancelling the wing’s <span class="math inline">\(+1.56\)</span></p>
 </div>
@@ -1843,23 +1853,23 @@ display:block!important;
 </div>
 </div>
 <div class="fragment" data-fragment-index="2">
-<p><span class="math display">\[\alpha_0 \approx 7.5^\circ \;\Rightarrow\; D_t(\alpha_0,\delta_{e_0}) \approx 0.10\ \text{kN}\]</span></p>
+<p><span class="math display">\[\alpha_0 \approx 8.3^\circ \;\Rightarrow\; D_t(\alpha_0,\delta_{e_0}) \approx 0.12\ \text{kN}\]</span></p>
 </div>
 <div class="fragment" data-fragment-index="3">
-<p><span class="math display">\[\frac{\partial D_t(\alpha_0,\delta_{e_0})}{\partial \alpha} \approx \frac{\Delta D_t}{\Delta \alpha} \approx 1.07\ \text{kN/rad}\]</span></p>
+<p><span class="math display">\[\frac{\partial D_t(\alpha_0,\delta_{e_0})}{\partial \alpha} \approx \frac{\Delta D_t}{\Delta \alpha} \approx 1.27\ \text{kN/rad}\]</span></p>
 </div>
 </div>
 <div class="fragment fade-in" data-fragment-index="4">
 <p>Multiply by the moment arm (c.g. at 55% MAC):</p>
-<p><span class="math display">\[\begin{aligned} d_{c.g.,D_t}\,\frac{\partial D_t(\alpha_0,\delta_{e_0})}{\partial \alpha} &amp;\approx (1.54\ \text{m})(1.07\ \text{kN/rad}) \\ &amp;\approx 1.66\ \text{kN·m/rad} \end{aligned}\]</span></p>
+<p><span class="math display">\[\begin{aligned} d_{c.g.,D_t}\,\frac{\partial D_t(\alpha_0,\delta_{e_0})}{\partial \alpha} &amp;\approx (1.46\ \text{m})(1.27\ \text{kN/rad}) \\ &amp;\approx 1.85\ \text{kN·m/rad} \end{aligned}\]</span></p>
 <div class="eq-note">
 <p><span class="math inline">\(d_{c.g.,D_t}\)</span> is signed: positive because the T-tail sits above the c.g., so more tail drag pitches the nose up</p>
 </div>
 <div class="fragment" data-fragment-index="5">
 <p>Normalise by the wing’s <span class="math inline">\(\tfrac{1}{2}\rho V^{2} S\,\bar{c} \approx 61.9\)</span> kN·m:</p>
-<p><span class="math display">\[\frac{\partial C_{M,D_t}}{\partial \alpha} = \frac{d_{c.g.,D_t}}{\tfrac{1}{2}\rho V^{2} S\,\bar{c}}\,\frac{\partial D_t}{\partial \alpha} \approx \frac{1.66}{61.9} \approx 0.03\ \text{rad}^{-1}\]</span></p>
+<p><span class="math display">\[\frac{\partial C_{M,D_t}}{\partial \alpha} = \frac{d_{c.g.,D_t}}{\tfrac{1}{2}\rho V^{2} S\,\bar{c}}\,\frac{\partial D_t}{\partial \alpha} \approx \frac{1.85}{61.9} \approx 0.03\ \text{rad}^{-1}\]</span></p>
 <div class="eq-note">
-<p>Negligible next to the tail lift’s <span class="math inline">\(-2.35\)</span></p>
+<p>Negligible next to the tail lift’s <span class="math inline">\(-2.36\)</span></p>
 </div>
 </div>
 </div>
@@ -1889,7 +1899,7 @@ display:block!important;
 <div class="fragment">
 <div class="eq-fit" style="--eq-scale: 0.85em;">
 <p><span class="math display">\[
-\frac{dC_M}{d \alpha} = \underbrace{1.7}_{Wing\, Lift}+\underbrace{-0.2}_{Wing\, Drag} + \underbrace{0.06}_{Wing\, Pitching} + \underbrace{-2.35}_{Tail\, Lift} + \underbrace{0.03}_{Tail\, Drag}
+\frac{dC_M}{d \alpha} = \underbrace{1.69}_{Wing\, Lift}+\underbrace{-0.21}_{Wing\, Drag} + \underbrace{0.08}_{Wing\, Pitching} + \underbrace{-2.36}_{Tail\, Lift} + \underbrace{0.03}_{Tail\, Drag}
 \]</span></p>
 </div>
 </div>
@@ -1897,7 +1907,7 @@ display:block!important;
 <!-- |dC_M/dalpha| per term (c.g. at 55% MAC), from the five linearisation
      slides: absolute values, sorted, so the size of each term is the message. -->
 <div class="cm-bars-wrap">
-<svg class="cm-bars" viewbox="0 0 900 308" role="img" aria-label="Magnitude of each contribution to dC_M/dalpha: Tail lift 2.35, Wing lift 1.70, Wing drag 0.20, Wing pitching 0.06, Tail drag 0.03 per radian">
+<svg class="cm-bars" viewbox="0 0 900 308" role="img" aria-label="Magnitude of each contribution to dC_M/dalpha: Tail lift 2.36, Wing lift 1.69, Wing drag 0.21, Wing pitching 0.08, Tail drag 0.03 per radian">
 <text x="0" y="22" class="cm-title">Magnitude of each contribution, |∂C<tspan dy="5" font-size="0.75em">M</tspan><tspan dy="-5">/∂α| [1/rad]</tspan></text>
 <line x1="175" x2="175" y1="40" y2="246" class="cm-grid"></line>
 <text x="175" y="268" text-anchor="middle" class="cm-tick">0</text>
@@ -1912,10 +1922,10 @@ display:block!important;
 <line x1="825.0" x2="825.0" y1="40" y2="246" class="cm-grid"></line>
 <text x="825.0" y="268" text-anchor="middle" class="cm-tick">2.5</text>
 <line x1="175" x2="175" y1="40" y2="246" class="cm-axis"></line>
-<g class="cm-row"><title>Tail lift: 2.35 per rad</title><rect x="0" y="46" width="900" height="40" fill="transparent" /><text x="163" y="73.0" text-anchor="end" class="cm-label">Tail lift</text><path d="M175,54.0 h607.0 a4.0,4.0 0 0 1 4.0,4.0 v16.0 a4.0,4.0 0 0 1 -4.0,4.0 h-607.0 z" class="cm-bar" /><text x="796.0" y="73.0" class="cm-value">2.35</text></g>
-<g class="cm-row"><title>Wing lift: 1.70 per rad</title><rect x="0" y="86" width="900" height="40" fill="transparent" /><text x="163" y="113.0" text-anchor="end" class="cm-label">Wing lift</text><path d="M175,94.0 h438.0 a4.0,4.0 0 0 1 4.0,4.0 v16.0 a4.0,4.0 0 0 1 -4.0,4.0 h-438.0 z" class="cm-bar" /><text x="627.0" y="113.0" class="cm-value">1.70</text></g>
-<g class="cm-row"><title>Wing drag: 0.20 per rad</title><rect x="0" y="126" width="900" height="40" fill="transparent" /><text x="163" y="153.0" text-anchor="end" class="cm-label">Wing drag</text><path d="M175,134.0 h48.0 a4.0,4.0 0 0 1 4.0,4.0 v16.0 a4.0,4.0 0 0 1 -4.0,4.0 h-48.0 z" class="cm-bar" /><text x="237.0" y="153.0" class="cm-value">0.20</text></g>
-<g class="cm-row"><title>Wing pitching: 0.06 per rad</title><rect x="0" y="166" width="900" height="40" fill="transparent" /><text x="163" y="193.0" text-anchor="end" class="cm-label">Wing pitching</text><path d="M175,174.0 h11.6 a4.0,4.0 0 0 1 4.0,4.0 v16.0 a4.0,4.0 0 0 1 -4.0,4.0 h-11.6 z" class="cm-bar" /><text x="200.6" y="193.0" class="cm-value">0.06</text></g>
+<g class="cm-row"><title>Tail lift: 2.36 per rad</title><rect x="0" y="46" width="900" height="40" fill="transparent" /><text x="163" y="73.0" text-anchor="end" class="cm-label">Tail lift</text><path d="M175,54.0 h609.6 a4.0,4.0 0 0 1 4.0,4.0 v16.0 a4.0,4.0 0 0 1 -4.0,4.0 h-609.6 z" class="cm-bar" /><text x="798.6" y="73.0" class="cm-value">2.36</text></g>
+<g class="cm-row"><title>Wing lift: 1.69 per rad</title><rect x="0" y="86" width="900" height="40" fill="transparent" /><text x="163" y="113.0" text-anchor="end" class="cm-label">Wing lift</text><path d="M175,94.0 h435.4 a4.0,4.0 0 0 1 4.0,4.0 v16.0 a4.0,4.0 0 0 1 -4.0,4.0 h-435.4 z" class="cm-bar" /><text x="624.4" y="113.0" class="cm-value">1.69</text></g>
+<g class="cm-row"><title>Wing drag: 0.21 per rad</title><rect x="0" y="126" width="900" height="40" fill="transparent" /><text x="163" y="153.0" text-anchor="end" class="cm-label">Wing drag</text><path d="M175,134.0 h50.6 a4.0,4.0 0 0 1 4.0,4.0 v16.0 a4.0,4.0 0 0 1 -4.0,4.0 h-50.6 z" class="cm-bar" /><text x="239.6" y="153.0" class="cm-value">0.21</text></g>
+<g class="cm-row"><title>Wing pitching: 0.08 per rad</title><rect x="0" y="166" width="900" height="40" fill="transparent" /><text x="163" y="193.0" text-anchor="end" class="cm-label">Wing pitching</text><path d="M175,174.0 h16.8 a4.0,4.0 0 0 1 4.0,4.0 v16.0 a4.0,4.0 0 0 1 -4.0,4.0 h-16.8 z" class="cm-bar" /><text x="205.8" y="193.0" class="cm-value">0.08</text></g>
 <g class="cm-row"><title>Tail drag: 0.03 per rad</title><rect x="0" y="206" width="900" height="40" fill="transparent" /><text x="163" y="233.0" text-anchor="end" class="cm-label">Tail drag</text><path d="M175,214.0 h3.9 a3.9,3.9 0 0 1 3.9,3.9 v16.2 a3.9,3.9 0 0 1 -3.9,3.9 h-3.9 z" class="cm-bar" /><text x="192.8" y="233.0" class="cm-value">0.03</text></g>
 </svg>
 </div>
